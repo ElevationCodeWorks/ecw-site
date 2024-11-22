@@ -187,12 +187,48 @@
           padding: 15px;
         }
       }
+
+      .cta-button {
+        display: inline-block;
+        margin-top: 2rem;
+        padding: 0.8em 1.6em;
+        font-family: "Inter", sans-serif;
+        font-size: 1.1rem;
+        font-weight: 500;
+        text-decoration: none;
+        color: #ffffff;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.1) 0%,
+          rgba(255, 255, 255, 0.05) 100%
+        );
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 4px;
+        backdrop-filter: blur(10px);
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      }
+
+      .cta-button:hover {
+        transform: translateY(-2px);
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.15) 0%,
+          rgba(255, 255, 255, 0.1) 100%
+        );
+        box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
+      }
+
+      .cta-button:active {
+        transform: translateY(0);
+      }
     </style>
   </head>
   <body>
     <div class="container">
       <h1>Elevation Code Works</h1>
       <div class="typing-text">A software engineering company</div>
+      <a href="about.html" class="cta-button">About Us</a>
     </div>
   </body>
 </html>
