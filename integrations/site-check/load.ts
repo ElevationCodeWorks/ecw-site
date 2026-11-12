@@ -1,0 +1,105 @@
+import { existsSync } from 'node:fs'
+import { readdir, readFile } from 'node:fs/promises'
+import path from 'node:path'
+import type { CheckInputs, CssSource, SourceFile } from './types.ts'
+
+const DIST_TEXT_EXTENSIONS = new Set([
+  '.html',
+  '.xml',
+  '.txt',
+  '.json',
+  '.svg',
+  '.webmanifest'
+])
+
+async function listFiles(dir: string): Promise<string[]> {
+  if (!existsSync(dir)) return []
+  const entries = await readdir(dir, { recursive: true, withFileTypes: true })
+  return entries
+    .filter((e) => e.isFile())
+    .map((e) => path.join(e.parentPath, e.name))
+    .sort()
+}
+
+async function readSources(
+  root: string,
+  files: string[]
+): Promise<SourceFile[]> {
+  return Promise.all(
+    files.map(async (abs) => ({
+      file: path.relative(root, abs).split(path.sep).join('/'),
+      content: await readFile(abs, 'utf8')
+    }))
+  )
+}
+
+/** Extracts every <style> block from an .astro file, keeping line offsets. */
+export function astroStyleBlocks(source: SourceFile): CssSource[] {
+  const blocks: CssSource[] = []
+  for (const m of source.content.matchAll(
+    /<style\b[^>]*>([\s\S]*?)<\/style>/g
+  )) {
+    const start = (m.index ?? 0) + m[0].indexOf('>') + 1
+    const lineOffset = source.content.slice(0, start).split('\n').length - 1
+    blocks.push({ file: source.file, css: m[1], lineOffset })
+  }
+  return blocks
+}
+
+function sitemapPageUrls(distText: SourceFile[]): string[] {
+  return distText
+    .filter((f) => /^dist\/sitemap-\d+\.xml$/.test(f.file))
+    .flatMap((f) => [...f.content.matchAll(/<loc>([^<]+)<\/loc>/g)])
+    .map((m) => m[1])
+}
+
+export interface LoadOptions {
+  root: string
+  indexable: boolean
+  productionOrigin: string
+  tokensFile?: string
+}
+
+/** Reads dist/ and src/ into the shape the rules expect. */
+export async function loadInputs(options: LoadOptions): Promise<CheckInputs> {
+  const { root } = options
+  const distFiles = await listFiles(path.join(root, 'dist'))
+  const srcFiles = await listFiles(path.join(root, 'src'))
+
+  const distText = await readSources(
+    root,
+    distFiles.filter(
+      (f) =>
+        DIST_TEXT_EXTENSIONS.has(path.extname(f)) ||
+        path.basename(f) === '_headers'
+    )
+  )
+  const html = distText.filter((f) => f.file.endsWith('.html'))
+
+  const cssFiles = await readSources(
+    root,
+    srcFiles.filter((f) => f.endsWith('.css'))
+  )
+  const astro = await readSources(
+    root,
+    srcFiles.filter((f) => f.endsWith('.astro'))
+  )
+  const css: CssSource[] = [
+    ...cssFiles.map((f) => ({ file: f.file, css: f.content, lineOffset: 0 })),
+    ...astro.flatMap(astroStyleBlocks)
+  ]
+
+  const headersFile = distText.find((f) => f.file === 'dist/_headers')
+
+  return {
+    html,
+    distText,
+    css,
+    astro,
+    tokensFile: options.tokensFile ?? 'src/styles/tokens.css',
+    headers: headersFile ? headersFile.content : null,
+    sitemapUrls: sitemapPageUrls(distText),
+    indexable: options.indexable,
+    productionOrigin: options.productionOrigin
+  }
+}
