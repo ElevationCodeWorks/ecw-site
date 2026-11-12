@@ -61,13 +61,13 @@
 
 ## 4. Site check (built before the content, so the content is written against it)
 
-- [ ] 4.1 Create the `integrations/site-check/` skeleton:
+- [x] 4.1 Create the `integrations/site-check/` skeleton:
   - A rule runner and a reporter that prints file:line, the rule and the matched text.
   - It runs in `astro:build:done` and through `npm run check:site`.
   - Exceptions are read from `site-check.exceptions.json`.
 
   Add `node --test` fixture tests for four cases: a violation fails, clean input passes, an exception with no reason fails, and a stale exception fails. Verify that the tests pass and `astro build` fails when a fixture violation is present
-- [ ] 4.2 Implement the brand copy and markup rules on `dist/` HTML:
+- [x] 4.2 Implement the brand copy and markup rules on `dist/` HTML:
   - Banned words, with the exact brand name allowed
   - The "not just" / "isn't just", "In today's fast-paced" and "Whether you're" patterns
   - Buttons or links whose whole text is "Get Started" or "Learn More"
@@ -79,7 +79,7 @@
   - Forbidden employer terms (`Capital One`, `Booz Allen`, `ATM` as a whole word, `kiosk`) anywhere in `dist/`, including metadata and JSON-LD
 
   Verify with one passing and one failing fixture test per rule
-- [ ] 4.3 Implement the brand style rules on `src/styles/**` and `.astro` `<style>` blocks:
+- [x] 4.3 Implement the brand style rules on `src/styles/**` and `.astro` `<style>` blocks:
   - The banned font families
   - Monospace allowed only on `code`, `kbd`, `samp` and `pre`
   - Gradient-clipped text
@@ -89,14 +89,14 @@
   - Pill radius on links or buttons
 
   Verify with one passing and one failing fixture test per rule
-- [ ] 4.4 Implement the color rules with `culori`:
+- [x] 4.4 Implement the color rules with `culori`:
   - The reference list: `#D97757`, `#C6613F`, `#FAF9F5`, `#F0EEE6`, `#E8E6DC`, `#E3DACC`, `#F4F1EA`, `#F7F1E4`, `#D9622B`, `#6366F1`, `#4F46E5`, `#8B5CF6`
   - Rejection when the CIEDE2000 difference is under 8
   - The warm off-white and orange-accent category rules, with thresholds in `site-check.config.ts`
 
   Verify with tests that every reference color and a near match are flagged, while pure white, near-black and the placeholder blue pass
-- [ ] 4.5 Implement the platform rules: no color literal or font-family outside `tokens.css`, and no `<script>` in `dist/` except `application/ld+json`. Verify with fixture tests, and that the placeholder look from 3.1 passes
-- [ ] 4.6 Implement the SEO rules:
+- [x] 4.5 Implement the platform rules: no color literal or font-family outside `tokens.css`, and no `<script>` in `dist/` except `application/ld+json`. Verify with fixture tests, and that the placeholder look from 3.1 passes
+- [x] 4.6 Implement the SEO rules:
   - Titles and descriptions are unique and within their length limits
   - Exactly one H1 per page, with no skipped heading levels
   - Every page has a canonical link on the production origin
@@ -104,7 +104,7 @@
   - A non-indexable build has a `_headers` file containing `noindex`
 
   Verify with fixture tests for each
-- [ ] 4.7 Document the site check in `README.md`: the rules, the config, the exception format, and how to run it. Verify that the documented example exception entry passes, and that removing its reason fails, as the docs say
+- [x] 4.7 Document the site check in `README.md`: the rules, the config, the exception format, and how to run it. Verify that the documented example exception entry passes, and that removing its reason fails, as the docs say
 
 ## 5. Content model and settings
 

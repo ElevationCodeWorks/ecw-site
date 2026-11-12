@@ -41,7 +41,8 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{documentTitle}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
+    {/* Canonical links belong only on indexable pages. */}
+    {!noindex && <link rel="canonical" href={canonical} />}
     {robotsNoindex && <meta name="robots" content="noindex, nofollow" />}
     {/* No favicon until the visual identity change; this avoids a 404 request. */}
     <link rel="icon" href="data:," />

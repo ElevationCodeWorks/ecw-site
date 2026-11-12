@@ -153,8 +153,8 @@ The placeholder is meant to look unbranded.
 - *Copy and markup rules* run against the built HTML in `dist/`. That is where headings, buttons, link text and list markers appear as rendered. Code blocks and JSON-LD are ignored.
 - *Style rules* run against `src/styles/**/*.css` and the `<style>` blocks in `src/**/*.astro`.
 - *Color rules* parse the tokens with `culori`:
-  - Banned reference colors: rejected when the CIEDE2000 difference is under 8.
-  - Warm off-white backgrounds: OKLCH L > 0.93, C between 0.008 and 0.06, hue 50° to 110°.
+  - Banned reference colors: rejected when the CIEDE2000 difference is under 8. True neutrals (OKLCH C under 0.004: white, black, grays) are exempt from this comparison. The banned creams differ from pure white only by their warm tint (white is 2.35 from `#FAF9F5`), and the warm off-white category catches that tint instead. Refined during implementation.
+  - Warm off-white backgrounds: OKLCH L > 0.93, C between 0.004 and 0.06, hue 50° to 110°.
   - Orange accents: hue 35° to 75°, C ≥ 0.09, L between 0.45 and 0.80.
   - All thresholds live in `site-check.config.ts`.
 - *First-person voice:* visible text matching `we`, `our` or `us` as whole words is flagged, except inside `<blockquote>` and `<q>`.

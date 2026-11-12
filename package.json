@@ -10,6 +10,7 @@
     "dev": "astro dev",
     "build": "astro check && astro build",
     "preview": "astro preview",
+    "check:site": "node integrations/site-check/cli.ts",
     "test": "node --test \"src/**/*.test.ts\" \"integrations/**/*.test.ts\" \"scripts/**/*.test.ts\"",
     "fmt": "prettier --write .",
     "fmt:check": "prettier --check ."
