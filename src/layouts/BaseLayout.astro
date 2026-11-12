@@ -1,0 +1,83 @@
+---
+import '../styles/tokens.css'
+import '../styles/base.css'
+import SiteHeader from '../components/SiteHeader.astro'
+import SiteFooter from '../components/SiteFooter.astro'
+import { PRODUCTION_ORIGIN, site } from '../site.config.ts'
+import { serializeJsonLd } from '../lib/json-ld.ts'
+import { currentDeployEnv, isIndexable } from '../lib/env.ts'
+
+interface Props {
+  /** Page subject. The brand suffix is appended unless `fullTitle` is set. */
+  title: string
+  /** Use `title` as the complete <title> (Home only). */
+  fullTitle?: boolean
+  description: string
+  /** Page-level noindex, e.g. the 404 and contact confirmation pages. */
+  noindex?: boolean
+  /** Structured data objects, rendered as JSON-LD. */
+  jsonLd?: Record<string, unknown>[]
+}
+
+const {
+  title,
+  fullTitle = false,
+  description,
+  noindex = false,
+  jsonLd = []
+} = Astro.props
+
+// Page-level noindex, or the whole build is not indexable (design D3).
+const robotsNoindex =
+  noindex || !isIndexable(currentDeployEnv(), PRODUCTION_ORIGIN)
+const documentTitle = fullTitle ? title : `${title}${site.titleSuffix}`
+const canonical = new URL(Astro.url.pathname, Astro.site).href
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{documentTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {robotsNoindex && <meta name="robots" content="noindex, nofollow" />}
+    {/* No favicon until the visual identity change; this avoids a 404 request. */}
+    <link rel="icon" href="data:," />
+    {jsonLd.map((data) => (
+      <script type="application/ld+json" set:html={serializeJsonLd(data)} />
+    ))}
+  </head>
+  <body>
+    <a class="skip-link visually-hidden" href="#main">
+      Skip to main content
+    </a>
+    <SiteHeader />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <SiteFooter />
+  </body>
+</html>
+
+<style>
+  .skip-link:focus {
+    background: var(--color-bg);
+    left: var(--space-4);
+    padding: var(--space-2) var(--space-4);
+    position: absolute;
+    top: var(--space-4);
+    z-index: 1;
+  }
+
+  main {
+    margin-inline: auto;
+    max-width: var(--container);
+    padding: var(--space-7) var(--gutter) 0;
+  }
+
+  main:focus {
+    outline: none;
+  }
+</style>

@@ -32,7 +32,7 @@
 
 ## 3. Layout, tokens and indexing controls
 
-- [ ] 3.1 Create `src/styles/tokens.css` and `src/styles/base.css` with the placeholder look from D6:
+- [x] 3.1 Create `src/styles/tokens.css` and `src/styles/base.css` with the placeholder look from D6:
   - A white background and near-black text
   - A single blue for links and focus
   - The `system-ui` font stack
@@ -40,7 +40,7 @@
   - A reduced-motion rule
 
   Verify that changing the link-color token and rebuilding changes link color on every stub page with no other edits
-- [ ] 3.2 Build `BaseLayout`:
+- [x] 3.2 Build `BaseLayout`:
   - Head props for the title, description, canonical, Open Graph/Twitter tags, robots meta and a JSON-LD slot
   - A skip link as the first focusable element
   - A header nav with `aria-current` on the current page
@@ -48,14 +48,14 @@
   - A footer with the business name, "Denver, Colorado", the brand line and a Contact link
 
   Verify on the stub pages that the skip link is the first tab stop and `aria-current="page"` is set
-- [ ] 3.3 Implement `src/lib/env.ts`, the indexable rule from D3, with `node --test` unit tests for four cases:
+- [x] 3.3 Implement `src/lib/env.ts`, the indexable rule from D3, with `node --test` unit tests for four cases:
   - Production context on the production host: indexable
   - Production context on `*.netlify.app`: not indexable
   - Branch deploy: not indexable
   - No Netlify variables: not indexable
 
   Verify that the tests pass
-- [ ] 3.4 Add the prerendered `robots.txt` endpoint, the `astro:build:done` hook that writes `dist/_headers`, and the noindex meta tag in `BaseLayout`, all driven by `env.ts`. Verify:
+- [x] 3.4 Add the prerendered `robots.txt` endpoint, the `astro:build:done` hook that writes `dist/_headers`, and the noindex meta tag in `BaseLayout`, all driven by `env.ts`. Verify:
   - A local build emits a disallow-all `robots.txt`, a `_headers` file with `X-Robots-Tag: noindex, nofollow` for `/*`, and the meta tag.
   - A build run with `CONTEXT=production URL=https://elevationcode.works` emits an allow-all `robots.txt` with a `Sitemap:` line and no `_headers` noindex.
 
