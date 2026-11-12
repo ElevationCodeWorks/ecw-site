@@ -109,7 +109,7 @@
 
 ## 7. Structure baseline, comp tooling and phase A check (design D2, D11)
 
-- [ ] 7.1 Write `scripts/structure-snapshot.ts` and `npm run check:structure`. Capture `openspec/changes/visual-identity/structure-baseline.json` from the current build. Verify:
+- [x] 7.1 Write `scripts/structure-snapshot.ts` and `npm run check:structure`. Capture `openspec/changes/visual-identity/structure-baseline.json` from the current build. Verify:
   - Tests show that a changed heading, a changed link or changed JSON-LD each produce a diff
   - `npm run check:structure` exits 0 on the unchanged build
 - [ ] 7.2 Write `scripts/capture-comps.mjs` from D2. It takes a round number and preview URLs, and writes 24 screenshots per comp plus `comps/round-<n>/index.html`. It also adds a symbol strip at 16, 32, 64 and 256 px, in both schemes, when `src/assets/brand/options/` exists. Verify on the `visual-identity` preview that all 24 images exist at the right sizes and the sheet opens
