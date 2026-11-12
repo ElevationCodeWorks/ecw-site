@@ -108,15 +108,15 @@
 
 ## 5. Content model and settings
 
-- [ ] 5.1 Create `src/site.config.ts` per D5:
+- [x] 5.1 Create `src/site.config.ts` per D5:
   - `PRODUCTION_ORIGIN` is `https://elevationcode.works`
   - Founder: Tejen Shrestha, Founder & CEO
   - `publicEmail: 'tejen@elevationcode.works'` and `replyTime: 'within 48 hours'`
   - A `pending` marker for the `sameAs` URLs
 
   Verify that `astro check` passes
-- [ ] 5.2 Define the `services`, `work` and `pages` collections in `src/content.config.ts`, with the Zod rules from D5: `seo` length limits, `outcomes` requiring `source` and `measuredAt`, and at least one screenshot. Add a build check for exactly six services with one entry offer. Verify with temporary fixtures that a 161-character description, an outcome without a source, and a seventh service each fail the build
-- [ ] 5.3 Add a `release-check` script that lists every `pending` marker from content and config with file and question, and exits 1 while any remain. Add `node --test` tests for both exit paths. Document content authoring in `README.md`: adding a service or case study, pending markers, and the forbidden employer terms. Verify that the tests pass
+- [x] 5.2 Define the `services`, `work` and `pages` collections in `src/content.config.ts`, with the Zod rules from D5: `seo` length limits, `outcomes` requiring `source` and `measuredAt`, and at least one screenshot. Add a build check for exactly six services with one entry offer. Verify with temporary fixtures that a 161-character description, an outcome without a source, and a seventh service each fail the build
+- [x] 5.3 Add a `release-check` script that lists every `pending` marker from content and config with file and question, and exits 1 while any remain. Add `node --test` tests for both exit paths. Document content authoring in `README.md`: adding a service or case study, pending markers, and the forbidden employer terms. Verify that the tests pass
 
 ## 6. Services, work, About, Home and 404
 

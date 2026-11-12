@@ -15,15 +15,16 @@ npm install
 
 ## Scripts
 
-| Command              | What it does                                                                                                           |
-| -------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| `npm run dev`        | Starts the dev server at http://localhost:4321 with live reload.                                                       |
-| `npm run build`      | Type-checks with `astro check`, builds the static site into `dist/`, then runs the site check. Any violation fails it. |
-| `npm run preview`    | Serves the built `dist/` at http://localhost:4321. Run `npm run build` first.                                          |
-| `npm run check:site` | Runs the site check against the existing `dist/` without rebuilding.                                                   |
-| `npm test`           | Runs the unit tests (`*.test.ts`) with Node's built-in test runner.                                                    |
-| `npm run fmt`        | Formats the project with Prettier.                                                                                     |
-| `npm run fmt:check`  | Checks formatting without changing files.                                                                              |
+| Command                 | What it does                                                                                                           |
+| ----------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `npm run dev`           | Starts the dev server at http://localhost:4321 with live reload.                                                       |
+| `npm run build`         | Type-checks with `astro check`, builds the static site into `dist/`, then runs the site check. Any violation fails it. |
+| `npm run preview`       | Serves the built `dist/` at http://localhost:4321. Run `npm run build` first.                                          |
+| `npm run check:site`    | Runs the site check against the existing `dist/` without rebuilding.                                                   |
+| `npm run release-check` | Lists every question the owner still needs to answer (`pending` markers). Exits 1 while any remain. Run before launch. |
+| `npm test`              | Runs the unit tests (`*.test.ts`) with Node's built-in test runner.                                                    |
+| `npm run fmt`           | Formats the project with Prettier.                                                                                     |
+| `npm run fmt:check`     | Checks formatting without changing files.                                                                              |
 
 ## Project layout
 
@@ -34,7 +35,10 @@ src/styles/tokens.css         Every color and font value (design tokens)
 src/styles/base.css           Reset and element defaults, tokens only
 src/layouts/BaseLayout.astro  Page shell: head metadata, skip link, header, footer
 src/pages/                    One file per route
+src/content/                  Page copy: services/, work/ (case studies), pages/
+src/content.config.ts         Content schemas, enforced at build time
 integrations/                 Build-time integrations (indexing headers, site check)
+scripts/                      One-off tools (release check, screenshots, social image)
 site-check.config.ts          Banned patterns and thresholds for the site check
 site-check.exceptions.json    Waivers for specific site-check violations
 ```
@@ -98,3 +102,74 @@ Example exception:
 ```
 
 An entry with an empty reason fails the check, and so does an entry that no longer matches any violation, so stale waivers get cleaned up.
+
+## Content
+
+All copy lives in Markdown files under `src/content/`, separate from layout. The schemas in `src/content.config.ts` are enforced at build time, so a missing field or an over-long description fails the build with a message naming the file and field.
+
+Write in the first person ("I"), never "we". The site check enforces this and the other copy rules above.
+
+### Adding or editing a service
+
+Services live in `src/content/services/<slug>.md`. The slug becomes the URL (`/services/<slug>/`). There must be exactly six services, and exactly one of them has `isEntryOffer: true`; the build fails otherwise.
+
+```yaml
+---
+title: Integrations
+order: 2 # position on the Services page
+summary: One or two sentences for the Services page.
+forWho: Who this is for.
+included: [What is included, one item per entry]
+notIncluded: [What is explicitly not offered]
+relatedWork: [condies] # case study slugs, optional
+isEntryOffer: false
+seo:
+  title: Integrations for small businesses # max 37 characters (the brand suffix is added)
+  description: 70 to 160 characters, unique across the site.
+---
+Body copy in Markdown.
+```
+
+### Adding or editing a case study
+
+Case studies live in `src/content/work/<slug>.md` (URL `/work/<slug>/`). Each needs at least one screenshot, stored in `src/assets/work/`. Every outcome must say where it comes from and when it was measured; an outcome without `source` or `measuredAt` fails the build.
+
+```yaml
+---
+name: Condies
+order: 2
+description: One sentence on what the project is.
+audience: Who it serves.
+role: What I did.
+client: Optional client name
+liveUrl: https://condies.fyi/
+screenshots:
+  - image: ../../assets/work/condies-desktop.png
+    alt: Describe what the screenshot shows.
+    viewport: desktop # or mobile
+screenshotsCapturedAt: 2026-11-11
+outcomes:
+  - claim: What happened, with a number.
+    source: Where the number comes from.
+    measuredAt: November 2026
+seo:
+  title: Condies snow forecast app
+  description: 70 to 160 characters.
+---
+Body copy in Markdown.
+```
+
+### Pending owner input
+
+When copy depends on something only the owner can answer, write safe copy that doesn't depend on it, and add the question as a `pending` marker. Markers are never rendered:
+
+```yaml
+pending:
+  - question: Do you have usage numbers you're comfortable publishing?
+```
+
+Site-wide questions go in the `pending` list in `src/site.config.ts`. `npm run release-check` lists every marker and fails until none remain. Preview builds are unaffected.
+
+### Employers are never named
+
+No page, metadata or structured data may name the founder's employers or include details that identify them. Describe that experience as enterprise software engineering and earlier contract engineering on federal projects. The site check scans every built file for the terms listed under `employerTerms` in `site-check.config.ts`.
