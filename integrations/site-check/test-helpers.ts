@@ -12,6 +12,7 @@ export function inputs(overrides: Partial<CheckInputs> = {}): CheckInputs {
     imageFiles: [],
     fontFiles: [],
     distCss: [],
+    distImages: [],
     tokensFile: 'src/styles/tokens.css',
     headers: null,
     sitemapUrls: [],

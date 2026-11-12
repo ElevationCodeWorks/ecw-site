@@ -10,6 +10,7 @@ import {
   internalLinks,
   isCanonicalPath,
   noindexHeaders,
+  socialImages,
   titles
 } from './seo.ts'
 
@@ -197,4 +198,101 @@ test('social meta: flags missing tags and a wrong card type, passes a full set',
   )
   assert.equal(socialMeta(pageWith(tags('summary')), config).length, 1)
   assert.equal(socialMeta(pageWith(''), config).length, 8)
+})
+
+const withImage = (file: string, image: string): SourceFile => ({
+  file,
+  content: `<!doctype html>\n<html lang="en">\n<head>\n<meta property="og:image" content="${ORIGIN}${image}">\n</head>\n<body></body>\n</html>\n`
+})
+const pageUrl = (file: string) =>
+  ORIGIN + file.replace(/^dist/, '').replace(/index\.html$/, '')
+const imageInputs = (
+  pages: [string, string][],
+  images: {
+    file: string
+    format?: 'png' | 'unknown'
+    width?: number
+    height?: number
+  }[]
+) =>
+  inputs({
+    html: pages.map(([file, image]) => withImage(file, image)),
+    sitemapUrls: pages.map(([file]) => pageUrl(file)),
+    distImages: images.map((i) => ({
+      format: 'png',
+      width: 1200,
+      height: 630,
+      ...i
+    }))
+  })
+
+test('social images: each page has its own 1200x630 PNG', () => {
+  const result = socialImages(
+    imageInputs(
+      [
+        ['dist/index.html', '/og/home.png'],
+        ['dist/about/index.html', '/og/about.png']
+      ],
+      [{ file: 'dist/og/home.png' }, { file: 'dist/og/about.png' }]
+    ),
+    config
+  )
+  assert.deepEqual(result, [])
+})
+
+test('social images: a missing file fails and names the page', () => {
+  const result = socialImages(
+    imageInputs([['dist/about/index.html', '/og/about.png']], []),
+    config
+  )
+  assert.equal(result.length, 1)
+  assert.equal(result[0].rule, 'seo/social-image')
+  assert.equal(result[0].file, 'dist/about/index.html')
+  assert.equal(result[0].line, 4)
+  assert.match(result[0].message ?? '', /did not produce dist\/og\/about\.png/)
+})
+
+test('social images: two pages sharing one image fail', () => {
+  const result = socialImages(
+    imageInputs(
+      [
+        ['dist/index.html', '/og/default.png'],
+        ['dist/about/index.html', '/og/default.png']
+      ],
+      [{ file: 'dist/og/default.png' }]
+    ),
+    config
+  )
+  assert.equal(result.length, 1)
+  assert.equal(result[0].file, 'dist/about/index.html')
+  assert.match(result[0].message ?? '', /dist\/index\.html uses the same image/)
+})
+
+test('social images: a wrong size or a non-PNG fails', () => {
+  const small = socialImages(
+    imageInputs(
+      [['dist/about/index.html', '/og/about.png']],
+      [{ file: 'dist/og/about.png', width: 800, height: 418 }]
+    ),
+    config
+  )
+  assert.equal(small[0].message, 'The image is 800x418; it must be 1200x630.')
+  const fake = socialImages(
+    imageInputs(
+      [['dist/about/index.html', '/og/about.png']],
+      [{ file: 'dist/og/about.png', format: 'unknown', width: 0, height: 0 }]
+    ),
+    config
+  )
+  assert.match(fake[0].message ?? '', /is not a PNG/)
+})
+
+test('social images: the PNG header reader reads width and height', async () => {
+  const { pngHeader } = await import('../load.ts')
+  const png = Buffer.alloc(24)
+  Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]).copy(png)
+  png.writeUInt32BE(1200, 16)
+  png.writeUInt32BE(630, 20)
+  assert.deepEqual(pngHeader(png), { format: 'png', width: 1200, height: 630 })
+  assert.equal(pngHeader(Buffer.from('GIF89a')).format, 'unknown')
 })

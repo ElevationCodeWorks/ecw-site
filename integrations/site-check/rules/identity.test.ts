@@ -10,7 +10,8 @@ import {
   fontHosts,
   fontLicense,
   imageSources,
-  schemeParity
+  schemeParity,
+  symbolPlainVector
 } from './identity.ts'
 
 const TOKENS = 'src/styles/tokens.css'
@@ -337,6 +338,80 @@ test('font hosts: self-hosted fonts and ordinary external links pass', () => {
   }
   assert.deepEqual(
     fontHosts(inputs({ html: [html], distCss: [css] }), config),
+    []
+  )
+})
+
+const symbol = (body: string, file = 'src/assets/brand/symbol.svg') =>
+  inputs({
+    brandSvg: [
+      {
+        file,
+        content: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">\n${body}\n</svg>\n`
+      }
+    ]
+  })
+
+test('symbol: gradients, filters, patterns, images and text fail and name the file', () => {
+  const cases = [
+    '<defs><linearGradient id="g"><stop offset="0" /></linearGradient></defs>',
+    '<defs><radialGradient id="g" /></defs>',
+    '<filter id="f"><feGaussianBlur stdDeviation="2" /></filter>',
+    '<pattern id="p" width="2" height="2" />',
+    '<image href="data:image/png;base64,AAAA" width="16" height="16" />',
+    '<text x="0" y="12">E</text>'
+  ]
+  for (const body of cases) {
+    const result = symbolPlainVector(symbol(body), config)
+    assert.ok(result.length >= 1, body)
+    assert.equal(result[0].rule, 'identity/symbol-plain')
+    assert.equal(result[0].file, 'src/assets/brand/symbol.svg')
+    assert.equal(result[0].line, 2)
+  }
+})
+
+test('symbol: a second fill color fails', () => {
+  const result = symbolPlainVector(
+    symbol(
+      '<path fill="currentColor" d="M0 0h8v8H0z" />\n<path fill="#0b57d0" d="M8 8h8v8H8z" />'
+    ),
+    config
+  )
+  assert.equal(result.length, 1)
+  assert.equal(result[0].line, 3)
+  assert.match(result[0].text, /#0b57d0/)
+})
+
+test('symbol: a colored stroke in a style attribute fails', () => {
+  assert.equal(
+    symbolPlainVector(
+      symbol('<path style="stroke: #111111" d="M0 0h16v16H0z" />'),
+      config
+    ).length,
+    1
+  )
+})
+
+test('symbol: currentColor paths pass, including symbol options', () => {
+  assert.deepEqual(
+    symbolPlainVector(
+      symbol(
+        '<path fill="currentColor" d="M0 0h16v16H0z" />\n<path fill="none" stroke="currentColor" d="M2 2h4" />',
+        'src/assets/brand/options/b.svg'
+      ),
+      config
+    ),
+    []
+  )
+})
+
+test('symbol: the real symbol source passes', () => {
+  const file = 'src/assets/brand/symbol.svg'
+  assert.deepEqual(
+    symbolPlainVector(
+      inputs({ brandSvg: [{ file, content: readFileSync(file, 'utf8') }] }),
+      config
+    ),
     []
   )
 })

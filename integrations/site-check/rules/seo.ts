@@ -280,6 +280,65 @@ export const socialMeta: Rule = (inputs, config) =>
     })
   })
 
+/**
+ * Every indexable page has its own social image: the og:image file exists in
+ * dist/, no other page uses it, and its PNG header says 1200x630.
+ */
+export const socialImages: Rule = (inputs, config) => {
+  const images = new Map(inputs.distImages.map((i) => [i.file, i]))
+  const seen = new Map<string, string>()
+  return sitemapPages(inputs).flatMap((source): Violation[] => {
+    const page = parsePage(source)
+    const meta = page.root.querySelector('meta[property="og:image"]')
+    const url = meta?.getAttribute('content')?.trim()
+    if (!meta || !url) return []
+    const line = page.lineOf(meta.range[0])
+    const file = `dist${new URL(url, inputs.productionOrigin).pathname}`
+    const out: Violation[] = []
+    const image = images.get(file)
+    const { width, height } = config.socialImage
+    if (!image)
+      out.push(
+        v(
+          page,
+          'seo/social-image',
+          line,
+          url,
+          `The build did not produce ${file}.`
+        )
+      )
+    else if (
+      image.format !== 'png' ||
+      image.width !== width ||
+      image.height !== height
+    )
+      out.push(
+        v(
+          page,
+          'seo/social-image',
+          line,
+          url,
+          image.format === 'png'
+            ? `The image is ${image.width}x${image.height}; it must be ${width}x${height}.`
+            : `${file} is not a PNG.`
+        )
+      )
+    const other = seen.get(file)
+    if (other)
+      out.push(
+        v(
+          page,
+          'seo/social-image',
+          line,
+          url,
+          `${other} uses the same image. Every page needs its own.`
+        )
+      )
+    else seen.set(file, page.file)
+    return out
+  })
+}
+
 export const seoRules: Rule[] = [
   titles,
   descriptions,
@@ -287,5 +346,6 @@ export const seoRules: Rule[] = [
   canonicals,
   internalLinks,
   noindexHeaders,
-  socialMeta
+  socialMeta,
+  socialImages
 ]

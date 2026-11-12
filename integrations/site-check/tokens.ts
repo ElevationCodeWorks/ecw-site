@@ -5,8 +5,11 @@ import type { CheckInputs } from './types.ts'
 
 export const SCHEMES: Scheme[] = ['light', 'dark']
 
+/** The part of the check inputs token lookups need. */
+export type TokenSource = Pick<CheckInputs, 'css' | 'tokensFile'>
+
 /** Custom-property declarations in the tokens file. */
-export function tokenDecls(inputs: CheckInputs): Decl[] {
+export function tokenDecls(inputs: TokenSource): Decl[] {
   return declarations(
     inputs.css.filter((s) => s.file === inputs.tokensFile)
   ).filter((d) => d.prop.startsWith('--'))
@@ -19,7 +22,7 @@ const VAR_REF = /var\(\s*(--[\w-]+)\s*(?:,([^()]*(?:\([^()]*\))?[^()]*))?\)/g
  * value when one exists, else the light value (the dark block only overrides
  * :root). The last declaration wins, as in CSS.
  */
-export function tokenResolver(inputs: CheckInputs) {
+export function tokenResolver(inputs: TokenSource) {
   const decls = tokenDecls(inputs)
   const declFor = (name: string, scheme: Scheme): Decl | undefined => {
     const own = decls.filter((d) => d.prop === name)

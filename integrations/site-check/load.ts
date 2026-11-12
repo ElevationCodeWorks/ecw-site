@@ -1,7 +1,7 @@
 import { existsSync } from 'node:fs'
 import { readdir, readFile, stat } from 'node:fs/promises'
 import path from 'node:path'
-import type { CheckInputs, CssSource, SourceFile } from './types.ts'
+import type { CheckInputs, CssSource, DistImage, SourceFile } from './types.ts'
 
 const DIST_TEXT_EXTENSIONS = new Set([
   '.html',
@@ -11,6 +11,21 @@ const DIST_TEXT_EXTENSIONS = new Set([
   '.svg',
   '.webmanifest'
 ])
+
+const PNG_SIGNATURE = Buffer.from([
+  0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a
+])
+
+/** A PNG's format and size, read from its signature and IHDR header. */
+export function pngHeader(bytes: Buffer): Omit<DistImage, 'file'> {
+  if (bytes.length < 24 || !bytes.subarray(0, 8).equals(PNG_SIGNATURE))
+    return { format: 'unknown', width: 0, height: 0 }
+  return {
+    format: 'png',
+    width: bytes.readUInt32BE(16),
+    height: bytes.readUInt32BE(20)
+  }
+}
 
 /** Raster and vector image files. */
 export const IMAGE_EXTENSION =
@@ -135,6 +150,14 @@ export async function loadInputs(options: LoadOptions): Promise<CheckInputs> {
     distCss: await readSources(
       root,
       distFiles.filter((f) => f.endsWith('.css'))
+    ),
+    distImages: await Promise.all(
+      distFiles
+        .filter((f) => f.endsWith('.png'))
+        .map(async (f) => ({
+          file: path.relative(root, f).split(path.sep).join('/'),
+          ...pngHeader((await readFile(f)).subarray(0, 24))
+        }))
     ),
     imageFiles: [...srcFiles, ...publicFiles]
       .filter((f) => IMAGE_EXTENSION.test(f))
