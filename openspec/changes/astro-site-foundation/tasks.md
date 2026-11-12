@@ -193,7 +193,7 @@
 
 ## 8. Netlify setup and live checks (with the owner)
 
-- [ ] 8.1 With the owner, create the Netlify site from `ElevationCodeWorks/ecw-site`:
+- [x] 8.1 With the owner, create the Netlify site from `ElevationCodeWorks/ecw-site`:
   - Production branch: `main`
   - Build command `npm run build` set in the UI, so `main` builds fail rather than publish
   - Branch deploys: `astro-site-foundation` only
@@ -208,7 +208,7 @@
   - `/about.html` returns a 301 to `/about/`
   - `/servcies/` returns 404 with the not-found page
   - The sitemap lists exactly the indexable pages
-- [ ] 8.3 Submit three test forms on the branch deploy:
+- [x] 8.3 Submit three test forms on the branch deploy:
   - A valid submission: verify that the notification arrives, its subject names the website inquiry, and Reply-To is the test address
   - One with the honeypot filled through a raw `curl` POST: verify that no notification arrives
   - One with JavaScript disabled: verify that it lands on `/contact/thanks/`
