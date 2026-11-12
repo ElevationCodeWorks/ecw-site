@@ -1,6 +1,7 @@
 ---
 title: AI features
 order: 4
+rating: blue-square
 summary: Practical AI built into your website or app, such as assistants that answer customer questions from your own information, smarter intake forms and help with booking.
 forWho: Businesses that answer the same customer questions every day, or lose people during intake and booking.
 included:
