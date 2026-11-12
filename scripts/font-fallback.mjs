@@ -19,7 +19,7 @@ import { readdirSync } from 'node:fs'
 import path from 'node:path'
 import { createFontStack } from '@capsizecss/core'
 import { fontFamilyToCamelCase } from '@capsizecss/metrics'
-import { fromFile } from '@capsizecss/unpack'
+import { fromFile } from '@capsizecss/unpack/fs'
 
 const args = process.argv.slice(2)
 const slug = args.find((a) => !a.startsWith('--'))
