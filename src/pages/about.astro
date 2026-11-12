@@ -1,10 +1,75 @@
 ---
+import { Picture } from 'astro:assets'
+import { render } from 'astro:content'
 import BaseLayout from '../layouts/BaseLayout.astro'
+import CallToAction from '../components/CallToAction.astro'
+import founderPhoto from '../assets/founder.jpg'
+import { getPage } from '../lib/pages.ts'
+import { asJsonLd, breadcrumbs, founderJsonLd } from '../lib/schema.ts'
+
+const page = await getPage('about')
+const { data } = page
+const { Content } = await render(page)
+
+if (!data.photoAlt) {
+  throw new Error(
+    'src/content/pages/about.md needs photoAlt for the founder photo'
+  )
+}
+
+const jsonLd = [
+  founderJsonLd(),
+  asJsonLd(breadcrumbs([{ name: 'About', path: '/about/' }]))
+]
 ---
 
 <BaseLayout
-  title="About"
-  description="Placeholder about page for the Elevation Code Works site while the foundation is being built."
+  title={data.seo.title}
+  description={data.seo.description}
+  jsonLd={jsonLd}
 >
-  <h1>About</h1>
+  <div class="intro">
+    <Picture
+      src={founderPhoto}
+      alt={data.photoAlt}
+      formats={['avif', 'webp']}
+      widths={[320, 640]}
+      sizes="(min-width: 48rem) 20rem, 100vw"
+      loading="eager"
+      fetchpriority="high"
+    />
+    <div class="stack">
+      <h1>{data.h1}</h1>
+      {data.lede && <p class="lede">{data.lede}</p>}
+    </div>
+  </div>
+
+  <div class="section prose">
+    <Content />
+  </div>
+
+  {data.cta && <CallToAction label={data.cta.label} href={data.cta.href} />}
 </BaseLayout>
+
+<style>
+  .intro {
+    align-items: center;
+    display: grid;
+    gap: var(--space-6);
+    grid-template-columns: minmax(0, 20rem) minmax(0, 1fr);
+  }
+
+  .intro :global(img) {
+    border-radius: var(--radius);
+  }
+
+  @media (max-width: 48rem) {
+    .intro {
+      grid-template-columns: 1fr;
+    }
+
+    .intro :global(img) {
+      max-width: 20rem;
+    }
+  }
+</style>

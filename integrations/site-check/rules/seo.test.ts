@@ -167,3 +167,34 @@ test('noindex headers: required on non-indexable builds only', () => {
   )
   assert.deepEqual(noindexHeaders(inputs({ indexable: true }), config), [])
 })
+
+test('social meta: flags missing tags and a wrong card type, passes a full set', async () => {
+  const { socialMeta } = await import('./seo.ts')
+  const tags = (card: string) =>
+    [
+      '<meta property="og:title" content="About | Elevation Code Works">',
+      '<meta property="og:description" content="D">',
+      '<meta property="og:url" content="https://elevationcode.works/about/">',
+      '<meta property="og:type" content="website">',
+      '<meta property="og:image" content="https://elevationcode.works/og/default.png">',
+      '<meta property="og:image:alt" content="Alt">',
+      '<meta property="og:site_name" content="Elevation Code Works">',
+      `<meta name="twitter:card" content="${card}">`
+    ].join('\n')
+  const pageWith = (head: string) =>
+    inputs({
+      html: [
+        {
+          file: 'dist/about/index.html',
+          content: `<html><head>${head}</head><body><h1>A</h1></body></html>`
+        }
+      ],
+      sitemapUrls: ['https://elevationcode.works/about/']
+    })
+  assert.deepEqual(
+    socialMeta(pageWith(tags('summary_large_image')), config),
+    []
+  )
+  assert.equal(socialMeta(pageWith(tags('summary')), config).length, 1)
+  assert.equal(socialMeta(pageWith(''), config).length, 8)
+})

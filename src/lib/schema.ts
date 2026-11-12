@@ -63,6 +63,15 @@ export function founderEntity(image?: string): Person {
   }
 }
 
+/** The founder as a standalone JSON-LD document (About page). */
+export function founderJsonLd(image?: string): Record<string, unknown> {
+  return {
+    '@context': 'https://schema.org',
+    // schema-dts types Person as a union that includes plain strings.
+    ...(founderEntity(image) as unknown as Record<string, unknown>)
+  }
+}
+
 export function websiteEntity(): WebSite {
   return {
     '@type': 'WebSite',

@@ -79,6 +79,7 @@ dist/about/index.html:42  brand/banned-word  "elevate"  (Banned: elevate)
 | `seo/canonical`                                                                                         | Every sitemap page has one canonical link to itself on `https://elevationcode.works`.                                                                     |
 | `seo/internal-link`                                                                                     | Internal links end in `/` unless they point to a file.                                                                                                    |
 | `seo/noindex-headers`                                                                                   | Non-production builds have a `_headers` file that sends `noindex`.                                                                                        |
+| `seo/social`                                                                                            | Every sitemap page has the Open Graph and Twitter tags, with `og:site_name` set to the brand name and a large-image card.                                 |
 
 ### Changing what is banned
 

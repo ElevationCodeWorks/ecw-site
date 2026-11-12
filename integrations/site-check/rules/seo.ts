@@ -1,5 +1,6 @@
 import { parsePage, tagOf } from '../html.ts'
 import type { ParsedPage } from '../html.ts'
+import type { SiteCheckConfig } from '../../../site-check.config.ts'
 import type { CheckInputs, Rule, SourceFile, Violation } from '../types.ts'
 
 /** dist file for a page URL, e.g. https://x/about/ -> dist/about/index.html */
@@ -227,11 +228,64 @@ export const noindexHeaders: Rule = (inputs) => {
   ]
 }
 
+/** Open Graph and Twitter tags every indexable page needs (seo spec). */
+const REQUIRED_SOCIAL: {
+  key: string
+  equals?: (c: SiteCheckConfig) => string
+}[] = [
+  { key: 'og:title' },
+  { key: 'og:description' },
+  { key: 'og:url' },
+  { key: 'og:type' },
+  { key: 'og:image' },
+  { key: 'og:image:alt' },
+  { key: 'og:site_name', equals: (c) => c.brandName },
+  { key: 'twitter:card', equals: () => 'summary_large_image' }
+]
+
+export const socialMeta: Rule = (inputs, config) =>
+  sitemapPages(inputs).flatMap((source) => {
+    const page = parsePage(source)
+    const content = (key: string) =>
+      page.root
+        .querySelectorAll(`meta[property="${key}"], meta[name="${key}"]`)
+        .map((el) => (el.getAttribute('content') ?? '').trim())
+        .filter(Boolean)[0]
+    return REQUIRED_SOCIAL.flatMap(({ key, equals }) => {
+      const value = content(key)
+      if (!value) {
+        return [v(page, 'seo/social', 1, key, 'Missing social preview tag.')]
+      }
+      const expected = equals?.(config)
+      if (expected && value !== expected) {
+        return [
+          v(page, 'seo/social', 1, `${key}=${value}`, `Must be "${expected}".`)
+        ]
+      }
+      if (
+        (key === 'og:image' || key === 'og:url') &&
+        !/^https?:\/\//.test(value)
+      ) {
+        return [
+          v(
+            page,
+            'seo/social',
+            1,
+            `${key}=${value}`,
+            'Must be an absolute URL.'
+          )
+        ]
+      }
+      return []
+    })
+  })
+
 export const seoRules: Rule[] = [
   titles,
   descriptions,
   headings,
   canonicals,
   internalLinks,
-  noindexHeaders
+  noindexHeaders,
+  socialMeta
 ]

@@ -151,7 +151,7 @@
   - A `BreadcrumbList`
 
   Verify that the three case-study pages build with all fields visible and the check passes
-- [ ] 6.6 Build the About page from the `pages` collection:
+- [x] 6.6 Build the About page from the `pages` collection:
   - Copy the founder photo into `src/assets/founder.jpg` and give it alt text
   - Founder & CEO, Denver
   - Background summary: current work described only in enterprise terms, and the federal work framed as earlier contract engineering on FDA, VA and Census Bureau projects, with no employer named
@@ -159,7 +159,7 @@
   - A CTA to Contact
 
   Verify that the site check passes and that `dist/` contains no "Capital One", "Booz Allen", "ATM" or "kiosk"
-- [ ] 6.7 Build Home from the `pages` collection:
+- [x] 6.7 Build Home from the `pages` collection:
   - A plain-words H1 saying I build custom software and websites for Denver small businesses
   - A founder sentence in enterprise wording, with no employer named, and a CTA to `/contact/`
   - The three case-study previews, with screenshots, before the service list
@@ -167,8 +167,8 @@
   - `ProfessionalService`, `Person` and `WebSite` JSON-LD with the `@id`s from D10
 
   Verify that the previews come before the services in `dist/index.html` and that the JSON-LD validates with no errors
-- [ ] 6.8 Build the 404 page with links to Home, Services, Work and Contact, and a `noindex` meta tag. Verify that it builds to `dist/404.html` and is absent from the sitemap
-- [ ] 6.9 Add `scripts/make-og.mjs` and generate `public/og/default.png` at 1200×630 from a plain HTML template with headless Chrome. Wire the Open Graph/Twitter tags, with alt text, into `BaseLayout`. Verify the image dimensions and that every built page has all of the tags required by the seo spec
+- [x] 6.8 Build the 404 page with links to Home, Services, Work and Contact, and a `noindex` meta tag. Verify that it builds to `dist/404.html` and is absent from the sitemap
+- [x] 6.9 Add `scripts/make-og.mjs` and generate `public/og/default.png` at 1200×630 from a plain HTML template with headless Chrome. Wire the Open Graph/Twitter tags, with alt text, into `BaseLayout`. Verify the image dimensions and that every built page has all of the tags required by the seo spec
 
 ## 7. Contact form
 
