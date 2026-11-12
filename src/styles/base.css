@@ -112,3 +112,33 @@ pre {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Layout helpers (tokens only). */
+.stack > * + * {
+  margin-top: var(--space-5);
+}
+
+.stack-tight > * + * {
+  margin-top: var(--space-2);
+}
+
+.lede {
+  color: var(--color-text-muted);
+  font-size: var(--text-lg);
+}
+
+.prose > * + * {
+  margin-top: var(--space-4);
+}
+
+.prose h2 {
+  margin-top: var(--space-7);
+}
+
+.prose ul {
+  padding-left: var(--space-5);
+}
+
+.section {
+  margin-top: var(--space-8);
+}

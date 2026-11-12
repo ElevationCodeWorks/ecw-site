@@ -120,7 +120,7 @@
 
 ## 6. Services, work, About, Home and 404
 
-- [ ] 6.1 Write the six service entries, following the site-content spec's catalog and scope boundary:
+- [x] 6.1 Write the six service entries, following the site-content spec's catalog and scope boundary:
   - Websites that get found: says SEO campaigns and ads are not offered
   - Integrations: names Stripe, Square, Shopify and booking tools
   - Custom web apps: customer-facing only
@@ -129,21 +129,21 @@
   - Tech checkup, as the entry offer
 
   Verify that the build and site check pass, and that `grep -riE 'quickbooks|xero|hubspot|salesforce|mailchimp|klaviyo' dist` returns nothing
-- [ ] 6.2 Build the `/services/` index and the service detail template:
+- [x] 6.2 Build the `/services/` index and the service detail template:
   - Who it's for, what's included and what's not
   - Related work
   - A CTA to `/contact/`
   - `Service` and `BreadcrumbList` JSON-LD
 
   Verify that all six `/services/<slug>/index.html` files exist and that one page's JSON-LD validates at validator.schema.org with no errors
-- [ ] 6.3 Write `scripts/capture-screenshots.mjs` using the local Playwright Chromium. It captures whatcanido.earth, condies.fyi and uphillskico.com at 1440×900 and 390×844 into `src/assets/work/`, dismissing cookie banners. Verify that all six images exist at the stated sizes
-- [ ] 6.4 Write the three `work` entries:
+- [x] 6.3 Write `scripts/capture-screenshots.mjs` using the local Playwright Chromium. It captures whatcanido.earth, condies.fyi and uphillskico.com at 1440×900 and 390×844 into `src/assets/work/`, dismissing cookie banners. Verify that all six images exist at the stated sizes
+- [x] 6.4 Write the three `work` entries:
   - What Can I Do?: "contracted by Important, Not Important to build the initial version and launch it to production", with no later features claimed
   - Every entry: descriptive alt text, and no outcomes yet
   - `pending` markers for outcome metrics, the quote from Important, Not Important, and confirmation that the contract allows portfolio use
 
   Verify that the build passes and `npm run release-check` lists those markers
-- [ ] 6.5 Build the `/work/` index and the case study template:
+- [x] 6.5 Build the `/work/` index and the case study template:
   - Name, one-sentence description, audience and role
   - The live link
   - Screenshots via `<Picture>` with width and height set
