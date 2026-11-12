@@ -2,8 +2,13 @@
  * Rules for the visual-identity spec: color schemes, contrast, fonts, the
  * logo symbol and imagery.
  */
+import path from 'node:path'
 import { parse, wcagContrast } from 'culori'
 import type { Color } from 'culori'
+import { fontFaceRules } from '../css.ts'
+import type { FontFaceRule } from '../css.ts'
+import { parsePage } from '../html.ts'
+import { matchesWithLines } from '../lines.ts'
 import { SCHEMES, tokenDecls, tokenResolver } from '../tokens.ts'
 import type { Rule, Violation } from '../types.ts'
 import { colorTokens } from './brand-color.ts'
@@ -111,4 +116,144 @@ export const imageSources: Rule = (inputs) =>
       : []
   })
 
-export const identityRules: Rule[] = [schemeParity, contrastPairs, imageSources]
+const FONT_FILE = /\.(?:woff2?|ttf|otf|eot)$/i
+const URL_IN_SRC = /url\(\s*['"]?([^'")]+)['"]?\s*\)/gi
+
+/** The url() targets of a @font-face src, resolved to project paths. */
+function faceFiles(face: FontFaceRule): string[] {
+  return [...face.src.matchAll(URL_IN_SRC)].map((m) => {
+    const url = m[1].trim()
+    return /^(?:[a-z]+:)?\/\//i.test(url)
+      ? url
+      : path.posix.normalize(
+          path.posix.join(path.posix.dirname(face.file), url)
+        )
+  })
+}
+
+/**
+ * Web fonts stay within budget: at most N families and M files declared with
+ * url() sources, at most K KB in total, and at most P font preloads per page.
+ */
+export const fontBudget: Rule = (inputs, config) => {
+  const b = config.fontBudget
+  const out: Violation[] = []
+  const webFaces = fontFaceRules(inputs.css).filter(
+    (f) => faceFiles(f).length > 0
+  )
+  const at = (face: FontFaceRule | undefined, text: string, message: string) =>
+    out.push({
+      rule: 'identity/font-budget',
+      file: face?.file ?? inputs.tokensFile,
+      line: face?.line ?? 1,
+      text,
+      message
+    })
+
+  const families = [...new Set(webFaces.map((f) => f.family.toLowerCase()))]
+  if (families.length > b.maxFamilies)
+    at(
+      webFaces.find((f) => f.family.toLowerCase() === families[b.maxFamilies]),
+      families.join(', '),
+      `${families.length} web font families; the limit is ${b.maxFamilies}.`
+    )
+
+  const files = [...new Set(webFaces.flatMap(faceFiles))].filter(
+    (f) => !/^(?:[a-z]+:)?\/\//i.test(f)
+  )
+  if (files.length > b.maxFiles)
+    at(
+      webFaces[0],
+      files.join(', '),
+      `${files.length} font files; the limit is ${b.maxFiles}.`
+    )
+
+  const sizes = new Map(inputs.fontFiles.map((f) => [f.file, f.bytes]))
+  for (const file of files.filter((f) => !sizes.has(f)))
+    at(
+      webFaces.find((f) => faceFiles(f).includes(file)),
+      file,
+      'This font file does not exist under src/assets/fonts/.'
+    )
+  const totalKB = files.reduce((sum, f) => sum + (sizes.get(f) ?? 0), 0) / 1024
+  if (totalKB > b.maxKB)
+    at(
+      webFaces[0],
+      files.join(', '),
+      `Font files total ${totalKB.toFixed(1)} KB; the budget is ${b.maxKB} KB.`
+    )
+
+  for (const source of inputs.html) {
+    const page = parsePage(source)
+    const preloads = page.root
+      .querySelectorAll('link[rel="preload"]')
+      .filter((el) => el.getAttribute('as') === 'font')
+    if (preloads.length > b.maxPreloads)
+      out.push({
+        rule: 'identity/font-budget',
+        file: page.file,
+        line: page.lineOf(preloads[b.maxPreloads].range[0]),
+        text: `${preloads.length} font preloads`,
+        message: `${preloads.length} font preloads; the limit is ${b.maxPreloads}.`
+      })
+  }
+  return out
+}
+
+const LICENSE_FILE = /^(?:LICEN[CS]E|OFL)(?:[.-][\w.-]*)?$/i
+
+/** Every font family directory under src/assets/fonts/ keeps its license. */
+export const fontLicense: Rule = (inputs) => {
+  const dirs = new Map<string, string[]>()
+  for (const { file } of inputs.fontFiles) {
+    const dir = path.posix.dirname(file)
+    dirs.set(dir, [...(dirs.get(dir) ?? []), path.posix.basename(file)])
+  }
+  return [...dirs.entries()]
+    .filter(
+      ([, names]) =>
+        names.some((n) => FONT_FILE.test(n)) &&
+        !names.some((n) => LICENSE_FILE.test(n))
+    )
+    .map(([dir, names]) => ({
+      rule: 'identity/font-license',
+      file: `${dir}/${names.find((n) => FONT_FILE.test(n))}`,
+      line: 1,
+      text: path.posix.basename(dir),
+      message: `The ${path.posix.basename(dir)} font files have no license file beside them. Copy the family's OFL text in as LICENSE.`
+    }))
+}
+
+/** No font is loaded from another origin. */
+export const fontHosts: Rule = (inputs, config) => {
+  const ownHost = new URL(inputs.productionOrigin).host
+  const hosts = config.fontHosts.map((h) => h.replace(/\./g, '\\.')).join('|')
+  const pattern = new RegExp(
+    `(?:https?:)?//(?:(?:${hosts})[^"'\\s)>]*|[^"'\\s)>/]+/[^"'\\s)>]*\\.(?:woff2?|ttf|otf|eot)\\b)`,
+    'gi'
+  )
+  return [...inputs.html, ...inputs.distCss].flatMap((file) =>
+    matchesWithLines(file.content, pattern)
+      .filter((m) => {
+        const host = m.text.replace(/^(?:https?:)?\/\//i, '').split('/')[0]
+        return host !== ownHost
+      })
+      .map((m) => ({
+        rule: 'identity/font-host',
+        file: file.file,
+        line: m.line,
+        text: m.text,
+        message:
+          'Fonts are self-hosted. Copy the files in with scripts/fonts.mjs instead of loading them from another origin.'
+      }))
+  )
+}
+
+export const identityRules: Rule[] = [
+  schemeParity,
+  contrastPairs,
+  imageSources,
+  fontBudget,
+  fontLicense,
+  fontHosts
+]

@@ -1,5 +1,5 @@
 import { existsSync } from 'node:fs'
-import { readdir, readFile } from 'node:fs/promises'
+import { readdir, readFile, stat } from 'node:fs/promises'
 import path from 'node:path'
 import type { CheckInputs, CssSource, SourceFile } from './types.ts'
 
@@ -118,6 +118,24 @@ export async function loadInputs(options: LoadOptions): Promise<CheckInputs> {
     css,
     astro,
     brandSvg,
+    fontFiles: await Promise.all(
+      srcFiles
+        .filter((f) =>
+          path
+            .relative(root, f)
+            .split(path.sep)
+            .join('/')
+            .startsWith('src/assets/fonts/')
+        )
+        .map(async (f) => ({
+          file: path.relative(root, f).split(path.sep).join('/'),
+          bytes: (await stat(f)).size
+        }))
+    ),
+    distCss: await readSources(
+      root,
+      distFiles.filter((f) => f.endsWith('.css'))
+    ),
     imageFiles: [...srcFiles, ...publicFiles]
       .filter((f) => IMAGE_EXTENSION.test(f))
       .map((f) => path.relative(root, f).split(path.sep).join('/')),

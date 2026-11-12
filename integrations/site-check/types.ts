@@ -40,6 +40,10 @@ export interface CheckInputs {
   brandSvg: SourceFile[]
   /** Project-relative paths of every image file in src/ and public/. */
   imageFiles: string[]
+  /** Every file under src/assets/fonts/, with its size in bytes. */
+  fontFiles: { file: string; bytes: number }[]
+  /** Built stylesheets in dist/. */
+  distCss: SourceFile[]
   /** Project-relative path of the design tokens file. */
   tokensFile: string
   /** Contents of dist/_headers, or null when absent. */

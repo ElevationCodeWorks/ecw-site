@@ -81,6 +81,9 @@ dist/about/index.html:42  brand/banned-word  "elevate"  (Banned: elevate)
 | `identity/scheme-parity`                                                                                | Every color token has a value in the light scheme (`:root`) and in the dark scheme (`@media (prefers-color-scheme: dark) { :root { … } }`).                                                                                                                                                                                                                                                                                                                    |
 | `identity/contrast`                                                                                     | Every pair in `contrastPairs` meets its WCAG ratio in both schemes. A failure names both tokens, the scheme, the measured ratio and the required one.                                                                                                                                                                                                                                                                                                          |
 | `identity/image-source`                                                                                 | Raster images only under `src/assets/work/` (screenshots) or `src/assets/founder*` (founder photos); vectors only under `src/assets/brand/`; no images in `public/`. Anything else needs an exception entry with a `source`.                                                                                                                                                                                                                                   |
+| `identity/font-budget`                                                                                  | At most 2 web font families and 4 font files declared with `url()` sources (fallback faces with only `local()` sources don't count), at most 150 KB of font files in total, and at most 2 font preloads per page.                                                                                                                                                                                                                                              |
+| `identity/font-license`                                                                                 | Every family directory under `src/assets/fonts/` has a `LICENSE` (or `OFL.txt`) beside its font files.                                                                                                                                                                                                                                                                                                                                                         |
+| `identity/font-host`                                                                                    | No font is loaded from another origin: no Google Fonts, Typekit or CDN links, and no third-party font URLs in built HTML or CSS.                                                                                                                                                                                                                                                                                                                               |
 | `platform/raw-value`                                                                                    | No color or font literals outside `src/styles/tokens.css`.                                                                                                                                                                                                                                                                                                                                                                                                     |
 | `platform/client-script`                                                                                | No client JavaScript in built pages. Only JSON-LD scripts are allowed.                                                                                                                                                                                                                                                                                                                                                                                         |
 | `seo/title`, `seo/description`                                                                          | Every sitemap page has one unique title (60 characters max, ending "Elevation Code Works" except Home) and one unique description (70 to 160 characters).                                                                                                                                                                                                                                                                                                      |
@@ -104,6 +107,8 @@ Banned words, phrases, typefaces, reference colors and thresholds live in `site-
 | `maxLetterSpacingEm`                           | The letter spacing above which text reads as an eyebrow label.                                                                        |
 | `shadow`                                       | The largest allowed shadow blur (`maxBlurPx`) and the chroma at which a shadow color stops being neutral (`maxChroma`).               |
 | `maxTransitionMs`                              | The longest allowed transition.                                                                                                       |
+| `fontBudget`                                   | The web font limits: families, files, total KB and preloads per page.                                                                 |
+| `fontHosts`                                    | Hosts that serve web fonts, which pages may never load from.                                                                          |
 
 ### Exceptions
 
@@ -146,6 +151,45 @@ A comp fails an item if it has:
 14. A direction that looks like a template a tool would produce
 
 Every logo symbol option is also reviewed against the banned motifs, and each one is recorded as absent: mountain peaks, upward arrows or chevrons, code brackets, a terminal prompt or cursor, a sparkle or four-point star, gears, lightbulbs, rockets, circuit traces, a hexagon badge, the Colorado flag's "C", the state's outline, and any official sign, highway shield or agency mark.
+
+## Typefaces
+
+Fonts are free (SIL Open Font License), self-hosted and committed to the repository, at most two families. Every font name lives in `src/styles/tokens.css`. To add a typeface:
+
+1. Pick an OFL family on [Fontsource](https://fontsource.org) that isn't banned (`bannedFonts`) or used by a portfolio site (`portfolioReferences`).
+2. Install its pinned packages. The variable package exists only for variable families; skip it otherwise.
+
+   ```sh
+   npm install -D -E @fontsource/<slug>@<version> @fontsource-variable/<slug>@<version>
+   ```
+
+3. Copy the files in:
+
+   ```sh
+   node scripts/fonts.mjs <slug>
+   ```
+
+   This writes `src/assets/fonts/<slug>/`: the Latin WOFF2 the site serves (the variable file, or one static file per weight with `--weights 400,700` or `--static`), static 400 and 700 WOFF files for the social images, the `LICENSE` and a `SOURCE.txt`. It refuses a family that isn't OFL. Paste the `@font-face` rule it prints into `tokens.css`, outside `:root`.
+
+4. Generate the metric-matched fallback face, so text shows at once in a local system font and barely moves when the web font arrives:
+
+   ```sh
+   node scripts/font-fallback.mjs <slug>
+   ```
+
+   Paste its `@font-face` rule into `tokens.css` too, and use the stack it prints in a font token, for example `--font-body: Overpass, "Overpass Fallback", Arial, sans-serif;`. Add `--fallback georgia` (or another system face) to pick the fallback yourself.
+
+5. Preload the file used above the fold. In `src/lib/fonts.ts`, import it with `?url` and list it in `preloadFonts` (at most two files site-wide):
+
+   ```ts
+   import overpass from '../assets/fonts/overpass/overpass-latin-wght-normal.woff2?url'
+   export const preloadFonts: string[] = [overpass]
+   ```
+
+6. Run `npm run build`. The site check enforces the family, file, size and preload limits, the license file and self-hosting.
+7. Once the design settles on its fonts, uninstall the Fontsource packages. The committed files are what builds use.
+
+Netlify serves everything under `/_astro/` (CSS, images and font files, all with content-hashed names) with a one-year immutable cache header (`netlify.toml`).
 
 ## Content
 

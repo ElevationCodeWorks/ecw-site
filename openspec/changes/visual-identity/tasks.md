@@ -65,7 +65,7 @@
   - Add an immutable `Cache-Control` header for `/_astro/*` to `netlify.toml`
 
   Verify on a scratch branch with Overpass: the font is requested only from the site's own origin, the preload and the fallback face are present, Lighthouse CLS is 0, and text is visible before the font loads under simulated slow 4G. Then delete the scratch branch
-- [ ] 4.2 Add the font rules:
+- [x] 4.2 Add the font rules:
   - Budget: at most 2 families (fallback faces with only `local()` sources don't count), at most 4 files, at most 150 KB in total
   - A license file in every font directory
   - No font URL pointing to another origin

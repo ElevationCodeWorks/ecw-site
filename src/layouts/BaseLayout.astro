@@ -6,6 +6,7 @@ import SiteFooter from '../components/SiteFooter.astro'
 import { PRODUCTION_ORIGIN, site } from '../site.config.ts'
 import { serializeJsonLd } from '../lib/json-ld.ts'
 import { currentDeployEnv, isIndexable } from '../lib/env.ts'
+import { preloadFonts } from '../lib/fonts.ts'
 
 interface Props {
   /** Page subject. The brand suffix is appended unless `fullTitle` is set. */
@@ -53,6 +54,15 @@ const ogImageUrl = new URL(ogImage.path, Astro.site).href
     {/* First paint already uses the visitor's scheme (design D5). */}
     <meta name="color-scheme" content="light dark" />
     <title>{documentTitle}</title>
+    {preloadFonts.map((href) => (
+      <link
+        rel="preload"
+        href={href}
+        as="font"
+        type="font/woff2"
+        crossorigin="anonymous"
+      />
+    ))}
     <meta name="description" content={description} />
     {/* Canonical links belong only on indexable pages. */}
     {!noindex && <link rel="canonical" href={canonical} />}

@@ -132,6 +132,27 @@ export const siteCheckConfig = {
   maxTransitionMs: 250,
 
   /**
+   * Web font budget (visual-identity spec): families and files declared with
+   * @font-face url() sources (fallback faces with only local() sources don't
+   * count), their total size, and font preloads per page.
+   */
+  fontBudget: { maxFamilies: 2, maxFiles: 4, maxKB: 150, maxPreloads: 2 },
+
+  /** Hosts that serve web fonts. Pages may not load fonts from any of them. */
+  fontHosts: [
+    'fonts.googleapis.com',
+    'fonts.gstatic.com',
+    'use.typekit.net',
+    'p.typekit.net',
+    'fonts.bunny.net',
+    'fonts.cdnfonts.com',
+    'fast.fonts.net',
+    'cloud.typography.com',
+    'cdn.jsdelivr.net',
+    'unpkg.com'
+  ],
+
+  /**
    * Colors a token (in either scheme) or a brand SVG may not match: Anthropic's
    * palette, Claude's default cream and rust, the default AI indigo/violet, and
    * the default AI dark navy.
