@@ -62,3 +62,16 @@ Every page passes every check: keyboard and visible focus in the light scheme an
 | `/work/uphill-ski-co/` | Pass | Pass | Pass | Pass | Pass |
 | `/work/what-can-i-do/` | Pass | Pass | Pass | Pass | Pass |
 | `/404.html` | Pass | Pass | Pass | Pass | Pass |
+
+## Font loading check, Overpass on a scratch branch (task 4.1)
+
+Run on 2026-11-12 on a throwaway local branch, `scratch/fonts-overpass`, which was then deleted. Overpass was added by following the README's "Typefaces" steps exactly (task 4.3): `@fontsource/overpass` and `@fontsource-variable/overpass` 5.3.0, `scripts/fonts.mjs overpass`, `scripts/font-fallback.mjs overpass` (Arial fallback), and one preload in `src/lib/fonts.ts`. Following the steps found one bug, which was fixed on `visual-identity` (`@capsizecss/unpack` 4 moved `fromFile` to its `/fs` entry point).
+
+**Verdict: passed.**
+
+- **Build:** the site check passed with the font rules active: one family, one served file (the 39 KB variable Latin WOFF2), the license beside it.
+- **Same file for preload and @font-face:** both resolve to `/_astro/overpass-latin-wght-normal.qAR8M_co.woff2`, so only one font file is built. The `Overpass Fallback` face (`local(Arial)` with size-adjust and ascent, descent and line-gap overrides) is in the built CSS.
+- **Own origin only:** in Chrome, all 4 font requests across Home, Services, a case study and Contact went to the site's own origin.
+- **Text before the font:** with the font response held back, the Home H1 was laid out (112 px tall at 390 px wide) in `Overpass Fallback` while `Overpass` was still loading. When the font arrived, none of the first six text elements moved, and the measured layout shift was 0.
+- **Lighthouse** 13.6 (mobile, simulated slow 4G: 150 ms round trip, 1.6 Mbps): CLS 0 on all 16 pages, the font-display insight passes, performance 100 everywhere, and LCP between 751 and 1351 ms.
+- **The rest of the audit passed too:** axe found no violations in either scheme (64 runs), and every interaction check passed.
