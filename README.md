@@ -15,16 +15,16 @@ npm install
 
 ## Scripts
 
-| Command                 | What it does                                                                                                           |
-| ----------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| `npm run dev`           | Starts the dev server at http://localhost:4321 with live reload.                                                       |
-| `npm run build`         | Type-checks with `astro check`, builds the static site into `dist/`, then runs the site check. Any violation fails it. |
-| `npm run preview`       | Serves the built `dist/` at http://localhost:4321. Run `npm run build` first.                                          |
-| `npm run check:site`    | Runs the site check against the existing `dist/` without rebuilding.                                                   |
-| `npm run release-check` | Lists every question the owner still needs to answer (`pending` markers). Exits 1 while any remain. Run before launch. |
-| `npm test`              | Runs the unit tests (`*.test.ts`) with Node's built-in test runner.                                                    |
-| `npm run fmt`           | Formats the project with Prettier.                                                                                     |
-| `npm run fmt:check`     | Checks formatting without changing files.                                                                              |
+| Command                 | What it does                                                                                                                                                               |
+| ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `npm run dev`           | Starts the dev server at http://localhost:4321 with live reload.                                                                                                           |
+| `npm run build`         | Type-checks with `astro check`, builds the static site into `dist/`, then runs the site check. Any violation fails it.                                                     |
+| `npm run preview`       | Starts a background server for the built `dist/` and prints its URL (Astro 7 runs it in the background). Stop it with `npx astro preview stop`. Run `npm run build` first. |
+| `npm run check:site`    | Runs the site check against the existing `dist/` without rebuilding.                                                                                                       |
+| `npm run release-check` | Lists every question the owner still needs to answer (`pending` markers). Exits 1 while any remain. Run before launch.                                                     |
+| `npm test`              | Runs the unit tests (`*.test.ts`) with Node's built-in test runner.                                                                                                        |
+| `npm run fmt`           | Formats the project with Prettier.                                                                                                                                         |
+| `npm run fmt:check`     | Checks formatting without changing files.                                                                                                                                  |
 
 ## Project layout
 
@@ -59,7 +59,7 @@ dist/about/index.html:42  brand/banned-word  "elevate"  (Banned: elevate)
 
 | Rule                                                                                                    | What it enforces                                                                                                                                          |
 | ------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `brand/banned-word`                                                                                     | No marketing words like "elevate", "unlock", "seamless". The exact name "Elevation Code Works" is allowed.                                                |
+| `brand/banned-word`                                                                                     | No marketing words like "elevate", "unlock", "seamless". The exact name "Elevation Code Works" and the domain `elevationcode.works` are allowed.          |
 | `brand/banned-phrase`                                                                                   | No "not just", "In today's fast-paced" or "Whether you're".                                                                                               |
 | `brand/generic-cta`                                                                                     | No button or link whose whole text is "Get Started" or "Learn More".                                                                                      |
 | `brand/em-dash`                                                                                         | No em dashes in headings, buttons, links or the brand line.                                                                                               |

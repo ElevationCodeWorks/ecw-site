@@ -11,8 +11,17 @@ import type { Rule, Violation } from '../types.ts'
 const BLOCKS =
   'p, li, h1, h2, h3, h4, h5, h6, a, button, label, legend, summary, figcaption, td, th, dt, dd, blockquote, q'
 
-function blank(text: string, phrase: string): string {
-  return text.split(phrase).join(' '.repeat(phrase.length))
+const escapeRegExp = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+
+/** Replaces allowed phrases with spaces (case-insensitive), keeping offsets. */
+function blank(text: string, phrases: readonly string[]): string {
+  return phrases.reduce(
+    (out, phrase) =>
+      out.replace(new RegExp(escapeRegExp(phrase), 'gi'), (m) =>
+        ' '.repeat(m.length)
+      ),
+    text
+  )
 }
 
 /** Removes duplicate reports of the same match on the same line. */
@@ -51,7 +60,7 @@ export const bannedWords: Rule = (inputs, config) =>
     inputs.html.flatMap((source) => {
       const page = parsePage(source)
       const units = [...copyTextNodes(page), ...metadataCopy(page)].map(
-        (u) => ({ ...u, text: blank(u.text, config.brandName) })
+        (u) => ({ ...u, text: blank(u.text, config.brandAllowList) })
       )
       return config.bannedWords.flatMap((w) =>
         scan(page, units, 'brand/banned-word', w.pattern, w.label)

@@ -18,7 +18,7 @@ The guardrails check SHALL run as part of every site build and every local check
 - **THEN** the check passes silently and the build continues
 
 ### Requirement: Banned marketing words
-Page copy SHALL NOT use these words in any form: elevate, unlock, seamless, supercharge, effortless, game-changer, cutting-edge, empower, leverage (as a verb), synergy. The exact brand name "Elevation Code Works" is allowed.
+Page copy SHALL NOT use these words in any form: elevate, unlock, seamless, supercharge, effortless, game-changer, cutting-edge, empower, leverage (as a verb), synergy. The exact brand name "Elevation Code Works" and its domain "elevationcode.works" (including in the contact email address) are allowed.
 
 #### Scenario: Pun on the brand name
 - **WHEN** a page contains "elevate your business"

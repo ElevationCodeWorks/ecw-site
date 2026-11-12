@@ -129,3 +129,16 @@ test('employer terms: flags names anywhere in the build, including JSON-LD', () 
   }
   assert.deepEqual(employerTerms(inputs({ distText: [clean] }), config), [])
 })
+
+test('banned words: allows the brand domain and email, still flags puns', () => {
+  assert.deepEqual(
+    hits(
+      bannedWords,
+      '<p>Email tejen@elevationcode.works or visit ElevationCode.works.</p>'
+    ),
+    []
+  )
+  assert.deepEqual(hits(bannedWords, '<p>Elevating your brand.</p>'), [
+    'Elevating'
+  ])
+})

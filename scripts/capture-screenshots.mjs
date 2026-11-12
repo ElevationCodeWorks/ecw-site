@@ -30,7 +30,12 @@ const DISMISS_LABELS = ['Reject All', 'Reject all', 'Decline', 'Accept All']
 async function dismissBanners(page) {
   for (const label of DISMISS_LABELS) {
     const button = page.getByRole('button', { name: label, exact: true })
-    if (await button.first().isVisible().catch(() => false)) {
+    if (
+      await button
+        .first()
+        .isVisible()
+        .catch(() => false)
+    ) {
       await button.first().click()
       await page.waitForTimeout(500)
       return label

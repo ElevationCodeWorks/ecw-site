@@ -4,8 +4,15 @@
  * adding exceptions when a new pattern should be banned everywhere.
  */
 export const siteCheckConfig = {
-  /** The one allowed use of "elevat…": the exact brand name. */
+  /** The brand name, exactly as it appears in titles and metadata. */
   brandName: 'Elevation Code Works',
+
+  /**
+   * The only allowed uses of "elevat…": the exact brand name and its domain
+   * (which also appears in the contact email address). Compared
+   * case-insensitively.
+   */
+  brandAllowList: ['Elevation Code Works', 'elevationcode.works'],
 
   /** Marketing words banned from page copy, in any form. */
   bannedWords: [

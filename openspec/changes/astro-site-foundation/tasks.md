@@ -172,7 +172,7 @@
 
 ## 7. Contact form
 
-- [ ] 7.1 Build `/contact/` with the Netlify Forms markup from D11:
+- [x] 7.1 Build `/contact/` with the Netlify Forms markup from D11:
   - Visible labels, and required fields marked in text
   - Service options generated from the `services` collection, plus "Not sure yet"
   - Native constraints: `required`, `type="email"`, `minlength="10"`, `maxlength="5000"`
@@ -182,8 +182,8 @@
   - The one-sentence data-use statement
 
   Verify that the built HTML contains `data-netlify="true"`, `netlify-honeypot="bot-field"` and `name="email"`. Then verify in a browser with JavaScript disabled that an invalid email blocks submission and keeps the other entries
-- [ ] 7.2 Build `/contact/thanks/` with the reply time from config ("within 48 hours"), a link to Home, and `noindex`. Verify that it is excluded from the sitemap
-- [ ] 7.3 Add `netlify.toml` with:
+- [x] 7.2 Build `/contact/thanks/` with the reply time from config ("within 48 hours"), a link to Home, and `noindex`. Verify that it is excluded from the sitemap
+- [x] 7.3 Add `netlify.toml` with:
   - The build command `npm run build`
   - The publish directory `dist`
   - `NODE_VERSION = "26"`
