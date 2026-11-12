@@ -59,7 +59,7 @@
 
 ## 4. Fonts (design D6)
 
-- [ ] 4.1 Write `scripts/fonts.mjs <family>`. It copies a pinned Fontsource package's Latin WOFF2 files, its static 400 and 700 WOFF files and its license into `src/assets/fonts/<family>/`. Also:
+- [x] 4.1 Write `scripts/fonts.mjs <family>`. It copies a pinned Fontsource package's Latin WOFF2 files, its static 400 and 700 WOFF files and its license into `src/assets/fonts/<family>/`. Also:
   - Write `scripts/font-fallback.mjs`, which uses `@capsizecss/core` and `@capsizecss/metrics`
   - Add `src/lib/fonts.ts`, for at most two `?url` preloads, and wire the preloads into `BaseLayout`
   - Add an immutable `Cache-Control` header for `/_astro/*` to `netlify.toml`
@@ -71,7 +71,7 @@
   - No font URL pointing to another origin
 
   Verify with a failing and a passing fixture test for each
-- [ ] 4.3 Document in `README.md` how to add a typeface: `fonts.mjs`, the fallback script, the preload and the license. Verify by following the steps as written and checking that they reproduce the 4.1 scratch setup
+- [x] 4.3 Document in `README.md` how to add a typeface: `fonts.mjs`, the fallback script, the preload and the license. Verify by following the steps as written and checking that they reproduce the 4.1 scratch setup
 
 ## 5. Symbol, icons and social images (design D7, D8, D13)
 
