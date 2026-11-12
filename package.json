@@ -12,6 +12,7 @@
     "preview": "astro preview",
     "check:site": "node integrations/site-check/cli.ts",
     "release-check": "node scripts/release-check.ts",
+    "audit": "node scripts/audit.mjs",
     "test": "node --test \"src/**/*.test.ts\" \"integrations/**/*.test.ts\" \"scripts/**/*.test.ts\"",
     "fmt": "prettier --write .",
     "fmt:check": "prettier --check ."
@@ -41,9 +42,9 @@
     "@lhci/cli": "^0.16.0",
     "@types/culori": "^4.0.1",
     "@types/node": "^24.19.2",
+    "axe-core": "^4.14.0",
     "culori": "^4.0.2",
     "node-html-parser": "^9.0.7",
-    "pa11y-ci": "^5.0.0",
     "playwright-core": "^1.64.1",
     "postcss": "^8.5.32",
     "prettier": "^3.9.10",

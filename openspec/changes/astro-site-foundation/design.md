@@ -230,11 +230,13 @@ The markup is static HTML in `src/pages/contact/index.astro`:
   - `fmt`
 
 ### D13. Audits
-`npm run audit` builds the site, serves it with `astro preview`, and runs two tools:
-- Lighthouse CI (`@lhci/cli`) with the mobile preset and the assertions from the site-platform spec: each category ≥ 0.95, LCP ≤ 2500 ms, CLS ≤ 0.1, TBT ≤ 200 ms.
-- `pa11y-ci` with axe set to WCAG 2.2 AA, over every URL in the sitemap.
-
-It runs locally against the preview build before each review.
+`npm run audit` (`scripts/audit.mjs`) runs these steps:
+1. It builds the site in **production mode** (`CONTEXT=production`, `URL` set to the production origin). That is the artifact that ships. Preview builds carry `noindex` by design, and Lighthouse would score their SEO category down.
+2. It serves `dist/` with a small Netlify-like static server: directory index, a 404 page with status 404, and gzip.
+3. It runs **Lighthouse CI** (`@lhci/cli`) on every page with the default mobile emulation and the assertions from the site-platform spec: each category ≥ 0.95, LCP ≤ 2500 ms, CLS ≤ 0.1, TBT ≤ 200 ms. The SEO category is asserted only on the sitemap pages, because the 404 and contact confirmation pages are `noindex` on purpose.
+4. It runs **axe-core** directly in the local Chrome with the WCAG 2.0, 2.1 and 2.2 A/AA tags, at desktop and phone sizes. Changed during implementation: `pa11y-ci`'s axe runner stops at WCAG 2.1 AA, so it could not verify the 2.2 requirement.
+5. It runs interaction checks on every page: keyboard order and the skip link, visible focus, 320px reflow, reduced motion, and rendering with JavaScript disabled.
+6. It rebuilds `dist/` in preview mode, so no indexable build is left behind.
 
 ### D14. Git workflow
 1. Delete the uncommitted Remix work and the local `remix` branch, which has no commits of its own. The owner approved the deletion on 2026-11-11. Keep `openspec/` and `.claude/`.

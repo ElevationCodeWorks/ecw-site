@@ -217,15 +217,15 @@
 
 ## 9. Integration checks
 
-- [ ] 9.1 Add the `npm run audit` script from D13: Lighthouse CI with the mobile preset and assertions, plus `pa11y-ci` with axe WCAG 2.2 AA over every sitemap URL. Run it against the preview build. Verify that every page meets each category ≥ 0.95, LCP ≤ 2500 ms, CLS ≤ 0.1 and TBT ≤ 200 ms, with zero accessibility violations. Record the results in `openspec/changes/astro-site-foundation/audit-results.md`
-- [ ] 9.2 Do a manual pass on every page:
+- [x] 9.1 Add the `npm run audit` script from D13: Lighthouse CI with the mobile preset and assertions, plus `pa11y-ci` with axe WCAG 2.2 AA over every sitemap URL. Run it against the preview build. Verify that every page meets each category ≥ 0.95, LCP ≤ 2500 ms, CLS ≤ 0.1 and TBT ≤ 200 ms, with zero accessibility violations. Record the results in `openspec/changes/astro-site-foundation/audit-results.md`
+- [x] 9.2 Do a manual pass on every page:
   - Keyboard-only navigation, with visible focus and a working skip link
   - 320px-wide reflow with no horizontal scroll
   - The reduced-motion setting
   - Every page with JavaScript disabled
 
   Verify by recording pass or fail per page in `audit-results.md`
-- [ ] 9.3 Run `npm run release-check` and `openspec validate astro-site-foundation --strict`. Verify that validation passes and the release check fails only with the expected pending owner inputs. Share that list with the owner
+- [x] 9.3 Run `npm run release-check` and `openspec validate astro-site-foundation --strict`. Verify that validation passes and the release check fails only with the expected pending owner inputs. Share that list with the owner
 
 ## Workflow follow-up
 
