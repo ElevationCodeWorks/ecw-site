@@ -1,0 +1,23 @@
+---
+/**
+ * The logo symbol (visual-identity design D8), inlined from its single source
+ * file. It draws in currentColor, so it takes the color of its context in
+ * both schemes, and it is hidden from assistive technology because it always
+ * sits beside the wordmark.
+ */
+import symbol from '../assets/brand/symbol.svg?raw'
+
+interface Props {
+  class?: string
+}
+
+const { class: className } = Astro.props
+const svg = symbol
+  .replace(/<!--[\s\S]*?-->\s*/g, '')
+  .replace(
+    /<svg\b/,
+    `<svg aria-hidden="true" focusable="false"${className ? ` class="${className}"` : ''}`
+  )
+---
+
+<Fragment set:html={svg} />

@@ -249,11 +249,54 @@ export const fontHosts: Rule = (inputs, config) => {
   )
 }
 
+const NOT_PLAIN_ELEMENT =
+  /<\s*(linearGradient|radialGradient|filter|pattern|image|text|foreignObject|mask)\b/gi
+const PAINT = /\b(fill|stroke)\s*(?:=\s*["']([^"']*)["']|:\s*([^;"'}]+))/gi
+const ALLOWED_PAINT = /^(?:currentcolor|none|inherit)$/i
+
+/**
+ * The logo symbol and its options are plain single-color vectors: no
+ * gradients, filters, patterns, masks, embedded images or text, and every
+ * fill and stroke is currentColor (or none).
+ */
+export const symbolPlainVector: Rule = (inputs) =>
+  inputs.brandSvg
+    .filter((f) => f.file.startsWith('src/assets/brand/'))
+    .flatMap((file): Violation[] => {
+      const elements = matchesWithLines(file.content, NOT_PLAIN_ELEMENT).map(
+        (m) => ({
+          rule: 'identity/symbol-plain',
+          file: file.file,
+          line: m.line,
+          text: m.text.trim(),
+          message: `The symbol must be a plain vector: no ${m.text.replace(/[<\s]/g, '')} element.`
+        })
+      )
+      const paints = matchesWithLines(file.content, PAINT)
+        .filter((m) => {
+          const value = m.text
+            .replace(/^\s*(fill|stroke)\s*[=:]\s*/i, '')
+            .replace(/["']/g, '')
+            .trim()
+          return !ALLOWED_PAINT.test(value)
+        })
+        .map((m) => ({
+          rule: 'identity/symbol-plain',
+          file: file.file,
+          line: m.line,
+          text: m.text.trim(),
+          message:
+            'The symbol draws in one color, inherited from its context: use fill="currentColor".'
+        }))
+      return [...elements, ...paints]
+    })
+
 export const identityRules: Rule[] = [
   schemeParity,
   contrastPairs,
   imageSources,
   fontBudget,
   fontLicense,
-  fontHosts
+  fontHosts,
+  symbolPlainVector
 ]

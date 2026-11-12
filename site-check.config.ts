@@ -247,6 +247,9 @@ export const siteCheckConfig = {
     { fg: '--color-focus', bg: '--color-surface', min: 3 }
   ] as { fg: string; bg: string; min: number }[],
 
+  /** Size of every page's social preview image (seo spec). */
+  socialImage: { width: 1200, height: 630 },
+
   /** Search metadata limits (seo spec). */
   seo: {
     titleMax: 60,

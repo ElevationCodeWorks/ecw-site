@@ -7,6 +7,8 @@ import { PRODUCTION_ORIGIN, site } from '../site.config.ts'
 import { serializeJsonLd } from '../lib/json-ld.ts'
 import { currentDeployEnv, isIndexable } from '../lib/env.ts'
 import { preloadFonts } from '../lib/fonts.ts'
+import { OG_HEIGHT, OG_WIDTH, ogImagePath, ogSubject } from '../lib/og.ts'
+import { DEFAULT_OG } from '../lib/og-pages.ts'
 
 interface Props {
   /** Page subject. The brand suffix is appended unless `fullTitle` is set. */
@@ -18,15 +20,6 @@ interface Props {
   noindex?: boolean
   /** Structured data objects, rendered as JSON-LD. */
   jsonLd?: Record<string, unknown>[]
-  /** Social preview image (site-root path) and its alt text. */
-  ogImage?: { path: string; alt: string; width: number; height: number }
-}
-
-const DEFAULT_OG_IMAGE = {
-  path: '/og/default.png',
-  alt: 'Elevation Code Works: custom software and websites for Denver small businesses.',
-  width: 1200,
-  height: 630
 }
 
 const {
@@ -34,8 +27,7 @@ const {
   fullTitle = false,
   description,
   noindex = false,
-  jsonLd = [],
-  ogImage = DEFAULT_OG_IMAGE
+  jsonLd = []
 } = Astro.props
 
 // Page-level noindex, or the whole build is not indexable (design D3).
@@ -43,6 +35,14 @@ const robotsNoindex =
   noindex || !isIndexable(currentDeployEnv(), PRODUCTION_ORIGIN)
 const documentTitle = fullTitle ? title : `${title}${site.titleSuffix}`
 const canonical = new URL(Astro.url.pathname, Astro.site).href
+// Each indexable page has its own social image, generated at build time by
+// src/pages/og/[...slug].png.ts from the same title (design D7).
+const ogImage = noindex
+  ? { path: ogImagePath(Astro.url.pathname, true), alt: DEFAULT_OG.alt }
+  : {
+      path: ogImagePath(Astro.url.pathname),
+      alt: `${fullTitle ? ogSubject(title, site.brandName) : title}, ${site.brandName}`
+    }
 const ogImageUrl = new URL(ogImage.path, Astro.site).href
 ---
 
@@ -74,16 +74,18 @@ const ogImageUrl = new URL(ogImage.path, Astro.site).href
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImageUrl} />
-    <meta property="og:image:width" content={String(ogImage.width)} />
-    <meta property="og:image:height" content={String(ogImage.height)} />
+    <meta property="og:image:width" content={String(OG_WIDTH)} />
+    <meta property="og:image:height" content={String(OG_HEIGHT)} />
     <meta property="og:image:alt" content={ogImage.alt} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={documentTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageUrl} />
     <meta name="twitter:image:alt" content={ogImage.alt} />
-    {/* No favicon until the visual identity change; this avoids a 404 request. */}
-    <link rel="icon" href="data:," />
+    {/* Site icons, all drawn from the symbol (visual-identity design D8). */}
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     {jsonLd.map((data) => (
       <script type="application/ld+json" set:html={serializeJsonLd(data)} />
     ))}

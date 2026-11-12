@@ -44,6 +44,8 @@ export interface CheckInputs {
   fontFiles: { file: string; bytes: number }[]
   /** Built stylesheets in dist/. */
   distCss: SourceFile[]
+  /** Built PNG files in dist/, with the format and size their header declares. */
+  distImages: DistImage[]
   /** Project-relative path of the design tokens file. */
   tokensFile: string
   /** Contents of dist/_headers, or null when absent. */
@@ -53,6 +55,15 @@ export interface CheckInputs {
   /** Whether this build may be indexed (design D3). */
   indexable: boolean
   productionOrigin: string
+}
+
+export interface DistImage {
+  /** Project-relative path, e.g. dist/og/home.png. */
+  file: string
+  /** "png" when the file has a PNG signature, else "unknown". */
+  format: 'png' | 'unknown'
+  width: number
+  height: number
 }
 
 export type Rule = (inputs: CheckInputs, config: SiteCheckConfig) => Violation[]

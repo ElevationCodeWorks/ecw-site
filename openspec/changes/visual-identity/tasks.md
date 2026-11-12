@@ -75,16 +75,16 @@
 
 ## 5. Symbol, icons and social images (design D7, D8, D13)
 
-- [ ] 5.1 Add the placeholder symbol (a plain square) at `src/assets/brand/symbol.svg` with `fill="currentColor"`. Add `Symbol.astro`, which inlines it with `aria-hidden="true"` and `focusable="false"`. Put it before the wordmark text inside the header's Home link. Add the plain-vector rule for the symbol, with fixture tests for gradients, filters, `image`, `text` and a second fill color. Verify:
+- [x] 5.1 Add the placeholder symbol (a plain square) at `src/assets/brand/symbol.svg` with `fill="currentColor"`. Add `Symbol.astro`, which inlines it with `aria-hidden="true"` and `focusable="false"`. Put it before the wordmark text inside the header's Home link. Add the plain-vector rule for the symbol, with fixture tests for gradients, filters, `image`, `text` and a second fill color. Verify:
   - The header link's accessible name in Playwright's accessibility snapshot is exactly "Elevation Code Works"
   - axe passes in both schemes
-- [ ] 5.2 Add `src/lib/tokens.ts`, a reader that returns each token's light and dark value from `tokens.css` using the site check's parser. Verify with unit tests against a fixture tokens file
-- [ ] 5.3 Add the prerendered `favicon.ico`, `icon.svg` and `apple-touch-icon.png` endpoints from D8, link them in `BaseLayout`, and remove the `data:,` icon. Verify with tests that:
+- [x] 5.2 Add `src/lib/tokens.ts`, a reader that returns each token's light and dark value from `tokens.css` using the site check's parser. Verify with unit tests against a fixture tokens file
+- [x] 5.3 Add the prerendered `favicon.ico`, `icon.svg` and `apple-touch-icon.png` endpoints from D8, link them in `BaseLayout`, and remove the `data:,` icon. Verify with tests that:
   - The ICO header declares one 32×32 image
   - The touch icon is 180×180
   - `icon.svg` contains the light text token value and a `prefers-color-scheme: dark` block with the dark value
-- [ ] 5.4 Add `satori` and write `src/lib/og.ts` and the `src/pages/og/[...slug].png.ts` endpoint from D7. Make `BaseLayout` derive each page's image path and alt text. Delete `scripts/make-og.mjs` and `public/og/default.png`, and update the README scripts list. Verify that `dist/og/` holds one PNG per indexable page plus `default.png`, each 1200×630, and that the not-found and confirmation pages point to `default.png`
-- [ ] 5.5 Add the social-image site-check rule: every indexable page's `og:image` exists in `dist/`, is unique, and has a PNG header that says 1200×630. Verify with fixture tests for a missing file, a duplicate and a wrong size
+- [x] 5.4 Add `satori` and write `src/lib/og.ts` and the `src/pages/og/[...slug].png.ts` endpoint from D7. Make `BaseLayout` derive each page's image path and alt text. Delete `scripts/make-og.mjs` and `public/og/default.png`, and update the README scripts list. Verify that `dist/og/` holds one PNG per indexable page plus `default.png`, each 1200×630, and that the not-found and confirmation pages point to `default.png`
+- [x] 5.5 Add the social-image site-check rule: every indexable page's `og:image` exists in `dist/`, is unique, and has a PNG header that says 1200×630. Verify with fixture tests for a missing file, a duplicate and a wrong size
 
 ## 6. Trail-rating marks (design D9)
 
