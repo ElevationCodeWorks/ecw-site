@@ -50,6 +50,8 @@ const ogImageUrl = new URL(ogImage.path, Astro.site).href
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {/* First paint already uses the visitor's scheme (design D5). */}
+    <meta name="color-scheme" content="light dark" />
     <title>{documentTitle}</title>
     <meta name="description" content={description} />
     {/* Canonical links belong only on indexable pages. */}

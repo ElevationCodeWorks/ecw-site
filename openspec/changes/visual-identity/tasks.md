@@ -9,18 +9,18 @@
 
 ## 2. Color schemes and color rules (design D5, D10)
 
-- [ ] 2.1 Make `integrations/site-check/css.ts` record each declaration's full at-rule ancestry, and give each color token a scheme (`light` or `dark`). Verify with fixture tests:
+- [x] 2.1 Make `integrations/site-check/css.ts` record each declaration's full at-rule ancestry, and give each color token a scheme (`light` or `dark`). Verify with fixture tests:
   - A token inside `@media (prefers-color-scheme: dark) { :root { … } }` is labeled dark, and one in plain `:root` is labeled light
   - All existing site-check tests still pass
-- [ ] 2.2 Restructure `src/styles/tokens.css` for two schemes:
+- [x] 2.2 Restructure `src/styles/tokens.css` for two schemes:
   - Set `color-scheme: light dark`
   - Add the `--color-accent` and `--color-on-accent` roles
   - Add a dark block that redeclares every color token with a plain inverted neutral placeholder palette
   - Add `<meta name="color-scheme" content="light dark">` to `BaseLayout`
 
   Add the scheme-parity rule, with failing and passing fixture tests. Verify that `npm run build` passes, and that a Playwright screenshot of Home with `colorScheme: 'dark'` shows the dark background
-- [ ] 2.3 Add the contrast-pair rule. The `{ fg, bg, min }` pairs live in `site-check.config.ts` and are measured with `wcagContrast` in each scheme. Verify with fixture tests that a failing pair names both tokens, the scheme, the measured ratio and the required ratio, and that the placeholder passes in both schemes
-- [ ] 2.4 Extend the banned-color rules:
+- [x] 2.3 Add the contrast-pair rule. The `{ fg, bg, min }` pairs live in `site-check.config.ts` and are measured with `wcagContrast` in each scheme. Verify with fixture tests that a failing pair names both tokens, the scheme, the measured ratio and the required ratio, and that the placeholder passes in both schemes
+- [x] 2.4 Extend the banned-color rules:
   - The violet category, OKLCH hue 270° to 335° and C ≥ 0.08, with thresholds in config
   - The AI dark-navy references: `#0F172A`, `#020617`, `#111827`, `#1E293B`
   - Scanning of `dist/icon.svg` and `src/assets/brand/symbol.svg`
@@ -30,10 +30,10 @@
   - Indigo-500, violet-500 and fuchsia-500 fail
   - A dark background token at slate-900 fails and names the dark scheme
   - A fixture icon SVG with a banned color fails and names the file
-- [ ] 2.5 Write `scripts/sample-portfolio.mjs`. It uses Playwright to record the primary colors (from computed styles and CSS custom properties) and the font families on the Home pages of whatcanido.earth, condies.fyi and uphillskico.com. Put the results, with the sample date, in `portfolioReferences` in `site-check.config.ts`. Add the portfolio-echo rule for fonts and colors. Verify:
+- [x] 2.5 Write `scripts/sample-portfolio.mjs`. It uses Playwright to record the primary colors (from computed styles and CSS custom properties) and the font families on the Home pages of whatcanido.earth, condies.fyi and uphillskico.com. Put the results, with the sample date, in `portfolioReferences` in `site-check.config.ts`. Add the portfolio-echo rule for fonts and colors. Verify:
   - Condies' list includes Chivo
   - Tests show that a font stack with Chivo, and a token matching a sampled color, each fail and name the site
-- [ ] 2.6 Add the dark-scheme pass to `scripts/audit.mjs` from D12: axe at both viewports, and the keyboard and visible-focus checks, each run with `colorScheme: 'dark'`. Verify that `npm run audit` passes in both schemes. Record the results in `openspec/changes/visual-identity/audit-results.md`
+- [x] 2.6 Add the dark-scheme pass to `scripts/audit.mjs` from D12: axe at both viewports, and the keyboard and visible-focus checks, each run with `colorScheme: 'dark'`. Verify that `npm run audit` passes in both schemes. Record the results in `openspec/changes/visual-identity/audit-results.md`
 
 ## 3. Style and markup rules (design D10)
 

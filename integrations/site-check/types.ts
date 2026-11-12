@@ -36,6 +36,8 @@ export interface CheckInputs {
   css: CssSource[]
   /** Raw .astro sources from src/. */
   astro: SourceFile[]
+  /** Brand vector sources (src/assets/brand/) and the built dist/icon.svg. */
+  brandSvg: SourceFile[]
   /** Project-relative path of the design tokens file. */
   tokensFile: string
   /** Contents of dist/_headers, or null when absent. */

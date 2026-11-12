@@ -8,6 +8,7 @@ export function inputs(overrides: Partial<CheckInputs> = {}): CheckInputs {
     distText: [],
     css: [],
     astro: [],
+    brandSvg: [],
     tokensFile: 'src/styles/tokens.css',
     headers: null,
     sitemapUrls: [],
