@@ -149,3 +149,34 @@ export function splitTopLevel(value: string, separator: ',' | ' '): string[] {
   if (current.trim()) parts.push(current.trim())
   return parts
 }
+
+export interface FontFaceRule {
+  file: string
+  line: number
+  /** Unquoted family name. */
+  family: string
+  src: string
+}
+
+/** Every @font-face rule in every CSS source. */
+export function fontFaceRules(sources: CssSource[]): FontFaceRule[] {
+  return sources.flatMap((source) => {
+    const out: FontFaceRule[] = []
+    postcss.parse(source.css).walkAtRules(/^font-face$/i, (at) => {
+      let family = ''
+      let src = ''
+      at.walkDecls((d) => {
+        const prop = d.prop.toLowerCase()
+        if (prop === 'font-family') family = fontFamilies(d.value)[0] ?? ''
+        if (prop === 'src') src = d.value
+      })
+      out.push({
+        file: source.file,
+        line: (at.source?.start?.line ?? 1) + source.lineOffset,
+        family,
+        src
+      })
+    })
+    return out
+  })
+}
