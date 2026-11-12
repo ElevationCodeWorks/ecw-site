@@ -49,6 +49,29 @@ export const bannedFonts: Rule = (inputs, config) => {
   return [...inCss, ...inLinks]
 }
 
+/** Styles may not use a portfolio site's typeface, or a variant of it. */
+export const portfolioFonts: Rule = (inputs, config) =>
+  declarations(inputs.css)
+    .filter(isFontDecl)
+    .flatMap((d) =>
+      fontFamilies(d.value).flatMap((family) =>
+        config.portfolioReferences
+          .filter((p) =>
+            p.fonts.some((f) => {
+              const ref = f.toLowerCase()
+              return family === ref || family.startsWith(`${ref} `)
+            })
+          )
+          .map((p) =>
+            violation(
+              d,
+              'brand/portfolio-echo',
+              `"${family}" is a typeface of ${p.site}. The portfolio sites are not a style source.`
+            )
+          )
+      )
+    )
+
 export const monospaceOnlyForCode: Rule = (inputs, config) =>
   declarations(inputs.css)
     .filter((d) => d.prop === 'font-family' || d.prop === 'font')
@@ -155,6 +178,7 @@ export const emojiMarkers: Rule = (inputs, config) =>
 
 export const brandStyleRules: Rule[] = [
   bannedFonts,
+  portfolioFonts,
   monospaceOnlyForCode,
   gradientText,
   backdropBlur,

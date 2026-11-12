@@ -91,11 +91,28 @@ export async function loadInputs(options: LoadOptions): Promise<CheckInputs> {
 
   const headersFile = distText.find((f) => f.file === 'dist/_headers')
 
+  const brandSvg = [
+    ...(await readSources(
+      root,
+      srcFiles.filter(
+        (f) =>
+          f.endsWith('.svg') &&
+          path
+            .relative(root, f)
+            .split(path.sep)
+            .join('/')
+            .startsWith('src/assets/brand/')
+      )
+    )),
+    ...distText.filter((f) => f.file === 'dist/icon.svg')
+  ]
+
   return {
     html,
     distText,
     css,
     astro,
+    brandSvg,
     tokensFile: options.tokensFile ?? 'src/styles/tokens.css',
     headers: headersFile ? headersFile.content : null,
     sitemapUrls: sitemapPageUrls(distText),

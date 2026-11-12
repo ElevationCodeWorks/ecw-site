@@ -11,7 +11,8 @@ import {
   gradientText,
   monospaceOnlyForCode,
   noise,
-  pillRadius
+  pillRadius,
+  portfolioFonts
 } from './brand-style.ts'
 
 const count = (rule: Rule, css: string) => rule(cssInputs(css), config).length
@@ -115,4 +116,38 @@ test('style blocks in .astro files report the real file line', () => {
   assert.equal(result.length, 1)
   assert.equal(result[0].file, 'src/components/X.astro')
   assert.equal(result[0].line, 7)
+})
+
+test('portfolio: Condies is recorded with Chivo', () => {
+  const condies = config.portfolioReferences.find(
+    (p) => p.site === 'condies.fyi'
+  )
+  assert.ok(condies?.fonts.includes('Chivo'))
+})
+
+test('portfolio: a font stack with Chivo fails and names the site', () => {
+  const result = portfolioFonts(
+    cssInputs(":root { --font-body: 'Chivo', system-ui, sans-serif; }"),
+    config
+  )
+  assert.equal(result.length, 1)
+  assert.equal(result[0].rule, 'brand/portfolio-echo')
+  assert.match(result[0].message ?? '', /condies\.fyi/)
+})
+
+test('portfolio: a variant such as Chivo Mono fails; an unrelated family passes', () => {
+  assert.equal(
+    portfolioFonts(
+      cssInputs('code { font-family: "Chivo Mono", monospace; }'),
+      config
+    ).length,
+    1
+  )
+  assert.deepEqual(
+    portfolioFonts(
+      cssInputs(":root { --font-body: 'Overpass', sans-serif; }"),
+      config
+    ),
+    []
+  )
 })
