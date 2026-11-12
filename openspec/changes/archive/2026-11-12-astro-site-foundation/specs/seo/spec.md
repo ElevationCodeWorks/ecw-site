@@ -76,7 +76,7 @@ The Home page SHALL include schema.org JSON-LD describing the business as a `Pro
 
 #### Scenario: Home page entities
 - **WHEN** the Home page's JSON-LD is parsed
-- **THEN** it contains a `ProfessionalService` named "Elevation Code Works" with `url`, `areaServed` naming Denver, an `address` with locality Denver and region CO and no street address, and a `founder` `Person` named "Tejen Shrestha" with job title "Founder & CEO" and `sameAs` profile links
+- **THEN** it contains a `ProfessionalService` named "Elevation Code Works" with `url`, `areaServed` naming Denver, an `address` with locality Denver and region CO and no street address, and a `founder` `Person` named "Tejen Shrestha" with job title "Founder & CEO"
 
 #### Scenario: Validation
 - **WHEN** any page's JSON-LD is run through a schema.org validator

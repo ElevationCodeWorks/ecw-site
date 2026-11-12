@@ -16,9 +16,6 @@ screenshotsCapturedAt: 2026-11-11
 seo:
   title: Uphill Ski CO case study
   description: Uphill Ski CO puts uphill skiing rules for 24 Colorado resorts in one fast, searchable page built for search engines. How I built it.
-pending:
-  - question: Confirm my role on Uphill Ski CO (is "Built it end to end" accurate, and is it your own product?).
-  - question: What does Google Search Console show for Uphill Ski CO (impressions, clicks or average position, with dates)?
 ---
 
 ## The project

@@ -5,8 +5,9 @@
  *
  * Uses the locally installed Google Chrome through playwright-core. Writes
  * src/assets/work/<slug>-desktop.png (1440x900) and <slug>-mobile.png
- * (390x844), dismissing cookie banners first. Record the capture date in each
- * case study's `screenshotsCapturedAt`.
+ * (390x844), dismissing cookie banners first. A site with `clipHeight` keeps
+ * only that many pixels from the top of each viewport. Record the capture
+ * date in each case study's `screenshotsCapturedAt`.
  */
 import { mkdir } from 'node:fs/promises'
 import { chromium } from 'playwright-core'
@@ -14,7 +15,13 @@ import { chromium } from 'playwright-core'
 const OUT = 'src/assets/work'
 
 const SITES = [
-  { slug: 'what-can-i-do', url: 'https://whatcanido.earth/' },
+  {
+    slug: 'what-can-i-do',
+    url: 'https://whatcanido.earth/',
+    // Owner decision 2026-11-12: show the search area only, not that day's
+    // featured causes.
+    clipHeight: { desktop: 520, mobile: 360 }
+  },
   { slug: 'condies', url: 'https://condies.fyi/' },
   { slug: 'uphill-ski-co', url: 'https://uphillskico.com/' }
 ]
@@ -64,7 +71,11 @@ try {
       // Let entrance animations and late images settle.
       await page.waitForTimeout(3000)
       const file = `${OUT}/${site.slug}-${vp.name}.png`
-      await page.screenshot({ path: file })
+      const height = site.clipHeight?.[vp.name]
+      await page.screenshot({
+        path: file,
+        ...(height ? { clip: { x: 0, y: 0, width: vp.width, height } } : {})
+      })
       console.log(
         `${file}${dismissed ? ` (dismissed banner: ${dismissed})` : ''}`
       )
