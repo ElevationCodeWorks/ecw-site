@@ -1,1 +1,9 @@
-[]
+[
+  {
+    "rule": "identity/image-source",
+    "file": "public/og/default.png",
+    "line": 1,
+    "source": "Rendered from the site's own HTML by scripts/make-og.mjs (Change 1).",
+    "reason": "Placeholder social image until build-time social images replace it in visual-identity task 5.4, which deletes the file and this entry."
+  }
+]

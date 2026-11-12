@@ -1,6 +1,14 @@
-import { declarations, fontFamilies, subjectTag } from '../css.ts'
+import { converter, parse } from 'culori'
+import {
+  cssAtRules,
+  declarations,
+  fontFamilies,
+  splitTopLevel,
+  subjectTag
+} from '../css.ts'
 import type { Decl } from '../css.ts'
 import { matchesWithLines } from '../lines.ts'
+import { SCHEMES, tokenResolver } from '../tokens.ts'
 import type { Rule, Violation } from '../types.ts'
 
 function violation(d: Decl, rule: string, message: string): Violation {
@@ -16,16 +24,38 @@ function violation(d: Decl, rule: string, message: string): Violation {
 const isFontDecl = (d: Decl) =>
   d.prop === 'font-family' || d.prop === 'font' || d.prop.startsWith('--font')
 
-export const bannedFonts: Rule = (inputs, config) => {
-  const banned = config.bannedFonts.map((f) => f.toLowerCase())
-  const isBanned = (family: string) =>
-    banned.some((b) => family === b || family.startsWith(`${b} `))
+/**
+ * The banned family a font family is, or extends: "inter tight" extends
+ * "Inter". Matching is by whole words, so "Interstate" is not "Inter".
+ */
+export function bannedFamilyOf(
+  family: string,
+  banned: string[]
+): string | undefined {
+  const name = family.toLowerCase()
+  return banned
+    .filter(
+      (b) => name === b.toLowerCase() || name.startsWith(`${b.toLowerCase()} `)
+    )
+    .sort((a, b) => b.length - a.length)[0]
+}
 
+function bannedMessage(family: string, banned: string): string {
+  return family === banned.toLowerCase()
+    ? `${banned} is on the banned typeface list.`
+    : `"${family}" extends the banned typeface ${banned}.`
+}
+
+export const bannedFonts: Rule = (inputs, config) => {
   const inCss = declarations(inputs.css)
     .filter(isFontDecl)
-    .filter((d) => fontFamilies(d.value).some(isBanned))
-    .map((d) =>
-      violation(d, 'brand/banned-font', 'This typeface is on the banned list.')
+    .flatMap((d) =>
+      fontFamilies(d.value).flatMap((family) => {
+        const banned = bannedFamilyOf(family, config.bannedFonts)
+        return banned
+          ? [violation(d, 'brand/banned-font', bannedMessage(family, banned))]
+          : []
+      })
     )
 
   // Web-font links in built pages, e.g. fonts.googleapis.com/css2?family=Inter
@@ -36,14 +66,20 @@ export const bannedFonts: Rule = (inputs, config) => {
     ).flatMap((m) =>
       [...m.text.matchAll(/family=([^:&;"']+)/g)]
         .map((f) => decodeURIComponent(f[1].replace(/\+/g, ' ')).toLowerCase())
-        .filter(isBanned)
-        .map((family) => ({
-          rule: 'brand/banned-font',
-          file: page.file,
-          line: m.line,
-          text: family,
-          message: 'This typeface is on the banned list.'
-        }))
+        .flatMap((family) => {
+          const banned = bannedFamilyOf(family, config.bannedFonts)
+          return banned
+            ? [
+                {
+                  rule: 'brand/banned-font',
+                  file: page.file,
+                  line: m.line,
+                  text: family,
+                  message: bannedMessage(family, banned)
+                }
+              ]
+            : []
+        })
     )
   )
   return [...inCss, ...inLinks]
@@ -176,6 +212,166 @@ export const emojiMarkers: Rule = (inputs, config) =>
     )
     .map((d) => violation(d, 'brand/emoji', 'No emoji list markers or icons.'))
 
+/** Length in px for px, em and rem values (1em = 16px); NaN otherwise. */
+function toPx(token: string): number {
+  if (/^-?0+(\.0+)?$/.test(token)) return 0
+  const m = token.match(/^(-?\d*\.?\d+)(px|em|rem)$/i)
+  if (!m) return NaN
+  const n = Number(m[1])
+  return m[2].toLowerCase() === 'px' ? n : n * 16
+}
+
+/**
+ * Eyebrow labels: uppercase or all-small-caps text, or letter spacing above
+ * the configured em limit. Token references are resolved first.
+ */
+export const eyebrowLabels: Rule = (inputs, config) => {
+  const { resolve } = tokenResolver(inputs)
+  return declarations(inputs.css)
+    .filter((d) => !d.prop.startsWith('--'))
+    .flatMap((d): Violation[] => {
+      const value = resolve(d.value, 'light').toLowerCase()
+      let reason = ''
+      if (d.prop === 'text-transform' && /\buppercase\b/.test(value))
+        reason = 'Uppercase text'
+      else if (
+        (d.prop === 'font-variant-caps' || d.prop === 'font-variant') &&
+        /\ball-(?:small|petite)-caps\b/.test(value)
+      )
+        reason = 'All-small-caps text'
+      else if (d.prop === 'letter-spacing') {
+        const px = toPx(value.trim())
+        if (px / 16 > config.maxLetterSpacingEm)
+          reason = `Letter spacing above ${config.maxLetterSpacingEm}em`
+      }
+      return reason
+        ? [
+            violation(
+              d,
+              'brand/eyebrow',
+              `${reason} is the mark of an eyebrow label (selector: ${d.selectors.join(', ') || '@' + d.atRule}). A wordmark needs an exception entry with a reason.`
+            )
+          ]
+        : []
+    })
+}
+
+const toOklch = converter('oklch')
+
+/** Problems with one box-shadow value, or [] when it is small and neutral. */
+export function shadowProblems(
+  value: string,
+  limits: { maxBlurPx: number; maxChroma: number }
+): string[] {
+  const problems: string[] = []
+  for (const shadow of splitTopLevel(value, ',')) {
+    if (shadow.trim().toLowerCase() === 'none') continue
+    const parts = splitTopLevel(shadow, ' ').filter(
+      (p) => p.toLowerCase() !== 'inset'
+    )
+    const lengths = parts.filter((p) => !Number.isNaN(toPx(p)))
+    const colorText = parts.filter((p) => Number.isNaN(toPx(p))).join(' ')
+    const blur = lengths.length >= 3 ? toPx(lengths[2]) : 0
+    if (blur > limits.maxBlurPx)
+      problems.push(`blur ${blur}px is above ${limits.maxBlurPx}px`)
+    const color = colorText ? parse(colorText) : undefined
+    if (color && toOklch(color).c >= limits.maxChroma)
+      problems.push(`${colorText} is not a neutral gray`)
+  }
+  return problems
+}
+
+/**
+ * Decorative backgrounds and glows: gradients, blur filters, text shadows,
+ * and box shadows that are large or colored. Token references are resolved
+ * in both color schemes.
+ */
+export const decorativeBackgrounds: Rule = (inputs, config) => {
+  const { resolve } = tokenResolver(inputs)
+  return declarations(inputs.css).flatMap((d): Violation[] => {
+    const out: Violation[] = []
+    const flag = (message: string) =>
+      out.push(violation(d, 'brand/decorative-background', message))
+    if (/-gradient\(/i.test(d.value)) flag('No gradients.')
+    if (
+      (d.prop === 'filter' || d.prop === '-webkit-filter') &&
+      /\bblur\(/i.test(d.value)
+    )
+      flag('No blur filters.')
+    if (d.prop === 'text-shadow' && d.value.trim().toLowerCase() !== 'none')
+      flag('No text shadows.')
+    if (d.prop === 'box-shadow' || d.prop.startsWith('--shadow')) {
+      const problems = new Set(
+        SCHEMES.flatMap((scheme) =>
+          shadowProblems(resolve(d.value, scheme), config.shadow)
+        )
+      )
+      if (problems.size) flag(`No glows: ${[...problems].join('; ')}.`)
+    }
+    return out
+  })
+}
+
+/** Durations in ms of each transition in a transition or transition-duration value. */
+function transitionDurations(prop: string, value: string): number[] {
+  const ms = (t: string) => {
+    const m = t.match(/^(-?\d*\.?\d+)(ms|s)$/i)
+    return m ? Number(m[1]) * (m[2].toLowerCase() === 's' ? 1000 : 1) : NaN
+  }
+  return splitTopLevel(value, ',')
+    .map((item) =>
+      prop === 'transition-duration'
+        ? ms(item)
+        : (splitTopLevel(item, ' ')
+            .map(ms)
+            .find((n) => !Number.isNaN(n)) ?? NaN)
+    )
+    .filter((n) => !Number.isNaN(n))
+}
+
+/**
+ * No keyframe or scroll-driven animation, and no transition longer than the
+ * configured limit.
+ */
+export const animation: Rule = (inputs, config) => {
+  const { resolve } = tokenResolver(inputs)
+  const keyframes: Violation[] = cssAtRules(inputs.css)
+    .filter((a) => /(^|-)keyframes$/.test(a.name))
+    .map((a) => ({
+      rule: 'brand/animation',
+      file: a.file,
+      line: a.line,
+      text: `@${a.name} ${a.params}`,
+      message: 'No keyframe animations.'
+    }))
+  const decls = declarations(inputs.css).flatMap((d): Violation[] => {
+    const value = resolve(d.value, 'light').trim().toLowerCase()
+    if (/^(?:-webkit-)?animation(?:-name)?$/.test(d.prop) && value !== 'none')
+      return [violation(d, 'brand/animation', 'No keyframe animations.')]
+    if (
+      /^(?:animation-timeline|scroll-timeline(?:-name|-axis)?|view-timeline(?:-name|-axis|-inset)?|timeline-scope)$/.test(
+        d.prop
+      ) &&
+      value !== 'none' &&
+      value !== 'auto'
+    )
+      return [violation(d, 'brand/animation', 'No scroll-driven animations.')]
+    if (d.prop === 'transition' || d.prop === 'transition-duration') {
+      const longest = Math.max(0, ...transitionDurations(d.prop, value))
+      if (longest > config.maxTransitionMs)
+        return [
+          violation(
+            d,
+            'brand/animation',
+            `Transitions may last at most ${config.maxTransitionMs}ms; this one lasts ${longest}ms.`
+          )
+        ]
+    }
+    return []
+  })
+  return [...keyframes, ...decls]
+}
+
 export const brandStyleRules: Rule[] = [
   bannedFonts,
   portfolioFonts,
@@ -185,5 +381,8 @@ export const brandStyleRules: Rule[] = [
   noise,
   customCursor,
   pillRadius,
-  emojiMarkers
+  emojiMarkers,
+  eyebrowLabels,
+  decorativeBackgrounds,
+  animation
 ]

@@ -104,3 +104,48 @@ export function subjectTag(selector: string): string {
   const match = last.match(/^[a-z][a-z0-9-]*/i)
   return match ? match[0].toLowerCase() : ''
 }
+
+export interface AtRuleAt {
+  file: string
+  line: number
+  /** Lowercased at-rule name, e.g. "keyframes" or "-webkit-keyframes". */
+  name: string
+  params: string
+}
+
+/** Every at-rule in every CSS source, with real file line numbers. */
+export function cssAtRules(sources: CssSource[]): AtRuleAt[] {
+  return sources.flatMap((source) => {
+    const out: AtRuleAt[] = []
+    postcss.parse(source.css).walkAtRules((at) => {
+      out.push({
+        file: source.file,
+        line: (at.source?.start?.line ?? 1) + source.lineOffset,
+        name: at.name.toLowerCase(),
+        params: at.params
+      })
+    })
+    return out
+  })
+}
+
+/**
+ * Splits a value on top-level separators, ignoring any inside parentheses:
+ * splitTopLevel("0 1px rgb(0 0 0 / 10%), none", ",") -> two parts.
+ */
+export function splitTopLevel(value: string, separator: ',' | ' '): string[] {
+  const parts: string[] = []
+  let depth = 0
+  let current = ''
+  for (const ch of value) {
+    if (ch === '(') depth++
+    if (ch === ')') depth--
+    const splits = separator === ' ' ? /\s/.test(ch) : ch === separator
+    if (splits && depth === 0) {
+      if (current.trim()) parts.push(current.trim())
+      current = ''
+    } else current += ch
+  }
+  if (current.trim()) parts.push(current.trim())
+  return parts
+}
