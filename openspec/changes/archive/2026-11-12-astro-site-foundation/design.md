@@ -282,5 +282,8 @@ The markup is static HTML in `src/pages/contact/index.astro`:
 ## Open Questions
 
 None of these change the specs, the approach or the tasks. Each is tracked as a pending marker or a config value.
-- GitHub and LinkedIn URLs for the founder's `sameAs` links.
-- Outcome metrics with sources, a quote from Important, Not Important, and confirmation that the contract allows portfolio use.
+- Outcome metrics with sources, and a quote from Important, Not Important.
+
+Deferred 2026-11-12: the What Can I Do? launch result, the quote and more detail on the first version. The case study ships as written, and these can be added later.
+
+Resolved 2026-11-12: the founder has no `sameAs` links; the contract allows portfolio use; the What Can I Do? screenshots are cropped to the search area. Condies and Uphill Ski CO ship with no outcome for now. Re-check their numbers after the 2026–27 ski season.

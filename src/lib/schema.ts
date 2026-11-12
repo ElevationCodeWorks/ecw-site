@@ -54,7 +54,6 @@ export function founderEntity(image?: string): Person {
     jobTitle: founder.title,
     worksFor: { '@id': ids.business },
     url: absolute('/about/'),
-    sameAs: [...founder.sameAs],
     ...(image ? { image: absolute(image) } : {}),
     homeLocation: {
       '@type': 'City',

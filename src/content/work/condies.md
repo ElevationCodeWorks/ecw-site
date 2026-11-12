@@ -16,9 +16,6 @@ screenshotsCapturedAt: 2026-11-11
 seo:
   title: Condies forecast app case study
   description: Condies is a snow and weather forecast app that picks the best time to head out and installs on a phone like a native app. How I built it.
-pending:
-  - question: Confirm my role on Condies (is "Built it end to end" accurate, and is it your own product?).
-  - question: Can you share a usage or performance number for Condies, with its source and date?
 ---
 
 ## The project

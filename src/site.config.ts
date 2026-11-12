@@ -25,9 +25,8 @@ export const site = {
 
 export const founder = {
   name: 'Tejen Shrestha',
-  title: 'Founder & CEO',
-  /** Public profiles, used as `sameAs` links in structured data. */
-  sameAs: ['https://github.com/tshrestha']
+  title: 'Founder & CEO'
+  // No `sameAs` profile links (owner decision 2026-11-12).
 } as const
 
 export const nav = [
@@ -38,9 +37,4 @@ export const nav = [
 ] as const
 
 /** Open owner questions about site-wide settings (see `npm run release-check`). */
-export const pending: Pending[] = [
-  {
-    question:
-      'What is the LinkedIn profile URL to list in structured data? Also confirm github.com/tshrestha should be listed publicly.'
-  }
-]
+export const pending: Pending[] = []
