@@ -182,3 +182,9 @@ This repository is public, so that list is never committed. The site check reads
 - `site-check.private.json` in the project root for local builds. Git ignores this file: `{ "employerTerms": ["First term", "Second term"] }`
 
 If neither is present, the build fails. Matches are reported as `[redacted]` with their file and line, so build logs never reveal the list.
+
+## Contact form
+
+The form on `/contact/` is plain HTML handled by Netlify Forms. Netlify detects it at deploy time ("form detection" must stay enabled), screens each submission with Akismet, and emails `tejen@elevationcode.works` for every submission it considers genuine. Replying to that email goes to the visitor.
+
+Submissions Akismet flags as spam send **no email**. Check **Netlify → Forms → contact → Spam submissions** now and then, and mark real inquiries as verified. If real inquiries are flagged often, switch to the function-based handler described in the design (D11).

@@ -97,3 +97,28 @@ Run on 2026-11-11 against the deploy preview for pull request 1 (`https://deploy
 | Production at `elevationcodeworks.netlify.app` | 404: nothing published, so no production credits spent |
 
 **Open item:** the deployed contact form still carries `data-netlify="true"`. Netlify removes that attribute when it detects a form, so form detection was not on for this deploy. It must be enabled and the preview redeployed before task 8.3.
+
+## Netlify setup and contact form (tasks 8.1 and 8.3)
+
+Run on 2026-11-12 against the deploy preview.
+
+**Setup (task 8.1):**
+- The Netlify project `elevationcodeworks` is connected to `ElevationCodeWorks/ecw-site`.
+- Nothing has been published to production: `elevationcodeworks.netlify.app` returns 404.
+- Previews build for pull requests (PR #1). Branch deploys did not trigger, so the deploy preview stands in for them.
+- Form detection is on. Netlify strips `data-netlify` from the deployed form, which it does only for a detected form.
+- The email notification goes to `tejen@elevationcode.works`, and the owner confirmed the address.
+- `SITE_CHECK_PRIVATE_TERMS` is set in Netlify. Builds fail without it, and the preview built successfully.
+
+**Form checks (task 8.3):**
+
+| Check | Result |
+|---|---|
+| Submission with JavaScript disabled | Lands on `/contact/thanks/` with the 48-hour reply message |
+| Hidden spam field filled (raw POST) | Discarded: the owner saw no notification and no entry, not even under Spam |
+| Netlify recognizes the form | A POST to `contact` returns 200; an unknown form name returns 404 |
+| Notification email | Arrived in the owner's inbox for a realistic submission |
+
+**Finding:** the first test submissions were flagged as spam by Netlify's filter (Akismet) and sent no notification. They came from headless Chrome, whose user agent says "HeadlessChrome", and the message text read as a test. A submission with a normal browser user agent and realistic text went through. Spam-flagged messages never notify, so the owner should check **Forms → contact → Spam submissions** now and then (see README). The function-based fallback in design D11 remains available if real inquiries get flagged.
+
+The subject line ("Website inquiry: Elevation Code Works") and the Reply-To (the submitter's `email` field) come from the form markup and Netlify's documented behavior. The owner confirmed the notification arrived, but did not separately report those two fields.
