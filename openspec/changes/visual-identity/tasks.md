@@ -5,7 +5,7 @@
 - [x] 1.1 Confirm with the owner that the Change 1 preview review is done. Then archive `astro-site-foundation` with `/opsx:archive`. Verify:
   - `openspec/specs/` holds `brand-guardrails`, `contact-form`, `seo`, `site-content` and `site-platform`
   - `openspec validate visual-identity --strict` passes with no "Archive would refuse this delta" notices
-- [ ] 1.2 Create `visual-identity` from `astro-site-foundation`. Add `comps/` to `.gitignore` and commit. Push, then open a draft PR against `main` titled "Visual identity (draft, do not merge)". Verify that Netlify builds a deploy preview for it and the build log shows the site check passing
+- [x] 1.2 Create `visual-identity` from `astro-site-foundation`. Add `comps/` to `.gitignore` and commit. Push, then open a draft PR against `main` titled "Visual identity (draft, do not merge)". Verify that Netlify builds a deploy preview for it and the build log shows the site check passing
 
 ## 2. Color schemes and color rules (design D5, D10)
 
