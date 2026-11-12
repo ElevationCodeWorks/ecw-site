@@ -112,8 +112,8 @@
 - [x] 7.1 Write `scripts/structure-snapshot.ts` and `npm run check:structure`. Capture `openspec/changes/visual-identity/structure-baseline.json` from the current build. Verify:
   - Tests show that a changed heading, a changed link or changed JSON-LD each produce a diff
   - `npm run check:structure` exits 0 on the unchanged build
-- [ ] 7.2 Write `scripts/capture-comps.mjs` from D2. It takes a round number and preview URLs, and writes 24 screenshots per comp plus `comps/round-<n>/index.html`. It also adds a symbol strip at 16, 32, 64 and 256 px, in both schemes, when `src/assets/brand/options/` exists. Verify on the `visual-identity` preview that all 24 images exist at the right sizes and the sheet opens
-- [ ] 7.3 Phase A integration check. Push `visual-identity` and verify on its deploy preview:
+- [x] 7.2 Write `scripts/capture-comps.mjs` from D2. It takes a round number and preview URLs, and writes 24 screenshots per comp plus `comps/round-<n>/index.html`. It also adds a symbol strip at 16, 32, 64 and 256 px, in both schemes, when `src/assets/brand/options/` exists. Verify on the `visual-identity` preview that all 24 images exist at the right sizes and the sheet opens
+- [x] 7.3 Phase A integration check. Push `visual-identity` and verify on its deploy preview:
   - The build passes on Netlify, so satori and sharp work on Linux
   - `curl -sI` shows `/favicon.ico` returns an image with status 200, `/og/home.png` is a PNG, and pages still send `X-Robots-Tag: noindex, nofollow`
   - `npm test`, `npm run build`, `npm run check:structure` and `openspec validate visual-identity --strict` all pass locally
