@@ -12,6 +12,10 @@ const DIST_TEXT_EXTENSIONS = new Set([
   '.webmanifest'
 ])
 
+/** Raster and vector image files. */
+export const IMAGE_EXTENSION =
+  /\.(?:png|jpe?g|webp|avif|gif|tiff?|bmp|heic|heif|ico|svg)$/i
+
 async function listFiles(dir: string): Promise<string[]> {
   if (!existsSync(dir)) return []
   const entries = await readdir(dir, { recursive: true, withFileTypes: true })
@@ -65,6 +69,7 @@ export async function loadInputs(options: LoadOptions): Promise<CheckInputs> {
   const { root } = options
   const distFiles = await listFiles(path.join(root, 'dist'))
   const srcFiles = await listFiles(path.join(root, 'src'))
+  const publicFiles = await listFiles(path.join(root, 'public'))
 
   const distText = await readSources(
     root,
@@ -113,6 +118,9 @@ export async function loadInputs(options: LoadOptions): Promise<CheckInputs> {
     css,
     astro,
     brandSvg,
+    imageFiles: [...srcFiles, ...publicFiles]
+      .filter((f) => IMAGE_EXTENSION.test(f))
+      .map((f) => path.relative(root, f).split(path.sep).join('/')),
     tokensFile: options.tokensFile ?? 'src/styles/tokens.css',
     headers: headersFile ? headersFile.content : null,
     sitemapUrls: sitemapPageUrls(distText),

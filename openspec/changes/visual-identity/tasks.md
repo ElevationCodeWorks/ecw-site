@@ -37,25 +37,25 @@
 
 ## 3. Style and markup rules (design D10)
 
-- [ ] 3.1 Extend the banned-typeface list to the one in the brand-guardrails spec, and switch to prefix matching. Verify with tests that "Inter Tight", "Roboto Slab" and "DM Sans" fail, and that "Overpass" and "Archivo" pass
-- [ ] 3.2 Add the heading-accent rule on `dist/` HTML. The only elements allowed inside h1 to h6 are `a`, `abbr`, `code`, `br` and `svg[aria-hidden="true"]`. Verify with tests that `<h1>Websites that <em>get found</em></h1>` and a heading containing a `span` fail, and a fully linked heading passes
-- [ ] 3.3 Add the eyebrow rule. It flags `text-transform: uppercase`, `font-variant-caps: all-small-caps` or `all-petite-caps`, and `letter-spacing` above 0.05em, with px values divided by 16. Verify with a failing and a passing fixture test for each property
-- [ ] 3.4 Add the decorative-background rule:
+- [x] 3.1 Extend the banned-typeface list to the one in the brand-guardrails spec, and switch to prefix matching. Verify with tests that "Inter Tight", "Roboto Slab" and "DM Sans" fail, and that "Overpass" and "Archivo" pass
+- [x] 3.2 Add the heading-accent rule on `dist/` HTML. The only elements allowed inside h1 to h6 are `a`, `abbr`, `code`, `br` and `svg[aria-hidden="true"]`. Verify with tests that `<h1>Websites that <em>get found</em></h1>` and a heading containing a `span` fail, and a fully linked heading passes
+- [x] 3.3 Add the eyebrow rule. It flags `text-transform: uppercase`, `font-variant-caps: all-small-caps` or `all-petite-caps`, and `letter-spacing` above 0.05em, with px values divided by 16. Verify with a failing and a passing fixture test for each property
+- [x] 3.4 Add the decorative-background rule:
   - Any `*-gradient(`
   - `filter: blur(`
   - Any `text-shadow` other than `none`
   - Box shadows with a blur over 24px or a color with OKLCH C ≥ 0.02, with `var()` references resolved against the tokens
 
   Verify with tests that a radial-gradient blob and a `0 0 40px` violet glow fail, and that `0 1px 2px` in a neutral gray passes
-- [ ] 3.5 Add the animation rule:
+- [x] 3.5 Add the animation rule:
   - `@keyframes`
   - `animation` or `animation-name` other than `none`
   - `animation-timeline`, `scroll-timeline` and `view-timeline`
   - Transition durations over 250ms
 
   Verify with tests that a fade-up keyframe and `animation-timeline: view()` fail, that a 150ms color transition passes, and that the reduced-motion reset in `base.css` passes
-- [ ] 3.6 Add the image-source rule. Rasters are allowed only under `src/assets/work/` and `src/assets/founder*`, vectors only under `src/assets/brand/`, and `public/` holds no images. A file is waived only by an exception entry that records its source. Verify with fixture tests that a stray PNG fails and names the file, and that an excepted one passes
-- [ ] 3.7 Update the site-check docs in `README.md`: every new rule, the new config keys, and a "Look review" section with the D4 checklist. Verify that `npm test` passes, including `readme.test.ts`, and that `npm run build` passes on the placeholder look with every rule from groups 2 and 3
+- [x] 3.6 Add the image-source rule. Rasters are allowed only under `src/assets/work/` and `src/assets/founder*`, vectors only under `src/assets/brand/`, and `public/` holds no images. A file is waived only by an exception entry that records its source. Verify with fixture tests that a stray PNG fails and names the file, and that an excepted one passes
+- [x] 3.7 Update the site-check docs in `README.md`: every new rule, the new config keys, and a "Look review" section with the D4 checklist. Verify that `npm test` passes, including `readme.test.ts`, and that `npm run build` passes on the placeholder look with every rule from groups 2 and 3
 
 ## 4. Fonts (design D6)
 

@@ -38,6 +38,8 @@ export interface CheckInputs {
   astro: SourceFile[]
   /** Brand vector sources (src/assets/brand/) and the built dist/icon.svg. */
   brandSvg: SourceFile[]
+  /** Project-relative paths of every image file in src/ and public/. */
+  imageFiles: string[]
   /** Project-relative path of the design tokens file. */
   tokensFile: string
   /** Contents of dist/_headers, or null when absent. */
@@ -56,4 +58,6 @@ export interface ExceptionEntry {
   file: string
   line: number
   reason: string
+  /** Where the file came from. Required for identity/image-source entries. */
+  source?: string
 }

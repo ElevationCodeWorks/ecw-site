@@ -9,6 +9,7 @@ export function inputs(overrides: Partial<CheckInputs> = {}): CheckInputs {
     css: [],
     astro: [],
     brandSvg: [],
+    imageFiles: [],
     tokensFile: 'src/styles/tokens.css',
     headers: null,
     sitemapUrls: [],

@@ -4,48 +4,9 @@
  */
 import { parse, wcagContrast } from 'culori'
 import type { Color } from 'culori'
-import { declarations } from '../css.ts'
-import type { Decl, Scheme } from '../css.ts'
-import type { CheckInputs, Rule, Violation } from '../types.ts'
+import { SCHEMES, tokenDecls, tokenResolver } from '../tokens.ts'
+import type { Rule, Violation } from '../types.ts'
 import { colorTokens } from './brand-color.ts'
-
-const SCHEMES: Scheme[] = ['light', 'dark']
-
-/** Custom-property declarations in the tokens file, by name and scheme. */
-function tokenDecls(inputs: CheckInputs): Decl[] {
-  return declarations(
-    inputs.css.filter((s) => s.file === inputs.tokensFile)
-  ).filter((d) => d.prop.startsWith('--'))
-}
-
-/**
- * Looks up a token's declaration as the browser would apply it in a scheme:
- * the dark value when one exists, else the light value (the dark block only
- * overrides :root). The last declaration wins, as in CSS.
- */
-export function tokenResolver(inputs: CheckInputs) {
-  const decls = tokenDecls(inputs)
-  const declFor = (name: string, scheme: Scheme): Decl | undefined => {
-    const own = decls.filter((d) => d.prop === name)
-    const inScheme = own.filter((d) => d.scheme === scheme)
-    const light = own.filter((d) => d.scheme === 'light')
-    return (inScheme.length ? inScheme : light).at(-1)
-  }
-  /** The token's value with var() references to other tokens resolved. */
-  const valueOf = (
-    name: string,
-    scheme: Scheme,
-    seen: Set<string> = new Set()
-  ): string | undefined => {
-    const decl = declFor(name, scheme)
-    if (!decl || seen.has(name)) return undefined
-    seen.add(name)
-    const ref = decl.value.trim().match(/^var\(\s*(--[\w-]+)\s*(?:,(.*))?\)$/)
-    if (!ref) return decl.value.trim()
-    return valueOf(ref[1], scheme, seen) ?? ref[2]?.trim()
-  }
-  return { declFor, valueOf }
-}
 
 /**
  * Every color token has a value in both schemes. A token counts as a color
@@ -112,4 +73,42 @@ export const contrastPairs: Rule = (inputs, config) => {
   return out
 }
 
-export const identityRules: Rule[] = [schemeParity, contrastPairs]
+const RASTER = /\.(?:png|jpe?g|webp|avif|gif|tiff?|bmp|heic|heif|ico)$/i
+
+/** Why an image file is in the wrong place, or null when it's allowed. */
+export function imagePlacementProblem(file: string): string | null {
+  if (file.startsWith('public/'))
+    return 'public/ holds no images. Generated images come from build endpoints; others belong under src/assets/.'
+  if (RASTER.test(file)) {
+    return file.startsWith('src/assets/work/') ||
+      file.startsWith('src/assets/founder')
+      ? null
+      : 'Raster images are only work screenshots (src/assets/work/) or founder photos (src/assets/founder*).'
+  }
+  return file.startsWith('src/assets/brand/')
+    ? null
+    : 'Vector images are only hand-authored brand graphics under src/assets/brand/.'
+}
+
+/**
+ * Imagery is real: work screenshots, founder photos, generated images and
+ * hand-authored brand vectors. Anything else needs an exception entry that
+ * records the image's source and the reason.
+ */
+export const imageSources: Rule = (inputs) =>
+  inputs.imageFiles.flatMap((file): Violation[] => {
+    const problem = imagePlacementProblem(file)
+    return problem
+      ? [
+          {
+            rule: 'identity/image-source',
+            file,
+            line: 1,
+            text: file,
+            message: `${problem} To keep it, add an exception entry with its "source" and "reason".`
+          }
+        ]
+      : []
+  })
+
+export const identityRules: Rule[] = [schemeParity, contrastPairs, imageSources]

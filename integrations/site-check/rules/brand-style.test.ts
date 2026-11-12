@@ -1,5 +1,6 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
+import { readFileSync } from 'node:fs'
 import { siteCheckConfig as config } from '../../../site-check.config.ts'
 import { astroInputs, cssInputs, htmlInputs, inputs } from '../test-helpers.ts'
 import type { Rule } from '../types.ts'
@@ -12,7 +13,10 @@ import {
   monospaceOnlyForCode,
   noise,
   pillRadius,
-  portfolioFonts
+  portfolioFonts,
+  eyebrowLabels,
+  decorativeBackgrounds,
+  animation
 } from './brand-style.ts'
 
 const count = (rule: Rule, css: string) => rule(cssInputs(css), config).length
@@ -40,6 +44,53 @@ test('banned fonts: catches family variants and web-font links', () => {
     '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400">'
   )
   assert.equal(bannedFonts(page, config).length, 1)
+})
+
+test('banned fonts: Inter Tight, Roboto Slab and DM Sans fail and name what they extend', () => {
+  const tight = bannedFonts(
+    cssInputs(':root { --font-heading: "Inter Tight", sans-serif; }'),
+    config
+  )
+  assert.equal(tight.length, 1)
+  assert.equal(
+    tight[0].message,
+    '"inter tight" extends the banned typeface Inter.'
+  )
+  const slab = bannedFonts(
+    cssInputs('h2 { font-family: "Roboto Slab", serif; }'),
+    config
+  )
+  assert.equal(
+    slab[0].message,
+    '"roboto slab" extends the banned typeface Roboto.'
+  )
+  const dm = bannedFonts(cssInputs(':root { --font-body: "DM Sans"; }'), config)
+  assert.equal(dm[0].message, 'DM Sans is on the banned typeface list.')
+})
+
+test('banned fonts: every listed family is caught', () => {
+  for (const family of config.bannedFonts) {
+    assert.equal(
+      count(bannedFonts, `:root { --font-body: '${family}', sans-serif; }`),
+      1,
+      family
+    )
+  }
+})
+
+test('banned fonts: Overpass, Archivo and Interstate pass', () => {
+  for (const family of [
+    'Overpass',
+    'Archivo',
+    'Archivo Narrow',
+    'Interstate'
+  ]) {
+    assert.equal(
+      count(bannedFonts, `:root { --font-body: '${family}', sans-serif; }`),
+      0,
+      family
+    )
+  }
 })
 
 test('monospace: flags an eyebrow label, allows code and pre', () => {
@@ -150,4 +201,153 @@ test('portfolio: a variant such as Chivo Mono fails; an unrelated family passes'
     ),
     []
   )
+})
+
+const TOKENS = 'src/styles/tokens.css'
+const withTokens = (tokens: string, css: string) =>
+  inputs({
+    css: [
+      { file: TOKENS, css: tokens, lineOffset: 0 },
+      { file: 'src/styles/base.css', css, lineOffset: 0 }
+    ]
+  })
+
+test('eyebrow: uppercase fails and names the file, line and selector; capitalize passes', () => {
+  const result = eyebrowLabels(
+    cssInputs('.kicker {\n  text-transform: uppercase;\n}'),
+    config
+  )
+  assert.equal(result.length, 1)
+  assert.equal(result[0].rule, 'brand/eyebrow')
+  assert.equal(result[0].file, 'src/styles/base.css')
+  assert.equal(result[0].line, 2)
+  assert.match(result[0].message ?? '', /selector: \.kicker/)
+  assert.equal(count(eyebrowLabels, 'h2 { text-transform: capitalize; }'), 0)
+})
+
+test('eyebrow: all-small-caps and all-petite-caps fail; small-caps passes', () => {
+  assert.equal(
+    count(eyebrowLabels, '.l { font-variant-caps: all-small-caps; }'),
+    1
+  )
+  assert.equal(count(eyebrowLabels, '.l { font-variant: all-petite-caps; }'), 1)
+  assert.equal(
+    count(eyebrowLabels, 'abbr { font-variant-caps: small-caps; }'),
+    0
+  )
+})
+
+test('eyebrow: letter spacing above 0.05em fails; 0.02em and normal pass', () => {
+  assert.equal(count(eyebrowLabels, '.l { letter-spacing: 0.1em; }'), 1)
+  assert.equal(count(eyebrowLabels, '.l { letter-spacing: 2px; }'), 1)
+  assert.equal(count(eyebrowLabels, '.l { letter-spacing: 0.02em; }'), 0)
+  assert.equal(count(eyebrowLabels, '.l { letter-spacing: 0.5px; }'), 0)
+  assert.equal(count(eyebrowLabels, '.l { letter-spacing: normal; }'), 0)
+  assert.equal(count(eyebrowLabels, 'h1 { letter-spacing: -0.02em; }'), 0)
+})
+
+test('eyebrow: letter spacing through a token is resolved', () => {
+  const input = withTokens(
+    ':root { --tracking-wide: 0.12em; }',
+    '.l { letter-spacing: var(--tracking-wide); }'
+  )
+  assert.equal(eyebrowLabels(input, config).length, 1)
+})
+
+test('backgrounds: a radial-gradient blob fails', () => {
+  assert.equal(
+    count(
+      decorativeBackgrounds,
+      '.blob { background: radial-gradient(circle, #ffffff 0%, transparent 70%); }'
+    ),
+    1
+  )
+  assert.equal(
+    count(
+      decorativeBackgrounds,
+      '.hero { background-image: linear-gradient(#fff, #eee); }'
+    ),
+    1
+  )
+})
+
+test('backgrounds: a 0 0 40px violet glow fails', () => {
+  const result = decorativeBackgrounds(
+    cssInputs('.card { box-shadow: 0 0 40px #8b5cf6; }'),
+    config
+  )
+  assert.equal(result.length, 1)
+  assert.match(result[0].message ?? '', /blur 40px is above 24px/)
+  assert.match(result[0].message ?? '', /#8b5cf6 is not a neutral gray/)
+})
+
+test('backgrounds: a small blue glow fails on color alone', () => {
+  assert.equal(
+    count(
+      decorativeBackgrounds,
+      '.b { box-shadow: 0 0 8px rgb(11 87 208 / 0.5); }'
+    ),
+    1
+  )
+})
+
+test('backgrounds: 0 1px 2px in a neutral gray passes', () => {
+  assert.equal(
+    count(
+      decorativeBackgrounds,
+      '.card { box-shadow: 0 1px 2px rgb(0 0 0 / 0.12); }'
+    ),
+    0
+  )
+  assert.equal(
+    count(
+      decorativeBackgrounds,
+      '.card { box-shadow: inset 0 0 0 1px #6b6b6b, 0 2px 4px #0000001f; }'
+    ),
+    0
+  )
+})
+
+test('backgrounds: shadows through tokens are resolved in both schemes', () => {
+  const input = withTokens(
+    ':root { --shadow: 0 1px 2px #0000001f; }\n@media (prefers-color-scheme: dark) { :root { --shadow: 0 0 30px #0b57d0; } }',
+    '.card { box-shadow: var(--shadow); }'
+  )
+  const result = decorativeBackgrounds(input, config)
+  assert.ok(result.some((v) => v.file === 'src/styles/base.css'))
+})
+
+test('backgrounds: blur filters and text shadows fail; text-shadow: none passes', () => {
+  assert.equal(count(decorativeBackgrounds, '.g { filter: blur(60px); }'), 1)
+  assert.equal(
+    count(decorativeBackgrounds, 'h1 { text-shadow: 0 0 1px #000; }'),
+    1
+  )
+  assert.equal(count(decorativeBackgrounds, 'h1 { text-shadow: none; }'), 0)
+})
+
+test('animation: a fade-up keyframe fails', () => {
+  const css =
+    '@keyframes fade-up {\n  from { opacity: 0; transform: translateY(1rem); }\n  to { opacity: 1; }\n}\n.hero { animation: fade-up 600ms ease-out; }'
+  const result = animation(cssInputs(css), config)
+  assert.equal(result.length, 2)
+  assert.ok(result.every((v) => v.rule === 'brand/animation'))
+  assert.equal(result[0].text, '@keyframes fade-up')
+})
+
+test('animation: animation-timeline: view() fails', () => {
+  assert.equal(count(animation, '.reveal { animation-timeline: view(); }'), 1)
+  assert.equal(count(animation, '.reveal { view-timeline-name: --reveal; }'), 1)
+})
+
+test('animation: a 150ms color transition passes; 400ms fails', () => {
+  assert.equal(count(animation, 'a { transition: color 150ms ease; }'), 0)
+  assert.equal(count(animation, 'a { transition: color 150ms ease 500ms; }'), 0)
+  assert.equal(count(animation, 'a { transition: color 0.4s ease; }'), 1)
+  assert.equal(count(animation, 'a { transition-duration: 100ms, 300ms; }'), 1)
+})
+
+test('animation: the reduced-motion reset in base.css passes', () => {
+  const css = readFileSync('src/styles/base.css', 'utf8')
+  assert.deepEqual(animation(cssInputs(css), config), [])
 })

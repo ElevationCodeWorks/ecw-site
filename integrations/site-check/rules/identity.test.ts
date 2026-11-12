@@ -2,8 +2,9 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import { siteCheckConfig as config } from '../../../site-check.config.ts'
-import { cssInputs } from '../test-helpers.ts'
-import { contrastPairs, schemeParity } from './identity.ts'
+import { checkInputs } from '../runner.ts'
+import { cssInputs, inputs } from '../test-helpers.ts'
+import { contrastPairs, imageSources, schemeParity } from './identity.ts'
 
 const TOKENS = 'src/styles/tokens.css'
 const DARK = (body: string) =>
@@ -112,4 +113,69 @@ test('contrast: a pair naming a missing token fails', () => {
 test('contrast: the placeholder tokens pass every configured pair in both schemes', () => {
   const input = tokens(readFileSync(TOKENS, 'utf8'))
   assert.deepEqual(contrastPairs(input, config), [])
+})
+
+test('image sources: a stray PNG fails and names the file', () => {
+  const result = imageSources(
+    inputs({ imageFiles: ['src/assets/hero-blob.png'] }),
+    config
+  )
+  assert.equal(result.length, 1)
+  assert.equal(result[0].rule, 'identity/image-source')
+  assert.equal(result[0].file, 'src/assets/hero-blob.png')
+})
+
+test('image sources: images in public/ and stray vectors fail', () => {
+  const result = imageSources(
+    inputs({
+      imageFiles: [
+        'public/favicon.png',
+        'public/logo.svg',
+        'src/assets/illustration.svg'
+      ]
+    }),
+    config
+  )
+  assert.equal(result.length, 3)
+})
+
+test('image sources: work screenshots, founder photos and brand vectors pass', () => {
+  assert.deepEqual(
+    imageSources(
+      inputs({
+        imageFiles: [
+          'src/assets/work/condies-desktop.png',
+          'src/assets/founder.jpg',
+          'src/assets/founder/portrait.webp',
+          'src/assets/brand/symbol.svg',
+          'src/assets/brand/options/b.svg'
+        ]
+      }),
+      config
+    ),
+    []
+  )
+})
+
+test('image sources: an exception with a source waives the image; one without fails', () => {
+  const found = inputs({ imageFiles: ['src/assets/map.png'] })
+  const entry = {
+    rule: 'identity/image-source',
+    file: 'src/assets/map.png',
+    line: 1,
+    reason: 'Route map drawn by the owner for a case study.'
+  }
+  const withSource = checkInputs(found, {
+    rules: [imageSources],
+    exceptions: [{ ...entry, source: 'Drawn by Tejen Shrestha, 2026.' }]
+  })
+  assert.deepEqual(withSource, [])
+  const without = checkInputs(found, {
+    rules: [imageSources],
+    exceptions: [entry]
+  })
+  assert.deepEqual(without.map((v) => v.rule).sort(), [
+    'exceptions/missing-source',
+    'identity/image-source'
+  ])
 })

@@ -62,7 +62,11 @@ export const siteCheckConfig = {
   /** First-person plural; the uppercase country name "US" is allowed. */
   firstPersonPlural: /\b(?:we|we['’](?:re|ve|ll|d)|our|ours|ourselves|us)\b/gi,
 
-  /** Font families that may not appear in any stylesheet or token. */
+  /**
+   * Font families that may not appear in any stylesheet, token or web-font
+   * link: the default AI-site and template favorites. A family that extends a
+   * banned name by whole words ("Inter Tight", "Roboto Slab") is banned too.
+   */
   bannedFonts: [
     'Inter',
     'Geist',
@@ -77,7 +81,22 @@ export const siteCheckConfig = {
     'Roboto',
     'Poppins',
     'Open Sans',
-    'Lato'
+    'Lato',
+    'DM Sans',
+    'DM Serif Display',
+    'Plus Jakarta Sans',
+    'Manrope',
+    'Outfit',
+    'Sora',
+    'Bricolage Grotesque',
+    'Syne',
+    'Satoshi',
+    'General Sans',
+    'Cabinet Grotesk',
+    'Clash Display',
+    'Cormorant Garamond',
+    'Space Mono',
+    'Montserrat'
   ],
 
   /** Monospace may only style these elements. */
@@ -96,6 +115,21 @@ export const siteCheckConfig = {
 
   /** Radii at or above these sizes read as pills or circles. */
   pillRadius: { minPx: 100, minEm: 6 },
+
+  /**
+   * Eyebrow labels and tracked kickers: letter spacing above this many em
+   * (px divided by 16) is banned, as are uppercase and all-small-caps text.
+   */
+  maxLetterSpacingEm: 0.05,
+
+  /**
+   * Shadows: a blur radius above maxBlurPx, or a color with OKLCH chroma at
+   * or above maxChroma, reads as a glow.
+   */
+  shadow: { maxBlurPx: 24, maxChroma: 0.02 },
+
+  /** Transitions longer than this read as motion design. */
+  maxTransitionMs: 250,
 
   /**
    * Colors a token (in either scheme) or a brand SVG may not match: Anthropic's
