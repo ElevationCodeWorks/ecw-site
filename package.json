@@ -11,6 +11,7 @@
     "build": "astro check && astro build",
     "preview": "astro preview",
     "check:site": "node integrations/site-check/cli.ts",
+    "check:structure": "npm run build && node scripts/structure-snapshot.ts check",
     "release-check": "node scripts/release-check.ts",
     "audit": "node scripts/audit.mjs",
     "test": "node --test \"src/**/*.test.ts\" \"integrations/**/*.test.ts\" \"scripts/**/*.test.ts\"",

@@ -1,0 +1,1274 @@
+{
+  "404.html": {
+    "text": [
+      "Skip to main content",
+      "Elevation Code Works",
+      "Services",
+      "Work",
+      "About",
+      "Contact",
+      "Page not found",
+      "The page you asked for doesn't exist or has moved. One of these should help.",
+      "Home",
+      "Services",
+      "Work",
+      "Contact",
+      "Elevation Code Works",
+      "Denver, Colorado",
+      "AI-powered, human-driven",
+      "Contact"
+    ],
+    "headings": [
+      "h1 Page not found"
+    ],
+    "links": [
+      "Skip to main content -> #main",
+      "Elevation Code Works -> /",
+      "Services -> /services/",
+      "Work -> /work/",
+      "About -> /about/",
+      "Contact -> /contact/",
+      "Home -> /",
+      "Services -> /services/",
+      "Work -> /work/",
+      "Contact -> /contact/",
+      "Contact -> /contact/"
+    ],
+    "jsonLd": []
+  },
+  "about/index.html": {
+    "text": [
+      "Skip to main content",
+      "Elevation Code Works",
+      "Services",
+      "Work",
+      "About",
+      "Contact",
+      "Hi, I'm Tejen Shrestha",
+      "I'm the founder and CEO of Elevation Code Works, a software engineering business in Denver. I build and connect the software a small business's customers use, from the website that brings them in to the tools they use to book and pay.",
+      "My background",
+      "I’ve spent 14 years building and modernizing software. Most recently I’ve been a lead software engineer at a large enterprise, building platforms used by millions of customers and leading AI adoption across engineering teams.",
+      "Earlier, I spent nearly five years as a contract engineer on federal projects, including work for the FDA, the Department of Veterans Affairs and the U.S. Census Bureau. That work taught me to build software that holds up under real scrutiny: secure, tested and maintainable long after launch.",
+      "How I use AI",
+      "I’ve trained hundreds of enterprise engineers on AI-assisted and spec-driven development, and I work the same way for every client. Before I build anything, I write down what the software must do and you approve it. AI speeds up the work, and I stay accountable for every decision and every result.",
+      "Credentials",
+      "B.S. in Computer Science, University of Maryland",
+      "AWS Certified Cloud Practitioner",
+      "Certified Secure Software Engineer",
+      "Tell me about your project",
+      "Elevation Code Works",
+      "Denver, Colorado",
+      "AI-powered, human-driven",
+      "Contact"
+    ],
+    "headings": [
+      "h1 Hi, I'm Tejen Shrestha",
+      "h2 My background",
+      "h2 How I use AI",
+      "h2 Credentials"
+    ],
+    "links": [
+      "Skip to main content -> #main",
+      "Elevation Code Works -> /",
+      "Services -> /services/",
+      "Work -> /work/",
+      "About -> /about/",
+      "Contact -> /contact/",
+      "Tell me about your project -> /contact/",
+      "Contact -> /contact/"
+    ],
+    "jsonLd": [
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "@id": "https://elevationcode.works/#founder",
+        "name": "Tejen Shrestha",
+        "jobTitle": "Founder & CEO",
+        "worksFor": {
+          "@id": "https://elevationcode.works/#business"
+        },
+        "url": "https://elevationcode.works/about/",
+        "homeLocation": {
+          "@type": "City",
+          "name": "Denver"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://elevationcode.works/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "About",
+            "item": "https://elevationcode.works/about/"
+          }
+        ]
+      }
+    ]
+  },
+  "contact/index.html": {
+    "text": [
+      "Skip to main content",
+      "Elevation Code Works",
+      "Services",
+      "Work",
+      "About",
+      "Contact",
+      "Contact",
+      "Tell me a little about your business and what you need. I read every message myself.",
+      "Prefer email? Write to",
+      "tejen@elevationcode.works",
+      ".",
+      "Name",
+      "(required)",
+      "Email",
+      "(required)",
+      "Business name",
+      "(optional)",
+      "What do you need?",
+      "(optional)",
+      "Choose one",
+      "Websites that get found",
+      "Integrations",
+      "Custom web apps",
+      "AI features",
+      "Care and rescue",
+      "Tech checkup",
+      "Not sure yet",
+      "Message",
+      "(required, at least 10 characters)",
+      "I use your message only to reply to you. It's stored with my website host, which screens it for spam, and it's never shared for marketing.",
+      "Send message",
+      "Elevation Code Works",
+      "Denver, Colorado",
+      "AI-powered, human-driven",
+      "Contact"
+    ],
+    "headings": [
+      "h1 Contact"
+    ],
+    "links": [
+      "Skip to main content -> #main",
+      "Elevation Code Works -> /",
+      "Services -> /services/",
+      "Work -> /work/",
+      "About -> /about/",
+      "Contact -> /contact/",
+      "tejen@elevationcode.works -> mailto:tejen@elevationcode.works",
+      "Contact -> /contact/"
+    ],
+    "jsonLd": [
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://elevationcode.works/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Contact",
+            "item": "https://elevationcode.works/contact/"
+          }
+        ]
+      }
+    ]
+  },
+  "contact/thanks/index.html": {
+    "text": [
+      "Skip to main content",
+      "Elevation Code Works",
+      "Services",
+      "Work",
+      "About",
+      "Contact",
+      "Thanks, your message is on its way",
+      "I'll reply within 48 hours, from tejen@elevationcode.works.",
+      "Back to the home page",
+      "Elevation Code Works",
+      "Denver, Colorado",
+      "AI-powered, human-driven",
+      "Contact"
+    ],
+    "headings": [
+      "h1 Thanks, your message is on its way"
+    ],
+    "links": [
+      "Skip to main content -> #main",
+      "Elevation Code Works -> /",
+      "Services -> /services/",
+      "Work -> /work/",
+      "About -> /about/",
+      "Contact -> /contact/",
+      "Back to the home page -> /",
+      "Contact -> /contact/"
+    ],
+    "jsonLd": []
+  },
+  "index.html": {
+    "text": [
+      "Skip to main content",
+      "Elevation Code Works",
+      "Services",
+      "Work",
+      "About",
+      "Contact",
+      "I build custom software and websites for Denver small businesses.",
+      "I'm Tejen Shrestha. I've spent 14 years building and modernizing enterprise and federal government software, and I've trained hundreds of enterprise engineers to use AI well. Now I put that experience to work for small businesses.",
+      "Tell me about your project",
+      "Recent work",
+      "What Can I Do?",
+      "A search engine for taking action on the causes you care about, by donating, volunteering, learning or buying from proven solutions.",
+      "Contracted by Important, Not Important to build the initial version and launch it to production.",
+      "Condies",
+      "Snow and weather forecasts for wherever you're headed, with a single score that says when conditions will be best.",
+      "Built it end to end.",
+      "Uphill Ski CO",
+      "A guide to uphill skiing at 24 Colorado ski resorts, covering when you can skin up, what it costs and where the routes go this season.",
+      "Built it end to end.",
+      "What I do",
+      "Websites that get found",
+      "Fast, accessible websites built so search engines can read every page and customers can find you and get in touch.",
+      "Integrations",
+      "Connect payments, online stores and booking tools to your website or app, so customers can pay and book in one place.",
+      "Custom web apps",
+      "Web apps your customers use, such as client portals, booking and ordering flows and member areas, built around how your business works.",
+      "AI features",
+      "Practical AI built into your website or app, such as assistants that answer customer questions from your own information, smarter intake forms and help with booking.",
+      "Care and rescue",
+      "Ongoing care for your website and customer-facing apps, and help when a project has stalled or a developer has disappeared.",
+      "Tech checkup",
+      "A short, focused review of your website and the software your customers use, with plain advice on what to fix first. A good first step before any project.",
+      "Tell me about your project",
+      "Elevation Code Works",
+      "Denver, Colorado",
+      "AI-powered, human-driven",
+      "Contact"
+    ],
+    "headings": [
+      "h1 I build custom software and websites for Denver small businesses.",
+      "h2 Recent work",
+      "h3 What Can I Do?",
+      "h3 Condies",
+      "h3 Uphill Ski CO",
+      "h2 What I do",
+      "h3 Websites that get found",
+      "h3 Integrations",
+      "h3 Custom web apps",
+      "h3 AI features",
+      "h3 Care and rescue",
+      "h3 Tech checkup"
+    ],
+    "links": [
+      "Skip to main content -> #main",
+      "Elevation Code Works -> /",
+      "Services -> /services/",
+      "Work -> /work/",
+      "About -> /about/",
+      "Contact -> /contact/",
+      "Tell me about your project -> /contact/",
+      "What Can I Do? -> /work/what-can-i-do/",
+      "Condies -> /work/condies/",
+      "Uphill Ski CO -> /work/uphill-ski-co/",
+      "Websites that get found -> /services/websites/",
+      "Integrations -> /services/integrations/",
+      "Custom web apps -> /services/custom-web-apps/",
+      "AI features -> /services/ai-features/",
+      "Care and rescue -> /services/care-and-rescue/",
+      "Tech checkup -> /services/tech-checkup/",
+      "Tell me about your project -> /contact/",
+      "Contact -> /contact/"
+    ],
+    "jsonLd": [
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "ProfessionalService",
+            "@id": "https://elevationcode.works/#business",
+            "name": "Elevation Code Works",
+            "url": "https://elevationcode.works/",
+            "description": "I build custom software and websites for Denver small businesses, including fast sites that get found, payment and booking integrations, and web apps.",
+            "slogan": "AI-powered, human-driven",
+            "email": "tejen@elevationcode.works",
+            "areaServed": {
+              "@type": "City",
+              "name": "Denver",
+              "containedInPlace": {
+                "@type": "State",
+                "name": "Colorado"
+              }
+            },
+            "address": {
+              "@type": "PostalAddress",
+              "addressLocality": "Denver",
+              "addressRegion": "CO",
+              "addressCountry": "US"
+            },
+            "founder": {
+              "@id": "https://elevationcode.works/#founder"
+            }
+          },
+          {
+            "@type": "Person",
+            "@id": "https://elevationcode.works/#founder",
+            "name": "Tejen Shrestha",
+            "jobTitle": "Founder & CEO",
+            "worksFor": {
+              "@id": "https://elevationcode.works/#business"
+            },
+            "url": "https://elevationcode.works/about/",
+            "image": "https://elevationcode.works/_astro/founder.lCRhs3jk_Z2rh5zR.jpg",
+            "homeLocation": {
+              "@type": "City",
+              "name": "Denver"
+            }
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://elevationcode.works/#website",
+            "url": "https://elevationcode.works/",
+            "name": "Elevation Code Works",
+            "publisher": {
+              "@id": "https://elevationcode.works/#business"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "services/ai-features/index.html": {
+    "text": [
+      "Skip to main content",
+      "Elevation Code Works",
+      "Services",
+      "Work",
+      "About",
+      "Contact",
+      "AI features",
+      "Blue square",
+      "Practical AI built into your website or app, such as assistants that answer customer questions from your own information, smarter intake forms and help with booking.",
+      "AI is useful when it does a specific job well and someone stays responsible for it. I build features that answer your customers’ real questions from your own information, with limits you set and review.",
+      "I also use AI to build faster. I’ve trained hundreds of enterprise engineers on AI-assisted development, and I use the same practices on every project. AI speeds up the work. I make the decisions and I’m accountable for the result.",
+      "Who it's for",
+      "Businesses that answer the same customer questions every day, or lose people during intake and booking.",
+      "What's included",
+      "A website assistant that answers questions from your own content and hands the conversation to you when it should.",
+      "Intake forms that ask useful follow-up questions and summarize each request for you.",
+      "Help for customers choosing a service or a time to book.",
+      "Clear limits on what the AI may say, what it must not, and how you review it.",
+      "What's not included",
+      "Back-office automation such as invoice processing or inbox sorting.",
+      "Marketing content or email campaigns.",
+      "Tell me about your project",
+      "Elevation Code Works",
+      "Denver, Colorado",
+      "AI-powered, human-driven",
+      "Contact"
+    ],
+    "headings": [
+      "h1 AI features",
+      "h2 Who it's for",
+      "h2 What's included",
+      "h2 What's not included"
+    ],
+    "links": [
+      "Skip to main content -> #main",
+      "Elevation Code Works -> /",
+      "Services -> /services/",
+      "Work -> /work/",
+      "About -> /about/",
+      "Contact -> /contact/",
+      "Tell me about your project -> /contact/",
+      "Contact -> /contact/"
+    ],
+    "jsonLd": [
+      {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "name": "AI features",
+        "description": "Practical AI built into your website or app, such as assistants that answer customer questions from your own information, smarter intake forms and help with booking.",
+        "url": "https://elevationcode.works/services/ai-features/",
+        "areaServed": {
+          "@type": "City",
+          "name": "Denver",
+          "containedInPlace": {
+            "@type": "State",
+            "name": "Colorado"
+          }
+        },
+        "provider": {
+          "@id": "https://elevationcode.works/#business"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://elevationcode.works/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Services",
+            "item": "https://elevationcode.works/services/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "AI features",
+            "item": "https://elevationcode.works/services/ai-features/"
+          }
+        ]
+      }
+    ]
+  },
+  "services/care-and-rescue/index.html": {
+    "text": [
+      "Skip to main content",
+      "Elevation Code Works",
+      "Services",
+      "Work",
+      "About",
+      "Contact",
+      "Care and rescue",
+      "Green circle",
+      "Ongoing care for your website and customer-facing apps, and help when a project has stalled or a developer has disappeared.",
+      "A website is never finished. Software it depends on goes out of date, security fixes pile up, and a small problem can quietly cost you customers for months.",
+      "I look after sites and customer-facing apps on a regular schedule, and I take over projects that have stalled. I start with an honest review of what’s there, then fix what matters first. When something old needs replacing, I modernize it in steps so the business keeps running.",
+      "Who it's for",
+      "Businesses with a site or app that nobody is looking after, or one that is slow, broken or built on software that is out of date.",
+      "What's included",
+      "Updates, security patches, backups and uptime checks on a regular schedule.",
+      "Taking over an existing project, starting with an honest review of what's there and a plan.",
+      "Modernizing an old site or app one piece at a time, without a risky rewrite.",
+      "Fixing speed and accessibility problems.",
+      "What's not included",
+      "Care for back-office systems such as accounting or inventory software.",
+      "Office IT support for computers, printers and networks.",
+      "Tell me about your project",
+      "Elevation Code Works",
+      "Denver, Colorado",
+      "AI-powered, human-driven",
+      "Contact"
+    ],
+    "headings": [
+      "h1 Care and rescue",
+      "h2 Who it's for",
+      "h2 What's included",
+      "h2 What's not included"
+    ],
+    "links": [
+      "Skip to main content -> #main",
+      "Elevation Code Works -> /",
+      "Services -> /services/",
+      "Work -> /work/",
+      "About -> /about/",
+      "Contact -> /contact/",
+      "Tell me about your project -> /contact/",
+      "Contact -> /contact/"
+    ],
+    "jsonLd": [
+      {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "name": "Care and rescue",
+        "description": "Ongoing care for your website and customer-facing apps, and help when a project has stalled or a developer has disappeared.",
+        "url": "https://elevationcode.works/services/care-and-rescue/",
+        "areaServed": {
+          "@type": "City",
+          "name": "Denver",
+          "containedInPlace": {
+            "@type": "State",
+            "name": "Colorado"
+          }
+        },
+        "provider": {
+          "@id": "https://elevationcode.works/#business"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://elevationcode.works/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Services",
+            "item": "https://elevationcode.works/services/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Care and rescue",
+            "item": "https://elevationcode.works/services/care-and-rescue/"
+          }
+        ]
+      }
+    ]
+  },
+  "services/custom-web-apps/index.html": {
+    "text": [
+      "Skip to main content",
+      "Elevation Code Works",
+      "Services",
+      "Work",
+      "About",
+      "Contact",
+      "Custom web apps",
+      "Black diamond",
+      "Web apps your customers use, such as client portals, booking and ordering flows and member areas, built around how your business works.",
+      "Sometimes an off-the-shelf tool almost fits, and the gap costs you customers. A booking flow that can’t handle how you actually schedule, or a portal that shows clients the wrong things.",
+      "I build web apps for the customer side of your business. Every project starts with a written plan that describes what the app will do, and you approve it before I build anything. The apps are fast, work on any device, and stay maintainable after launch.",
+      "Who it's for",
+      "Businesses whose customers need to do more than read a page, where off-the-shelf software doesn't fit the way they work.",
+      "What's included",
+      "Client portals, member areas and account pages.",
+      "Booking, ordering and request flows built around your process.",
+      "Apps that work on any device and can be added to a phone's home screen.",
+      "A written plan before any code, so you know what you're getting and what it will take.",
+      "What's not included",
+      "Internal tools and dashboards for staff.",
+      "Back-office software such as accounting, inventory or staff scheduling.",
+      "Related work",
+      "Condies",
+      ": Snow and weather forecasts for wherever you're headed, with a single score that says when conditions will be best.",
+      "What Can I Do?",
+      ": A search engine for taking action on the causes you care about, by donating, volunteering, learning or buying from proven solutions.",
+      "Tell me about your project",
+      "Elevation Code Works",
+      "Denver, Colorado",
+      "AI-powered, human-driven",
+      "Contact"
+    ],
+    "headings": [
+      "h1 Custom web apps",
+      "h2 Who it's for",
+      "h2 What's included",
+      "h2 What's not included",
+      "h2 Related work"
+    ],
+    "links": [
+      "Skip to main content -> #main",
+      "Elevation Code Works -> /",
+      "Services -> /services/",
+      "Work -> /work/",
+      "About -> /about/",
+      "Contact -> /contact/",
+      "Condies -> /work/condies/",
+      "What Can I Do? -> /work/what-can-i-do/",
+      "Tell me about your project -> /contact/",
+      "Contact -> /contact/"
+    ],
+    "jsonLd": [
+      {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "name": "Custom web apps",
+        "description": "Web apps your customers use, such as client portals, booking and ordering flows and member areas, built around how your business works.",
+        "url": "https://elevationcode.works/services/custom-web-apps/",
+        "areaServed": {
+          "@type": "City",
+          "name": "Denver",
+          "containedInPlace": {
+            "@type": "State",
+            "name": "Colorado"
+          }
+        },
+        "provider": {
+          "@id": "https://elevationcode.works/#business"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://elevationcode.works/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Services",
+            "item": "https://elevationcode.works/services/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Custom web apps",
+            "item": "https://elevationcode.works/services/custom-web-apps/"
+          }
+        ]
+      }
+    ]
+  },
+  "services/index.html": {
+    "text": [
+      "Skip to main content",
+      "Elevation Code Works",
+      "Services",
+      "Work",
+      "About",
+      "Contact",
+      "Services",
+      "I build and connect the software your customers touch, from the website that brings them in to the tools they use to book, pay and get help. This is engineering work only. I don't run marketing campaigns or back-office systems.",
+      "Websites that get found",
+      "Blue square",
+      "Fast, accessible websites built so search engines can read every page and customers can find you and get in touch.",
+      "Integrations",
+      "Blue square",
+      "Connect payments, online stores and booking tools to your website or app, so customers can pay and book in one place.",
+      "Custom web apps",
+      "Black diamond",
+      "Web apps your customers use, such as client portals, booking and ordering flows and member areas, built around how your business works.",
+      "AI features",
+      "Blue square",
+      "Practical AI built into your website or app, such as assistants that answer customer questions from your own information, smarter intake forms and help with booking.",
+      "Care and rescue",
+      "Green circle",
+      "Ongoing care for your website and customer-facing apps, and help when a project has stalled or a developer has disappeared.",
+      "Tech checkup",
+      "Green circle",
+      "A short, focused review of your website and the software your customers use, with plain advice on what to fix first. A good first step before any project.",
+      "How big a job is it?",
+      "I rate each service the way ski runs are rated, by the size of the commitment.",
+      "Green circle",
+      "Small and fixed in scope. Usually a few days.",
+      "Blue square",
+      "A project. Usually a few weeks.",
+      "Black diamond",
+      "A build. Usually a month or more.",
+      "Tell me about your project",
+      "Elevation Code Works",
+      "Denver, Colorado",
+      "AI-powered, human-driven",
+      "Contact"
+    ],
+    "headings": [
+      "h1 Services",
+      "h2 Websites that get found",
+      "h2 Integrations",
+      "h2 Custom web apps",
+      "h2 AI features",
+      "h2 Care and rescue",
+      "h2 Tech checkup",
+      "h2 How big a job is it?"
+    ],
+    "links": [
+      "Skip to main content -> #main",
+      "Elevation Code Works -> /",
+      "Services -> /services/",
+      "Work -> /work/",
+      "About -> /about/",
+      "Contact -> /contact/",
+      "Websites that get found -> /services/websites/",
+      "Integrations -> /services/integrations/",
+      "Custom web apps -> /services/custom-web-apps/",
+      "AI features -> /services/ai-features/",
+      "Care and rescue -> /services/care-and-rescue/",
+      "Tech checkup -> /services/tech-checkup/",
+      "Tell me about your project -> /contact/",
+      "Contact -> /contact/"
+    ],
+    "jsonLd": [
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://elevationcode.works/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Services",
+            "item": "https://elevationcode.works/services/"
+          }
+        ]
+      }
+    ]
+  },
+  "services/integrations/index.html": {
+    "text": [
+      "Skip to main content",
+      "Elevation Code Works",
+      "Services",
+      "Work",
+      "About",
+      "Contact",
+      "Integrations",
+      "Blue square",
+      "Connect payments, online stores and booking tools to your website or app, so customers can pay and book in one place.",
+      "Most small businesses already pay for good tools. The trouble starts when those tools don’t talk to the website, and customers get bounced between pages that look and work differently.",
+      "I connect the payment, store and booking tools you use into your site or app, so a customer can find you, book and pay without leaving. When a ready-made integration exists I use it. When it doesn’t, I build a small, documented connection that you own.",
+      "Who it's for",
+      "Businesses that take payments, sell online or book appointments, and want those tools to work with their website instead of beside it.",
+      "What's included",
+      "Payments with Stripe or Square, including checkout, invoices, subscriptions and memberships.",
+      "Online stores on Shopify, including connecting a store to an existing website.",
+      "Booking and scheduling tools, set up so customers can book from your site and receive confirmations and reminders.",
+      "Small custom connections and webhooks where no ready-made integration exists.",
+      "What's not included",
+      "Accounting and bookkeeping systems.",
+      "CRM and email marketing platforms.",
+      "Inventory, staff scheduling and other back-office software.",
+      "Tell me about your project",
+      "Elevation Code Works",
+      "Denver, Colorado",
+      "AI-powered, human-driven",
+      "Contact"
+    ],
+    "headings": [
+      "h1 Integrations",
+      "h2 Who it's for",
+      "h2 What's included",
+      "h2 What's not included"
+    ],
+    "links": [
+      "Skip to main content -> #main",
+      "Elevation Code Works -> /",
+      "Services -> /services/",
+      "Work -> /work/",
+      "About -> /about/",
+      "Contact -> /contact/",
+      "Tell me about your project -> /contact/",
+      "Contact -> /contact/"
+    ],
+    "jsonLd": [
+      {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "name": "Integrations",
+        "description": "Connect payments, online stores and booking tools to your website or app, so customers can pay and book in one place.",
+        "url": "https://elevationcode.works/services/integrations/",
+        "areaServed": {
+          "@type": "City",
+          "name": "Denver",
+          "containedInPlace": {
+            "@type": "State",
+            "name": "Colorado"
+          }
+        },
+        "provider": {
+          "@id": "https://elevationcode.works/#business"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://elevationcode.works/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Services",
+            "item": "https://elevationcode.works/services/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Integrations",
+            "item": "https://elevationcode.works/services/integrations/"
+          }
+        ]
+      }
+    ]
+  },
+  "services/tech-checkup/index.html": {
+    "text": [
+      "Skip to main content",
+      "Elevation Code Works",
+      "Services",
+      "Work",
+      "About",
+      "Contact",
+      "Tech checkup",
+      "Green circle",
+      "A short, focused review of your website and the software your customers use, with plain advice on what to fix first. A good first step before any project.",
+      "If you’re not sure where to start, start here. I review your website and the tools your customers use, then tell you plainly what’s working, what isn’t, and what to fix first.",
+      "Sometimes the honest answer is that you don’t need custom software at all, and an off-the-shelf tool will do. I’ll tell you when that’s the case.",
+      "Who it's for",
+      "Owners who aren't sure what they need yet, or want a second opinion before spending money.",
+      "What's included",
+      "A review of your website's speed, search readiness and accessibility.",
+      "A look at the tools your customers use, such as payments, booking and forms.",
+      "Advice on building versus buying, including when an off-the-shelf tool is the better answer.",
+      "A written summary with priorities, yours to keep whether or not you hire me.",
+      "What's not included",
+      "The work itself. Anything that follows is scoped separately.",
+      "Book a tech checkup",
+      "Elevation Code Works",
+      "Denver, Colorado",
+      "AI-powered, human-driven",
+      "Contact"
+    ],
+    "headings": [
+      "h1 Tech checkup",
+      "h2 Who it's for",
+      "h2 What's included",
+      "h2 What's not included"
+    ],
+    "links": [
+      "Skip to main content -> #main",
+      "Elevation Code Works -> /",
+      "Services -> /services/",
+      "Work -> /work/",
+      "About -> /about/",
+      "Contact -> /contact/",
+      "Book a tech checkup -> /contact/",
+      "Contact -> /contact/"
+    ],
+    "jsonLd": [
+      {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "name": "Tech checkup",
+        "description": "A short, focused review of your website and the software your customers use, with plain advice on what to fix first. A good first step before any project.",
+        "url": "https://elevationcode.works/services/tech-checkup/",
+        "areaServed": {
+          "@type": "City",
+          "name": "Denver",
+          "containedInPlace": {
+            "@type": "State",
+            "name": "Colorado"
+          }
+        },
+        "provider": {
+          "@id": "https://elevationcode.works/#business"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://elevationcode.works/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Services",
+            "item": "https://elevationcode.works/services/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Tech checkup",
+            "item": "https://elevationcode.works/services/tech-checkup/"
+          }
+        ]
+      }
+    ]
+  },
+  "services/websites/index.html": {
+    "text": [
+      "Skip to main content",
+      "Elevation Code Works",
+      "Services",
+      "Work",
+      "About",
+      "Contact",
+      "Websites that get found",
+      "Blue square",
+      "Fast, accessible websites built so search engines can read every page and customers can find you and get in touch.",
+      "Most small business websites have the same problems: they load slowly on phones, search engines can’t tell what the business does, and nobody remembers how to update them.",
+      "I build sites that fix all three. Every page loads quickly, carries the information search engines look for, and works for every visitor. Rankings also depend on things outside the website, like reviews and your Google Business Profile. I’ll tell you what matters there, but I don’t run marketing campaigns.",
+      "Who it's for",
+      "Small businesses whose website is slow, dated, hard to update, or missing from search results.",
+      "What's included",
+      "A custom site built for phones first and tuned to pass Google's Core Web Vitals.",
+      "Search-ready structure on every page, including titles, descriptions, a sitemap and structured data that tells Google what your business is and where it works.",
+      "Accessibility to WCAG 2.2 AA, so the site works for every visitor, including people using a keyboard or screen reader.",
+      "Hosting set up in your own accounts, so you own the site and its domain.",
+      "A handoff covering how to make the updates you'll need most often.",
+      "What's not included",
+      "Ongoing SEO campaigns, link building or content marketing.",
+      "Paid ads or social media management.",
+      "Managing your Google Business Profile or reviews.",
+      "Related work",
+      "Uphill Ski CO",
+      ": A guide to uphill skiing at 24 Colorado ski resorts, covering when you can skin up, what it costs and where the routes go this season.",
+      "Tell me about your project",
+      "Elevation Code Works",
+      "Denver, Colorado",
+      "AI-powered, human-driven",
+      "Contact"
+    ],
+    "headings": [
+      "h1 Websites that get found",
+      "h2 Who it's for",
+      "h2 What's included",
+      "h2 What's not included",
+      "h2 Related work"
+    ],
+    "links": [
+      "Skip to main content -> #main",
+      "Elevation Code Works -> /",
+      "Services -> /services/",
+      "Work -> /work/",
+      "About -> /about/",
+      "Contact -> /contact/",
+      "Uphill Ski CO -> /work/uphill-ski-co/",
+      "Tell me about your project -> /contact/",
+      "Contact -> /contact/"
+    ],
+    "jsonLd": [
+      {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "name": "Websites that get found",
+        "description": "Fast, accessible websites built so search engines can read every page and customers can find you and get in touch.",
+        "url": "https://elevationcode.works/services/websites/",
+        "areaServed": {
+          "@type": "City",
+          "name": "Denver",
+          "containedInPlace": {
+            "@type": "State",
+            "name": "Colorado"
+          }
+        },
+        "provider": {
+          "@id": "https://elevationcode.works/#business"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://elevationcode.works/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Services",
+            "item": "https://elevationcode.works/services/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Websites that get found",
+            "item": "https://elevationcode.works/services/websites/"
+          }
+        ]
+      }
+    ]
+  },
+  "work/condies/index.html": {
+    "text": [
+      "Skip to main content",
+      "Elevation Code Works",
+      "Services",
+      "Work",
+      "About",
+      "Contact",
+      "Condies",
+      "Snow and weather forecasts for wherever you're headed, with a single score that says when conditions will be best.",
+      "Who it serves",
+      "Skiers, riders and anyone planning a day outdoors who wants a fast read on the weather.",
+      "My role",
+      "Built it end to end.",
+      "Live site",
+      "condies.fyi",
+      "The project",
+      "Condies answers one question quickly: when are conditions best? It shows the current weather, the next twelve hours, and a week of temperature ranges, then picks the best day and time to head out and scores it out of 100.",
+      "Details",
+      "Saved spots and a map, so regular destinations are one tap away.",
+      "Installs on a phone’s home screen and opens like a native app.",
+      "Light and dark themes that follow the device setting.",
+      "Tell me about your project",
+      "Elevation Code Works",
+      "Denver, Colorado",
+      "AI-powered, human-driven",
+      "Contact"
+    ],
+    "headings": [
+      "h1 Condies",
+      "h2 The project",
+      "h2 Details"
+    ],
+    "links": [
+      "Skip to main content -> #main",
+      "Elevation Code Works -> /",
+      "Services -> /services/",
+      "Work -> /work/",
+      "About -> /about/",
+      "Contact -> /contact/",
+      "condies.fyi -> https://condies.fyi/",
+      "Tell me about your project -> /contact/",
+      "Contact -> /contact/"
+    ],
+    "jsonLd": [
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://elevationcode.works/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Work",
+            "item": "https://elevationcode.works/work/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Condies",
+            "item": "https://elevationcode.works/work/condies/"
+          }
+        ]
+      }
+    ]
+  },
+  "work/index.html": {
+    "text": [
+      "Skip to main content",
+      "Elevation Code Works",
+      "Services",
+      "Work",
+      "About",
+      "Contact",
+      "Work",
+      "Every project here is live. Visit them, use them, and judge the work for yourself.",
+      "What Can I Do?",
+      "A search engine for taking action on the causes you care about, by donating, volunteering, learning or buying from proven solutions.",
+      "Contracted by Important, Not Important to build the initial version and launch it to production.",
+      "Condies",
+      "Snow and weather forecasts for wherever you're headed, with a single score that says when conditions will be best.",
+      "Built it end to end.",
+      "Uphill Ski CO",
+      "A guide to uphill skiing at 24 Colorado ski resorts, covering when you can skin up, what it costs and where the routes go this season.",
+      "Built it end to end.",
+      "Tell me about your project",
+      "Elevation Code Works",
+      "Denver, Colorado",
+      "AI-powered, human-driven",
+      "Contact"
+    ],
+    "headings": [
+      "h1 Work",
+      "h2 What Can I Do?",
+      "h2 Condies",
+      "h2 Uphill Ski CO"
+    ],
+    "links": [
+      "Skip to main content -> #main",
+      "Elevation Code Works -> /",
+      "Services -> /services/",
+      "Work -> /work/",
+      "About -> /about/",
+      "Contact -> /contact/",
+      "What Can I Do? -> /work/what-can-i-do/",
+      "Condies -> /work/condies/",
+      "Uphill Ski CO -> /work/uphill-ski-co/",
+      "Tell me about your project -> /contact/",
+      "Contact -> /contact/"
+    ],
+    "jsonLd": [
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://elevationcode.works/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Work",
+            "item": "https://elevationcode.works/work/"
+          }
+        ]
+      }
+    ]
+  },
+  "work/uphill-ski-co/index.html": {
+    "text": [
+      "Skip to main content",
+      "Elevation Code Works",
+      "Services",
+      "Work",
+      "About",
+      "Contact",
+      "Uphill Ski CO",
+      "A guide to uphill skiing at 24 Colorado ski resorts, covering when you can skin up, what it costs and where the routes go this season.",
+      "Who it serves",
+      "Skiers and splitboarders who climb resorts before the lifts open or after they close.",
+      "My role",
+      "Built it end to end.",
+      "Live site",
+      "uphillskico.com",
+      "The project",
+      "Uphill rules change every season and are scattered across 24 resort websites. Uphill Ski CO puts them in one place: hours, costs and routes, ranked from most to least accessible, with each resort’s status marked as confirmed for this season or carried over from the last.",
+      "Details",
+      "Search by name and filter by pass network or by whether uphill travel is allowed while lifts run.",
+      "An interactive peak graphic, where taller peaks mean better access, that works with a mouse, touch or the arrow keys.",
+      "Structured data for every resort and a set of common questions, so search engines can read the guide’s answers directly.",
+      "Links to 30 official trail maps for scouting a skin track.",
+      "Tell me about your project",
+      "Elevation Code Works",
+      "Denver, Colorado",
+      "AI-powered, human-driven",
+      "Contact"
+    ],
+    "headings": [
+      "h1 Uphill Ski CO",
+      "h2 The project",
+      "h2 Details"
+    ],
+    "links": [
+      "Skip to main content -> #main",
+      "Elevation Code Works -> /",
+      "Services -> /services/",
+      "Work -> /work/",
+      "About -> /about/",
+      "Contact -> /contact/",
+      "uphillskico.com -> https://uphillskico.com/",
+      "Tell me about your project -> /contact/",
+      "Contact -> /contact/"
+    ],
+    "jsonLd": [
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://elevationcode.works/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Work",
+            "item": "https://elevationcode.works/work/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Uphill Ski CO",
+            "item": "https://elevationcode.works/work/uphill-ski-co/"
+          }
+        ]
+      }
+    ]
+  },
+  "work/what-can-i-do/index.html": {
+    "text": [
+      "Skip to main content",
+      "Elevation Code Works",
+      "Services",
+      "Work",
+      "About",
+      "Contact",
+      "What Can I Do?",
+      "A search engine for taking action on the causes you care about, by donating, volunteering, learning or buying from proven solutions.",
+      "Who it serves",
+      "People who want to act on climate and social causes, starting where they live.",
+      "My role",
+      "Contracted by Important, Not Important to build the initial version and launch it to production.",
+      "Client",
+      "Important, Not Important",
+      "Live site",
+      "whatcanido.earth",
+      "The project",
+      "What Can I Do? helps people find concrete ways to act on the issues they care about. Visitors search by location and get actions they can take right away: places to donate or volunteer, things to learn, and products to buy from proven solutions.",
+      "What I did",
+      "Important, Not Important contracted me to build the first version of What Can I Do? and launch it to production. The product has grown since that engagement. This case study covers the initial build and launch.",
+      "Tell me about your project",
+      "Elevation Code Works",
+      "Denver, Colorado",
+      "AI-powered, human-driven",
+      "Contact"
+    ],
+    "headings": [
+      "h1 What Can I Do?",
+      "h2 The project",
+      "h2 What I did"
+    ],
+    "links": [
+      "Skip to main content -> #main",
+      "Elevation Code Works -> /",
+      "Services -> /services/",
+      "Work -> /work/",
+      "About -> /about/",
+      "Contact -> /contact/",
+      "whatcanido.earth -> https://whatcanido.earth/",
+      "Tell me about your project -> /contact/",
+      "Contact -> /contact/"
+    ],
+    "jsonLd": [
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://elevationcode.works/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Work",
+            "item": "https://elevationcode.works/work/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "What Can I Do?",
+            "item": "https://elevationcode.works/work/what-can-i-do/"
+          }
+        ]
+      }
+    ]
+  }
+}
