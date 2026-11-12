@@ -1,0 +1,18 @@
+import { defineConfig } from 'astro/config'
+import sitemap from '@astrojs/sitemap'
+import { PRODUCTION_ORIGIN } from './src/site.config.ts'
+
+/** Pages that must never appear in the sitemap. */
+const EXCLUDED_FROM_SITEMAP = ['/404/', '/contact/thanks/']
+
+export default defineConfig({
+  site: PRODUCTION_ORIGIN,
+  trailingSlash: 'always',
+  build: { format: 'directory' },
+  integrations: [
+    sitemap({
+      filter: (page) =>
+        !EXCLUDED_FROM_SITEMAP.some((path) => new URL(page).pathname === path)
+    })
+  ]
+})

@@ -9,26 +9,26 @@
   - Keep `openspec/`, `.claude/` and `.idea/`.
 
   Verify that `git status` lists only `openspec/`, `.claude/` and `.idea/` as untracked, `git diff HEAD` is empty, and `openspec validate astro-site-foundation --strict` still passes
-- [ ] 1.2 Create `astro-site-foundation` from `main`. Bring `openspec/` and `.claude/` onto it, add `.idea/` to `.gitignore`, and commit. Verify that `git status` is clean and `openspec validate astro-site-foundation --strict` passes on the branch
+- [x] 1.2 Create `astro-site-foundation` from `main`. Bring `openspec/` and `.claude/` onto it, add `.idea/` to `.gitignore`, and commit. Verify that `git status` is clean and `openspec validate astro-site-foundation --strict` passes on the branch
 
 ## 2. Astro scaffold
 
-- [ ] 2.1 Set up the project files:
+- [x] 2.1 Set up the project files:
   - Replace `package.json` dependencies and scripts per design D12: `astro`, `@astrojs/sitemap`, `@astrojs/check`, `typescript`, `prettier`, `prettier-plugin-astro`, `culori`, `schema-dts`, `@lhci/cli`, `pa11y-ci`.
   - Add `.nvmrc` (26).
   - Point `tsconfig.json` at `astro/tsconfigs/strict`.
   - Delete the old static `index.html` and `about.html`. The Astro pages replace them.
 
   Verify that `npm install` succeeds, a stub `src/pages/index.astro` builds to `dist/index.html`, and `git grep -il remix -- . ':!openspec'` returns nothing
-- [ ] 2.2 Configure `astro.config.mjs`:
+- [x] 2.2 Configure `astro.config.mjs`:
   - `site` from `PRODUCTION_ORIGIN`
   - `trailingSlash: 'always'`
   - `build.format: 'directory'`
   - `@astrojs/sitemap` with a filter that excludes the 404 and `/contact/thanks/`
 
   Verify that a build of two stub pages emits `dist/about/index.html` and a sitemap that lists only the stubs
-- [ ] 2.3 Add a Prettier config with `prettier-plugin-astro`, keeping the existing style (no semicolons, single quotes, no trailing commas). Verify that `npx prettier --check .` passes
-- [ ] 2.4 Rewrite `README.md` to cover setup, the Node version, and each npm script. Verify that every command in it runs as written
+- [x] 2.3 Add a Prettier config with `prettier-plugin-astro`, keeping the existing style (no semicolons, single quotes, no trailing commas). Verify that `npx prettier --check .` passes
+- [x] 2.4 Rewrite `README.md` to cover setup, the Node version, and each npm script. Verify that every command in it runs as written
 
 ## 3. Layout, tokens and indexing controls
 
