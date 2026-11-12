@@ -12,6 +12,31 @@ const pending = z.array(z.object({ question: z.string().min(1) })).default([])
 
 const description = z.string().min(70).max(160)
 
+/**
+ * Trail-rating marks, one per service: the size of the commitment, the way
+ * ski runs are rated (visual-identity design D9).
+ */
+export const RATINGS = ['green-circle', 'blue-square', 'black-diamond'] as const
+const rating = z.enum(RATINGS)
+
+/** The Services page legend: every rating exactly once, with what it means. */
+const ratingLegend = z
+  .array(
+    z.object({
+      rating,
+      name: z.string().min(1),
+      meaning: z.string().min(1)
+    })
+  )
+  .refine(
+    (legend) =>
+      legend.length === RATINGS.length &&
+      RATINGS.every((r) => legend.filter((l) => l.rating === r).length === 1),
+    {
+      message: `ratingLegend must list ${RATINGS.join(', ')} exactly once each`
+    }
+  )
+
 const suffixedSeo = z.object({
   title: z.string().min(1).max(SUFFIXED_TITLE_MAX),
   description
@@ -28,6 +53,7 @@ const services = defineCollection({
     notIncluded: z.array(z.string().min(1)).min(1),
     relatedWork: z.array(reference('work')).default([]),
     isEntryOffer: z.boolean().default(false),
+    rating,
     seo: suffixedSeo,
     pending
   })
@@ -86,6 +112,9 @@ const pages = defineCollection({
       servicesHeading: z.string().optional(),
       photoAlt: z.string().optional(),
       dataUse: z.string().optional(),
+      ratingLegendHeading: z.string().optional(),
+      ratingLegendIntro: z.string().optional(),
+      ratingLegend: ratingLegend.optional(),
       pending
     })
     .refine((p) => p.fullTitle || p.seo.title.length <= SUFFIXED_TITLE_MAX, {

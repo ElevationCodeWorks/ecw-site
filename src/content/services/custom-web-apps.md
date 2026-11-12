@@ -1,6 +1,7 @@
 ---
 title: Custom web apps
 order: 3
+rating: black-diamond
 summary: Web apps your customers use, such as client portals, booking and ordering flows and member areas, built around how your business works.
 forWho: Businesses whose customers need to do more than read a page, where off-the-shelf software doesn't fit the way they work.
 included:

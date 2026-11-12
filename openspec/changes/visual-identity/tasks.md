@@ -88,14 +88,14 @@
 
 ## 6. Trail-rating marks (design D9)
 
-- [ ] 6.1 Content changes:
+- [x] 6.1 Content changes:
   - Add `rating` to the `services` schema
   - Add `ratingLegend` to `src/content/pages/services.md`, validated to cover each rating exactly once
   - Give each service its proposed rating
   - Add `pending` markers asking the owner to confirm the meanings and the assignment
 
   Verify that a temporary service fixture with no rating fails the build and names the service, and that `npm run release-check` lists the new markers
-- [ ] 6.2 Build the marks:
+- [x] 6.2 Build the marks:
   - Add `RatingMark.astro`: an inline SVG shape with `aria-hidden`, plus a visible text label
   - Add the `--color-rating-*` tokens in both schemes, with a light outline for the black diamond in dark, and add them to the contrast pairs
   - Add `showRatings` to `ServiceList`
