@@ -1,0 +1,55 @@
+---
+import { Picture } from 'astro:assets'
+import type { CollectionEntry } from 'astro:content'
+
+interface Props {
+  project: CollectionEntry<'work'>
+  level?: 2 | 3
+  /** Load this screenshot first (the page's largest image). */
+  priority?: boolean
+}
+
+const { project, level = 2, priority = false } = Astro.props
+const Heading = `h${level}` as 'h2' | 'h3'
+const shot =
+  project.data.screenshots.find((s) => s.viewport === 'desktop') ??
+  project.data.screenshots[0]
+---
+
+<article class="preview">
+  <Picture
+    src={shot.image}
+    alt={shot.alt}
+    formats={['avif', 'webp']}
+    widths={[480, 960, 1440]}
+    sizes="(min-width: 72rem) 36rem, 100vw"
+    loading={priority ? 'eager' : 'lazy'}
+    fetchpriority={priority ? 'high' : 'auto'}
+  />
+  <div class="stack-tight">
+    <Heading>
+      <a href={`/work/${project.id}/`}>{project.data.name}</a>
+    </Heading>
+    <p>{project.data.description}</p>
+    <p class="role">{project.data.role}</p>
+  </div>
+</article>
+
+<style>
+  .preview {
+    /* Keep extra height (from taller sibling cards) at the bottom. */
+    align-content: start;
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .preview :global(img) {
+    border: var(--border-width) solid var(--color-border);
+    border-radius: var(--radius);
+  }
+
+  .role {
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+  }
+</style>

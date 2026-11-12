@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import CallToAction from '../../components/CallToAction.astro'
+import ServiceList from '../../components/ServiceList.astro'
+import { getPage } from '../../lib/pages.ts'
+import { getServices } from '../../lib/services.ts'
+import { asJsonLd, breadcrumbs } from '../../lib/schema.ts'
+
+const page = await getPage('services')
+const services = await getServices()
+const { data } = page
+---
+
+<BaseLayout
+  title={data.seo.title}
+  description={data.seo.description}
+  jsonLd={[asJsonLd(breadcrumbs([{ name: 'Services', path: '/services/' }]))]}
+>
+  <div class="stack">
+    <h1>{data.h1}</h1>
+    {data.lede && <p class="lede">{data.lede}</p>}
+  </div>
+  <div class="section">
+    <ServiceList services={services} />
+  </div>
+  {data.cta && <CallToAction label={data.cta.label} href={data.cta.href} />}
+</BaseLayout>

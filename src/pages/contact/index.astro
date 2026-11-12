@@ -1,0 +1,168 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import { getPage } from '../../lib/pages.ts'
+import { getServices } from '../../lib/services.ts'
+import { asJsonLd, breadcrumbs } from '../../lib/schema.ts'
+import { site } from '../../site.config.ts'
+
+const { data } = await getPage('contact')
+const services = await getServices()
+---
+
+<BaseLayout
+  title={data.seo.title}
+  description={data.seo.description}
+  jsonLd={[asJsonLd(breadcrumbs([{ name: 'Contact', path: '/contact/' }]))]}
+>
+  <div class="stack">
+    <h1>{data.h1}</h1>
+    {data.lede && <p class="lede">{data.lede}</p>}
+    <p>
+      Prefer email? Write to{' '}
+      <a href={`mailto:${site.publicEmail}`}>{site.publicEmail}</a>.
+    </p>
+  </div>
+
+  {/*
+    Netlify Forms (design D11): detected in the built HTML at deploy time.
+    Works without JavaScript; the browser enforces the input rules.
+  */}
+  <form
+    class="section form"
+    name="contact"
+    method="POST"
+    action="/contact/thanks/"
+    data-netlify="true"
+    netlify-honeypot="bot-field"
+  >
+    <input type="hidden" name="form-name" value="contact" />
+    <input
+      type="hidden"
+      name="subject"
+      data-remove-prefix
+      value="Website inquiry: Elevation Code Works"
+    />
+    <p hidden>
+      <label>
+        Leave this field empty <input name="bot-field" />
+      </label>
+    </p>
+
+    <p class="field">
+      <label for="name">
+        Name <span class="req">(required)</span>
+      </label>
+      <input id="name" name="name" autocomplete="name" required />
+    </p>
+
+    <p class="field">
+      <label for="email">
+        Email <span class="req">(required)</span>
+      </label>
+      <input
+        id="email"
+        name="email"
+        type="email"
+        autocomplete="email"
+        required
+      />
+    </p>
+
+    <p class="field">
+      <label for="business">
+        Business name <span class="opt">(optional)</span>
+      </label>
+      <input id="business" name="business" autocomplete="organization" />
+    </p>
+
+    <p class="field">
+      <label for="service">
+        What do you need? <span class="opt">(optional)</span>
+      </label>
+      <select id="service" name="service">
+        <option value="">Choose one</option>
+        {services.map((service) => (
+          <option value={service.data.title}>{service.data.title}</option>
+        ))}
+        <option value="Not sure yet">Not sure yet</option>
+      </select>
+    </p>
+
+    <p class="field">
+      <label for="message">
+        Message <span class="req">(required, at least 10 characters)</span>
+      </label>
+      <textarea
+        id="message"
+        name="message"
+        rows="8"
+        minlength="10"
+        maxlength="5000"
+        required
+      ></textarea>
+    </p>
+
+    <p class="data-use">{data.dataUse}</p>
+
+    <p>
+      <button type="submit">Send message</button>
+    </p>
+  </form>
+</BaseLayout>
+
+<style>
+  .form {
+    display: grid;
+    gap: var(--space-5);
+    max-width: 40rem;
+  }
+
+  .field {
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  label {
+    font-weight: var(--weight-bold);
+  }
+
+  .req,
+  .opt {
+    color: var(--color-text-muted);
+    font-weight: var(--weight-normal);
+  }
+
+  input,
+  select,
+  textarea {
+    background: var(--color-bg);
+    border: var(--border-width) solid var(--color-border-strong);
+    border-radius: var(--radius);
+    padding: var(--space-2) var(--space-3);
+    width: 100%;
+  }
+
+  textarea {
+    resize: vertical;
+  }
+
+  .data-use {
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+  }
+
+  button {
+    background: var(--color-text);
+    border: var(--border-width) solid var(--color-text);
+    border-radius: var(--radius);
+    color: var(--color-bg);
+    cursor: pointer;
+    font-weight: var(--weight-bold);
+    padding: var(--space-3) var(--space-5);
+  }
+
+  button:hover {
+    background: var(--color-link-hover);
+    border-color: var(--color-link-hover);
+  }
+</style>
