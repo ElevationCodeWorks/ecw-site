@@ -7,6 +7,7 @@ This repository is public, so this record names no employer.
 ## Owner decisions
 
 - **2026-11-12:** approved the three round 1 sources in design D3 (Trailhead, Catalog and Letterhead) without changes.
+- **2026-11-13:** chose Catalog in round 1, with changes (see 1.B).
 - **2026-11-12:** dropped the trail-rating marks (design D9). A fixed size per service could set the wrong expectations, since a project's scope depends on the client.
 
 ## Template
@@ -54,9 +55,9 @@ Sources approved on 2026-11-12. Each comp must differ from the others in typefac
 
 | Comp | Source | Status |
 | --- | --- | --- |
-| 1.A Trailhead | Colorado highway guide signs and Forest Service trailhead signs | Built, #3 |
-| 1.B Catalog | Industrial parts catalogs and hardware-store shelf tags | Built, #4 |
-| 1.C Letterhead | The copy's first-person letter voice and small-business stationery | Built, #5 |
+| 1.A Trailhead | Colorado highway guide signs and Forest Service trailhead signs | Not chosen |
+| 1.B Catalog | Industrial parts catalogs and hardware-store shelf tags | **Chosen** |
+| 1.C Letterhead | The copy's first-person letter voice and small-business stationery | Not chosen |
 
 **How the three differ (design D3):**
 
@@ -99,7 +100,7 @@ Sources approved on 2026-11-12. Each comp must differ from the others in typefac
 
 **Symbol motif review:** mountain peaks, upward arrows or chevrons, code brackets, a terminal prompt or cursor, a sparkle or four-point star, gears, lightbulbs, rockets, circuit traces, a hexagon badge, the Colorado flag's "C", the state's outline, and official signs, highway shields or agency marks are all absent. The marks step down and to the right, so they don't read as rising steps or an arrow.
 
-- **Owner verdict:** pending.
+- **Owner verdict:** 2026-11-13: not chosen. PR #3 and its branch are still open, waiting on the owner's OK to close and delete them.
 
 ### 1.B Catalog
 
@@ -134,7 +135,10 @@ Sources approved on 2026-11-12. Each comp must differ from the others in typefac
 
 **Symbol motif review:** every banned motif is absent. A tag can read as a generic price-tag icon, which the owner may weigh.
 
-- **Owner verdict:** pending.
+- **Owner verdict:** 2026-11-13: **chosen**, with changes for round 2:
+  - The yellow fill on hovered links doesn't look good.
+  - The thick horizontal rules don't look good.
+  - Overall it's too plain. It needs an artistic element, as if a graphic designer with a strong artistic background made it, and a nicer hero section.
 
 ### 1.C Letterhead
 
@@ -171,4 +175,4 @@ Sources approved on 2026-11-12. Each comp must differ from the others in typefac
 
 **Left out:** the plan's founder photo and signature on Home and About. Home has no founder photo, and adding one (or a signature) would add content, which a comp may not do. About keeps its photo.
 
-- **Owner verdict:** pending.
+- **Owner verdict:** 2026-11-13: not chosen. PR #5 and its branch are still open, waiting on the owner's OK to close and delete them.
