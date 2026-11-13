@@ -38,8 +38,11 @@ test("Home's full title loses its brand suffix", () => {
   assert.equal(ogSubject('About me', 'Elevation Code Works'), 'About me')
 })
 
-test('the placeholder look renders with Noto Sans', () => {
-  const fonts = ogFonts(tokens)
+test('tokens that use system fonts only render with Noto Sans', () => {
+  const systemOnly = readTokens(
+    ':root { --font-body: system-ui, sans-serif; --font-heading: var(--font-body); }'
+  )
+  const fonts = ogFonts(systemOnly)
   assert.deepEqual(
     fonts.map((f) => [f.name, f.weight]),
     [
