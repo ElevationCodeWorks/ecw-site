@@ -1,38 +1,58 @@
-[
-  {
-    "part": "tech-checkup",
-    "side": "right",
-    "x": 79.3,
-    "y": 47.1
+{
+  "crop": {
+    "w": 197.7,
+    "x": -48.8,
+    "y": -5.3,
+    "b": -5.3
   },
-  {
-    "part": "ai-features",
-    "side": "left",
-    "x": 20,
-    "y": 11.5
-  },
-  {
-    "part": "websites",
-    "side": "right",
-    "x": 77.1,
-    "y": 30.3
-  },
-  {
-    "part": "care-and-rescue",
-    "side": "right",
-    "x": 77.1,
-    "y": 89.5
-  },
-  {
-    "part": "integrations",
-    "side": "left",
-    "x": 22.9,
-    "y": 82.4
-  },
-  {
-    "part": "custom-web-apps",
-    "side": "left",
-    "x": 21.3,
-    "y": 55.1
-  }
-]
+  "labels": [
+    {
+      "part": "tech-checkup",
+      "side": "right",
+      "x": 77,
+      "y": 46.6,
+      "w": 21.7,
+      "i": 1
+    },
+    {
+      "part": "ai-features",
+      "side": "left",
+      "x": 23,
+      "y": 13.7,
+      "w": 21.7,
+      "i": 5
+    },
+    {
+      "part": "websites",
+      "side": "right",
+      "x": 77,
+      "y": 29.4,
+      "w": 21.7,
+      "i": 0
+    },
+    {
+      "part": "care-and-rescue",
+      "side": "right",
+      "x": 77,
+      "y": 85.7,
+      "w": 21.7,
+      "i": 2
+    },
+    {
+      "part": "integrations",
+      "side": "left",
+      "x": 23,
+      "y": 80.5,
+      "w": 21.7,
+      "i": 3
+    },
+    {
+      "part": "custom-web-apps",
+      "side": "left",
+      "x": 23,
+      "y": 54.8,
+      "w": 21.7,
+      "i": 4
+    }
+  ]
+}
