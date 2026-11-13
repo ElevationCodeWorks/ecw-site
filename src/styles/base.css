@@ -26,15 +26,32 @@ body {
   line-height: var(--leading-body);
 }
 
+/*
+ * Light type on a dark ground looks heavier than the same type in ink, so
+ * the dark scheme draws it without the extra stem weight.
+ */
+@media (prefers-color-scheme: dark) {
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
 h1,
 h2,
 h3,
 h4 {
   font-family: var(--font-heading);
   font-weight: var(--weight-bold);
-  letter-spacing: -0.01em;
-  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-heading);
+  line-height: var(--leading-snug);
   text-wrap: balance;
+}
+
+h1,
+h2 {
+  letter-spacing: var(--tracking-display);
+  line-height: var(--leading-tight);
 }
 
 h1 {
@@ -55,10 +72,11 @@ li {
   text-wrap: pretty;
 }
 
+/* A fine rule under body links that thickens when pointed at. */
 a {
   color: var(--color-link);
   text-decoration-thickness: 1px;
-  text-underline-offset: 0.15em;
+  text-underline-offset: 0.2em;
 }
 
 a:hover {
@@ -66,9 +84,14 @@ a:hover {
   text-decoration-thickness: 2px;
 }
 
+/* Under display type the rule sits closer, so it reads with the word. */
+:is(h1, h2, h3) a {
+  text-underline-offset: 0.14em;
+}
+
 :focus-visible {
   outline: var(--focus-width) solid var(--color-focus);
-  outline-offset: 2px;
+  outline-offset: 3px;
 }
 
 img,
