@@ -25,7 +25,7 @@
   - the baseline diff contains only the What Can I Do? copy, the quote and the Work description
   - `npm test`, `npm run check:structure` and `openspec validate client-quote --strict` pass
   - axe passes on the case study in both schemes
-- [ ] 3.2 Commit on `visual-identity` and push. Verify that the deploy preview shows the quote on `/work/what-can-i-do/`
+- [x] 3.2 Commit on `visual-identity` and push. Verify that the deploy preview shows the quote on `/work/what-can-i-do/`
 
 ## Workflow follow-up
 
