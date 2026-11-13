@@ -317,4 +317,4 @@ Every concept: the site check passes, axe passes at both sizes in both schemes, 
 | A customer's path | 2. Three-up grid with icons in tinted tiles | Pass | Stops on a line, deliberately not icons in tiles. |
 | A customer's path | Site check: numbered labels | Pass | The stops are an ordered list (`ol`) with no visible numbers. |
 
-- **Owner's choice of hero and symbol:** pending.
+- **Owner verdict (2026-11-13):** likes Storefront, exploded, but the parts don't make sense as the services. It should use art that connects with the services (task 9.7): the shop stays as the client's business, and a drawing of each service comes out of it.
