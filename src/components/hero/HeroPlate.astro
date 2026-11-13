@@ -1,9 +1,11 @@
 ---
 /**
- * The hero drawing for comp R2.A "Plate": an exploded assembly drawn like a
- * parts-catalog plate (src/assets/brand/plate-hero.svg). Decorative, so it is
- * hidden from assistive technology. Its faces and its one yellow surface are
- * colored here with tokens, so it follows both color schemes.
+ * Hero option "Gallery wall" for comp R2.A Plate, after the First Friday art
+ * walks on Santa Fe Drive: the exploded assembly hangs as a framed print in
+ * CSS 3D, seen at an angle and swaying a little, with a wall label beside it.
+ * Hovering turns the print to face the visitor. CSS only; the sway sits
+ * inside the reduced-motion guard (design D14). Decorative, so it is hidden
+ * from assistive technology.
  */
 import drawing from '../../assets/brand/plate-hero.svg?raw'
 
@@ -12,18 +14,72 @@ const svg = drawing
   .replace(/<svg\b/, '<svg aria-hidden="true" focusable="false"')
 ---
 
-<div class="hero-plate">
-  <Fragment set:html={svg} />
+<div class="hero-plate" aria-hidden="true">
+  <div class="print">
+    <div class="mat">
+      <Fragment set:html={svg} />
+    </div>
+  </div>
+  <div class="label">
+    <span></span>
+    <span></span>
+    <span></span>
+    <i></i>
+  </div>
 </div>
 
 <style>
+  /* The wall: depth for the frame, seen from slightly left of center. */
   .hero-plate {
     color: var(--color-text);
+    perspective: 1400px;
+    perspective-origin: 20% 40%;
+    position: relative;
+  }
+
+  /* The frame: an ink moulding with depth on its right edge. */
+  .print {
+    background: var(--color-text);
+    box-shadow: var(--shadow-hung);
+    padding: clamp(0.6rem, 1.4vw, 1rem);
+    position: relative;
+    transform: rotateY(-20deg) rotateX(3deg);
+    transform-origin: 50% 0;
+    transform-style: preserve-3d;
+    transition: transform 250ms ease-out;
+  }
+
+  .print::after {
+    background: var(--color-text-muted);
+    content: '';
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transform: rotateY(90deg);
+    transform-origin: 100% 50%;
+    width: 1.1rem;
+  }
+
+  .hero-plate:hover .print {
+    transform: rotateY(-3deg) rotateX(1deg);
+  }
+
+  /* The mat, with the drawing on it. The plate's own frame and crop marks
+     belong to the printed sheet, not to a framed print, so they are hidden. */
+  .mat {
+    background: var(--color-bg);
+    padding: clamp(1rem, 3vw, 2.25rem);
   }
 
   .hero-plate :global(svg) {
+    display: block;
     height: auto;
     width: 100%;
+  }
+
+  .hero-plate :global(.frame) {
+    display: none;
   }
 
   .hero-plate :global(.face) {
@@ -42,7 +98,67 @@ const svg = drawing
     stroke-dasharray: 4 4;
   }
 
-  .hero-plate :global(rect.frame) {
-    stroke: var(--color-border);
+  /* The wall label: a small card of lines, with a yellow dot. */
+  .label {
+    border: var(--border-width) solid var(--color-border);
+    display: grid;
+    gap: 0.35rem;
+    margin-left: auto;
+    margin-top: var(--space-6);
+    padding: var(--space-3);
+    position: relative;
+    width: 9rem;
+  }
+
+  .label span {
+    background: var(--color-text-muted);
+    display: block;
+    height: 0.3rem;
+  }
+
+  .label span:nth-child(2) {
+    width: 80%;
+  }
+
+  .label span:nth-child(3) {
+    width: 55%;
+  }
+
+  .label i {
+    background: var(--color-highlight);
+    border: var(--border-width) solid var(--color-text);
+    height: 0.7rem;
+    position: absolute;
+    right: var(--space-3);
+    top: var(--space-3);
+    width: 0.7rem;
+  }
+
+  /* A slow sway on its hook. It animates rotate, so the hover turn (on
+     transform) still works while it runs. */
+  @media (prefers-reduced-motion: no-preference) {
+    .print {
+      animation: sway 7s ease-in-out infinite alternate;
+    }
+
+    .hero-plate:hover .print {
+      animation-play-state: paused;
+    }
+
+    @keyframes sway {
+      from {
+        rotate: z -0.8deg;
+      }
+
+      to {
+        rotate: z 0.8deg;
+      }
+    }
+  }
+
+  @media (max-width: 56rem) {
+    .print {
+      transform: rotateY(-10deg) rotateX(2deg);
+    }
   }
 </style>

@@ -109,6 +109,8 @@
   --rule-width: 1px;
   --focus-width: 3px;
   --shadow: none;
+  /* A print hanging on a wall: a short, neutral drop shadow. */
+  --shadow-hung: 0 22px 24px -14px rgb(0 0 0 / 35%);
 
   /* Layout */
   --measure: 70ch;
@@ -132,5 +134,6 @@
     --color-on-accent: #0e0e0e;
     --color-highlight: #ffdd00;
     --color-on-highlight: #0a0a0a;
+    --shadow-hung: 0 22px 24px -14px rgb(0 0 0 / 70%);
   }
 }
