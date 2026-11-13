@@ -2,10 +2,10 @@
  * Design tokens: the ONLY file allowed to contain color values or font-family names.
  * Every other stylesheet and component references these variables.
  *
- * Comp R1.B "Catalog": industrial parts catalogs and hardware-store shelf
- * tags. Dense and factual, black on white, heavy rules, condensed headings in
- * Archivo Narrow over Archivo. One high-visibility yellow, used only as a fill
- * behind black text, never as text on white.
+ * "Plate": an industrial parts catalog. Dense and factual, ink on white,
+ * hairline rules, condensed headings in Archivo Narrow over Archivo. One
+ * high-visibility yellow, used only as a fill behind black text, never as
+ * text on white.
  *
  * Two color schemes, chosen by the visitor's system preference. Every color
  * token is declared in :root (light) and again in the dark block below; the
@@ -68,7 +68,7 @@
   --color-link: #0a0a0a;
   --color-link-hover: #0a0a0a;
   --color-focus: #0a0a0a;
-  /* Ink: rules, button edges and the header's heavy underline. */
+  /* Ink: the header and footer rules and the rule over each table. */
   --color-accent: #0a0a0a;
   --color-on-accent: #ffffff;
   /* High-visibility yellow: a fill behind black text only. */
@@ -83,15 +83,23 @@
     'Archivo Narrow', 'Archivo Narrow Fallback', Arial, sans-serif;
   --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
 
+  /*
+   * Text sizes step gently (14, 16, 18, 22); display sizes step by about 1.8
+   * (22, 40, 72 on a wide screen). One h1 size serves every page.
+   */
   --text-sm: 0.875rem;
   --text-base: 1rem;
   --text-lg: 1.125rem;
   --text-xl: 1.375rem;
   --text-2xl: clamp(1.75rem, 1.3rem + 1.8vw, 2.5rem);
-  --text-3xl: clamp(2.5rem, 1.6rem + 4vw, 4.25rem);
+  --text-3xl: clamp(2.75rem, 1.5rem + 3.6vw, 4.5rem);
 
+  /* Display type sets solid and tracks in; small headings get air. */
   --leading-tight: 1.02;
+  --leading-snug: 1.18;
   --leading-body: 1.5;
+  --tracking-display: -0.015em;
+  --tracking-heading: -0.005em;
   --weight-normal: 400;
   --weight-bold: 700;
 
@@ -104,6 +112,9 @@
   --space-6: 1.75rem;
   --space-7: 2.5rem;
   --space-8: 4rem;
+  --space-9: 6rem;
+  /* Between a page's major sections: 64px on a phone, 96px on a wide screen. */
+  --space-section: clamp(var(--space-8), 2rem + 4.5vw, var(--space-9));
 
   /* Shape */
   --radius: 0;
@@ -113,9 +124,17 @@
   --shadow: none;
 
   /* Layout */
-  --measure: 70ch;
-  --container: 78rem;
-  --gutter: var(--space-5);
+  --measure: 62ch;
+  --container: 80rem;
+  /* 20px on a phone, about 30px on a tablet, 40px on a wide screen. */
+  --gutter: clamp(var(--space-5), 0.6rem + 2.6vw, var(--space-7));
+  /*
+   * The page's one column line: a narrow column (the headline, each
+   * screenshot, each service name) and a wide one (the drawing, each entry's
+   * details, each service's summary), so the sections line up down the page.
+   */
+  --split: minmax(0, 3fr) minmax(0, 5fr);
+  --split-gap: var(--space-7);
 }
 
 @media (prefers-color-scheme: dark) {
