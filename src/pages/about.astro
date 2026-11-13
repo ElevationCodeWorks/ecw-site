@@ -33,8 +33,8 @@ const jsonLd = [
       src={founderPhoto}
       alt={data.photoAlt}
       formats={['avif', 'webp']}
-      widths={[320, 640]}
-      sizes="(min-width: 40rem) 18rem, 100vw"
+      widths={[320, 640, 960]}
+      sizes="(min-width: 80rem) 27rem, (min-width: 40rem) 34vw, 100vw"
       loading="eager"
       fetchpriority="high"
     />
@@ -53,15 +53,15 @@ const jsonLd = [
 
 <style>
   /*
-   * One grid for the page: the photo fills the 18rem label column (the same
+   * One grid for the page: the photo fills the label column of the 3:5 split (the same
    * as the service and case study pages), and the introduction and every
    * section's text share the column beside it.
    */
   .intro {
     align-items: start;
     display: grid;
-    gap: var(--space-5) var(--space-6);
-    grid-template-columns: minmax(0, 18rem) minmax(0, 1fr);
+    gap: var(--space-5) var(--split-gap);
+    grid-template-columns: var(--split);
   }
 
   .intro :global(img) {
@@ -81,9 +81,9 @@ const jsonLd = [
   .story {
     align-items: baseline;
     border-bottom: var(--border-width) solid var(--color-border);
-    column-gap: var(--space-6);
+    column-gap: var(--split-gap);
     display: grid;
-    grid-template-columns: minmax(0, 18rem) minmax(0, 1fr);
+    grid-template-columns: var(--split);
     padding-bottom: var(--space-6);
     position: relative;
   }

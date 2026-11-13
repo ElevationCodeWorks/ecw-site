@@ -139,7 +139,7 @@ const formatDate = (value: Date | string) =>
 
 <style>
   /*
-   * One grid for the whole entry: an 18rem label column (the same as the
+   * One grid for the whole entry: the label column of the 3:5 split (as on the
    * Services list and the service pages) beside the content. Tables open
    * with an ink rule and divide their rows with hairlines.
    */
@@ -154,8 +154,8 @@ const formatDate = (value: Date | string) =>
     align-items: baseline;
     border-bottom: var(--border-width) solid var(--color-border);
     display: grid;
-    gap: var(--space-1) var(--space-6);
-    grid-template-columns: minmax(0, 18rem) minmax(0, 1fr);
+    gap: var(--space-1) var(--split-gap);
+    grid-template-columns: var(--split);
     padding-block: var(--space-3);
   }
 
@@ -197,9 +197,9 @@ const formatDate = (value: Date | string) =>
   .story {
     align-items: baseline;
     border-bottom: var(--border-width) solid var(--color-border);
-    column-gap: var(--space-6);
+    column-gap: var(--split-gap);
     display: grid;
-    grid-template-columns: minmax(0, 18rem) minmax(0, 1fr);
+    grid-template-columns: var(--split);
     padding-bottom: var(--space-6);
     position: relative;
   }
@@ -269,8 +269,10 @@ const formatDate = (value: Date | string) =>
    */
   .quote {
     border-left: var(--rule-width) solid var(--color-accent);
+    /* The label column of the 3:5 split, plus its gap; percentages here are of the content width. */
     margin-left: calc(
-      18rem + var(--space-6) - var(--space-5) - var(--rule-width)
+      (100% - var(--split-gap)) * 3 / 8 + var(--split-gap) - var(--space-5) -
+        var(--rule-width)
     );
     padding-left: var(--space-5);
   }
@@ -307,8 +309,8 @@ const formatDate = (value: Date | string) =>
     align-items: baseline;
     border-bottom: var(--border-width) solid var(--color-border);
     display: grid;
-    gap: var(--space-2) var(--space-6);
-    grid-template-columns: minmax(0, 18rem) minmax(0, 1fr);
+    gap: var(--space-2) var(--split-gap);
+    grid-template-columns: var(--split);
     padding-block: var(--space-5) var(--space-6);
   }
 
