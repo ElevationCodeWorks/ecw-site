@@ -339,3 +339,41 @@ Pointing at a label fills its drawing yellow. On load the services come out of t
 - **Changed (`20335b7`):** pointing at a label, or at a drawing, now expands that drawing from its own center (a 250ms transition) and shows the detail it was holding back, all in ink. The browser gains a map card with a pin beside the results. The phone's app cards fill in and its order button is checked. The chat's answer grows and a typing bubble appears. A card slides into the terminal and the booked day is checked. Tools stand in the toolbox. The checklist's last box is ticked, with a pencil. No hover fills yellow. The one still yellow touch stays (the business's result on top of the search), pending the owner's word.
 - **Owner's choice of hero and symbol (2026-11-13):** **Storefront, exploded** (as reworked, with the expand-to-show-detail hover) and the **ECW nameplate** symbol (option C). The one yellow touch (the business's search result on top) stays. The owner's note: it needs polishing and higher quality, which round 3 takes on.
 - **Cleanup (2026-11-13, with the owner's OK):** closed #3, #5, #7, #8, #9, #10, #12 and #13 and deleted their branches. Open: #1, #2, #4 (round 1 winner), #6 (round 2 winner) and #11 (the final direction, where round 3 happens).
+
+## Round 3: the final identity
+
+Plate with the Storefront hero and the ECW nameplate, finished on `comp/r2-hero-storefront` (#11, https://deploy-preview-11--elevationcodeworks.netlify.app), which merges into `visual-identity` at the end.
+
+**What round 3 changed**
+
+- **Hero polish:** an awning, a window sill, a door transom and a handle make the building read as a shop. The linework is an even 1.25px that stays crisp at any size and while a drawing expands. On narrow screens the drawing fills the column and its labels give way to the services list below.
+- **Pages and states:**
+  - the header's wordmark and menu are centered on one line
+  - a rejected contact-form entry shows in a new error color, checked for contrast in both schemes
+  - the send button matches the call to action
+  - the 404 page sets its way out as a short index of large links
+- **Symbol:** the ECW nameplate is final; the options are removed.
+- **Social images:** a catalog plate (a hairline frame with crop marks, the nameplate and wordmark, the page title, the domain, and the storefront drawing).
+- **Icons:** the touch icon sets the nameplate on the brand yellow; the favicon and scalable icon stay ink on white and follow the dark scheme.
+- **Structure baseline:** re-captured to include the hero's service links, which the owner approved with the hero.
+- **README:** a "Visual identity" section, and the hero drawing's generator in `scripts/storefront-art.mjs`.
+
+**Look review, every page template, both schemes** (reviewed from local captures at 1440 and 390 pixels, light and dark, plus the 404, confirmation and invalid-form states):
+
+| Template | Result | Notes |
+| --- | --- | --- |
+| Home | Pass | The headline sits left with one button beside a line drawing of the services (items 1, 2, 9). Recent work is catalog listings, What I do is spec rows; headings are left-aligned, and the rhythm varies (item 7). |
+| Services index | Pass | Spec rows with hairlines. No icons, tiles or numbers (items 2, 6). |
+| Service page | Pass | Who it's for, what's included and what's not, as spec rows with the heading on the left. |
+| Work index and case study | Pass | Catalog listings; facts as a ruled spec table; the client quote is set off by a single rule, with no quote glyphs. |
+| About | Pass | The founder photo beside the introduction; no stock or AI imagery (item 9). |
+| Contact | Pass | Square fields with strong borders, an ink focus ring, a 3px error-colored border on a rejected entry, and a yellow send button. |
+| 404 and confirmation | Pass | The way out as an index of large links; the confirmation in plain type. |
+| Every template, dark scheme | Pass | White ink on a neutral near-black, never navy; the yellow stays a fill behind black text (item 8). |
+
+Items 3, 4, 5, 10, 11 and 12 pass on every template: no rounded cards or soft shadows, no bento grids, no logo strip, no sparkle icons, no check marks in circles, no eyebrows. Item 13 (echoing a portfolio site) passes; the yellow remains the closest call, as noted in round 1. Item 14 passes: the hero, the plate frame and the catalog rows tie it to its source.
+
+**Checks:** the site check passes; `npm run check:structure` matches the new baseline; axe passes in 64 runs (16 pages, two sizes, two schemes); all 174 tests pass.
+
+- **Owner sign-off on the social images and icons (task 10.2):** pending.
+- **Owner's final sign-off (task 10.4):** pending.
