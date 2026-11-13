@@ -334,4 +334,6 @@ Same branch and PR (`comp/r2-hero-storefront`, #11, https://deploy-preview-11--e
 
 Pointing at a label fills its drawing yellow. On load the services come out of the shop once, in under two seconds. Checks as in 9.6: the site check, axe in both schemes and all 172 tests pass, and the structure check reports only the hero's repeated links.
 
+- **Owner verdict (2026-11-13):** the yellow highlighting on hover degrades the look; try a different animation, perhaps the object expanding to show more detail.
+- **Changed (`20335b7`):** pointing at a label, or at a drawing, now expands that drawing from its own center (a 250ms transition) and shows the detail it was holding back, all in ink. The browser gains a map card with a pin beside the results. The phone's app cards fill in and its order button is checked. The chat's answer grows and a typing bubble appears. A card slides into the terminal and the booked day is checked. Tools stand in the toolbox. The checklist's last box is ticked, with a pencil. No hover fills yellow. The one still yellow touch stays (the business's result on top of the search), pending the owner's word.
 - **Owner's choice of hero and symbol:** pending.
