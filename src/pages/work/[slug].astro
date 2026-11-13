@@ -77,7 +77,10 @@ const formatDate = (value: Date | string) =>
 
     <div class="section shots">
       {data.screenshots.map((shot, index) => (
-        <figure class={shot.viewport}>
+        <figure
+          class={shot.viewport}
+          style={`--aspect: ${shot.image.width / shot.image.height}`}
+        >
           <Picture
             src={shot.image}
             alt={shot.alt}
@@ -86,7 +89,7 @@ const formatDate = (value: Date | string) =>
             sizes={
               shot.viewport === 'mobile'
                 ? '390px'
-                : '(min-width: 72rem) 52rem, 100vw'
+                : '(min-width: 78rem) 58rem, (min-width: 40rem) 75vw, 100vw'
             }
             loading={index === 0 ? 'eager' : 'lazy'}
             fetchpriority={index === 0 ? 'high' : 'auto'}
@@ -95,7 +98,7 @@ const formatDate = (value: Date | string) =>
       ))}
     </div>
 
-    <div class="section prose">
+    <div class="section story">
       <Content />
     </div>
 
@@ -113,19 +116,21 @@ const formatDate = (value: Date | string) =>
     )}
 
     {data.outcomes.length > 0 && (
-      <section class="section stack-tight" aria-labelledby="results">
-        <h2 id="results">Results</h2>
-        <ul class="outcomes">
-          {data.outcomes.map((outcome) => (
-            <li>
-              {outcome.claim}{' '}
-              <span class="source">
-                (Source: {outcome.source}, {formatDate(outcome.measuredAt)})
-              </span>
-            </li>
-          ))}
-        </ul>
-      </section>
+      <div class="section spec">
+        <section class="row" aria-labelledby="results">
+          <h2 id="results">Results</h2>
+          <ul class="marks">
+            {data.outcomes.map((outcome) => (
+              <li>
+                {outcome.claim}{' '}
+                <span class="source">
+                  (Source: {outcome.source}, {formatDate(outcome.measuredAt)})
+                </span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      </div>
     )}
 
     <CallToAction label="Tell me about your project" href="/contact/" />
@@ -133,17 +138,25 @@ const formatDate = (value: Date | string) =>
 </BaseLayout>
 
 <style>
-  /* A spec table: label on the left, value on the right, ruled. */
+  /*
+   * One grid for the whole entry: an 18rem label column (the same as the
+   * Services list and the service pages) beside the content. Tables open
+   * with an ink rule and divide their rows with hairlines.
+   */
+
+  /* The facts: a spec table, label on the left, value on its baseline. */
   .facts {
     border-top: var(--rule-width) solid var(--color-accent);
+    font-variant-numeric: lining-nums tabular-nums;
   }
 
   .facts > div {
+    align-items: baseline;
     border-bottom: var(--border-width) solid var(--color-border);
     display: grid;
     gap: var(--space-1) var(--space-6);
-    grid-template-columns: minmax(0, 12rem) minmax(0, 1fr);
-    padding: var(--space-3) 0;
+    grid-template-columns: minmax(0, 18rem) minmax(0, 1fr);
+    padding-block: var(--space-3);
   }
 
   dt {
@@ -151,46 +164,114 @@ const formatDate = (value: Date | string) =>
     font-weight: var(--weight-bold);
   }
 
-  .quote {
-    border-left: var(--rule-width) solid var(--color-accent);
-    padding-left: var(--space-5);
-  }
-
-  .quote blockquote {
-    font-size: var(--text-lg);
-  }
-
-  @media (max-width: 40rem) {
-    .facts > div {
-      grid-template-columns: 1fr;
-    }
-  }
-
   dd {
     margin: 0;
+    max-width: var(--measure);
   }
 
+  /*
+   * The screenshots share one height: each takes width in proportion to its
+   * aspect ratio, plus its own frame, so their top and bottom edges line up.
+   */
   .shots {
-    align-items: start;
-    display: grid;
+    align-items: flex-start;
+    display: flex;
     gap: var(--space-5);
-    grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+  }
+
+  .shots figure {
+    flex: var(--aspect) 1 calc(2 * var(--border-width));
+    min-width: 0;
   }
 
   .shots :global(img) {
     border: var(--border-width) solid var(--color-border);
     border-radius: var(--radius);
+    width: 100%;
   }
 
-  @media (max-width: 40rem) {
-    .shots {
-      grid-template-columns: 1fr;
-    }
+  /*
+   * The story: each heading hangs in the label column on the baseline of
+   * its first paragraph, under a rule drawn across both columns.
+   */
+  .story {
+    align-items: baseline;
+    border-bottom: var(--border-width) solid var(--color-border);
+    column-gap: var(--space-6);
+    display: grid;
+    grid-template-columns: minmax(0, 18rem) minmax(0, 1fr);
+    padding-bottom: var(--space-6);
+    position: relative;
   }
 
-  .outcomes {
+  .story > :global(*) {
+    grid-column: 2;
+    margin-top: var(--space-4);
+  }
+
+  .story > :global(h2) {
+    font-size: var(--text-xl);
+    grid-column: 1;
+    margin-top: var(--space-6);
+    padding-top: var(--space-5);
+  }
+
+  .story > :global(h2:first-child) {
+    margin-top: 0;
+  }
+
+  .story > :global(h2 + *) {
+    margin-top: 0;
+  }
+
+  .story > :global(h2)::before {
+    border-top: var(--border-width) solid var(--color-border);
+    content: '';
+    display: block;
+    left: 0;
+    margin-top: calc(-1 * var(--space-5));
+    position: absolute;
+    right: 0;
+  }
+
+  .story > :global(h2:first-child)::before {
+    border-top: var(--rule-width) solid var(--color-accent);
+  }
+
+  /* Lists: small ink squares hung in the column gap. */
+  .story > :global(ul),
+  .marks {
     display: grid;
     gap: var(--space-2);
+    list-style: none;
+    padding: 0;
+  }
+
+  .story > :global(ul) > :global(li),
+  .marks li {
+    position: relative;
+  }
+
+  .story > :global(ul) > :global(li)::before,
+  .marks li::before {
+    background: currentColor;
+    content: '';
+    height: 0.375em;
+    left: calc(-1 * var(--space-5));
+    position: absolute;
+    top: 0.5625em;
+    width: 0.375em;
+  }
+
+  /*
+   * The client's words, set larger in the content column. The single rule
+   * hangs in the column gap, so the quote keeps the text's left edge.
+   */
+  .quote {
+    border-left: var(--rule-width) solid var(--color-accent);
+    margin-left: calc(
+      18rem + var(--space-6) - var(--space-5) - var(--rule-width)
+    );
     padding-left: var(--space-5);
   }
 
@@ -198,13 +279,95 @@ const formatDate = (value: Date | string) =>
     margin: 0;
   }
 
+  .quote blockquote p {
+    font-size: var(--text-xl);
+    line-height: 1.4;
+    max-width: 58ch;
+  }
+
   .quote figcaption {
     color: var(--color-text-muted);
-    margin-top: var(--space-2);
+    margin-top: var(--space-4);
+  }
+
+  /*
+   * Results, if any, as one more spec row: it continues the story's table
+   * when nothing comes between them.
+   */
+  .spec {
+    border-top: var(--rule-width) solid var(--color-accent);
+  }
+
+  .story + .spec {
+    border-top: 0;
+    margin-top: 0;
+  }
+
+  .row {
+    align-items: baseline;
+    border-bottom: var(--border-width) solid var(--color-border);
+    display: grid;
+    gap: var(--space-2) var(--space-6);
+    grid-template-columns: minmax(0, 18rem) minmax(0, 1fr);
+    padding-block: var(--space-5) var(--space-6);
+  }
+
+  .row h2 {
+    font-size: var(--text-xl);
+  }
+
+  .marks {
+    font-variant-numeric: lining-nums tabular-nums;
   }
 
   .source {
     color: var(--color-text-muted);
     font-size: var(--text-sm);
+  }
+
+  /* Where the content column narrows, the quote steps down a size. */
+  @media (max-width: 64rem) {
+    .quote blockquote p {
+      font-size: var(--text-lg);
+    }
+  }
+
+  @media (max-width: 40rem) {
+    .facts > div,
+    .story,
+    .row {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .story > :global(h2),
+    .story > :global(*) {
+      grid-column: 1;
+    }
+
+    .story > :global(h2 + *) {
+      margin-top: var(--space-2);
+    }
+
+    .story > :global(ul),
+    .marks {
+      padding-left: var(--space-5);
+    }
+
+    .shots {
+      flex-direction: column;
+    }
+
+    .shots figure {
+      flex: none;
+      width: 100%;
+    }
+
+    .shots figure.mobile {
+      width: min(100%, 14rem);
+    }
+
+    .quote {
+      margin-left: 0;
+    }
   }
 </style>

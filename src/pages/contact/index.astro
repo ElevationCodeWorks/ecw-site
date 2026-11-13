@@ -79,13 +79,15 @@ const services = await getServices()
       <label for="service">
         What do you need? <span class="opt">(optional)</span>
       </label>
-      <select id="service" name="service">
-        <option value="">Choose one</option>
-        {services.map((service) => (
-          <option value={service.data.title}>{service.data.title}</option>
-        ))}
-        <option value="Not sure yet">Not sure yet</option>
-      </select>
+      <span class="select">
+        <select id="service" name="service">
+          <option value="">Choose one</option>
+          {services.map((service) => (
+            <option value={service.data.title}>{service.data.title}</option>
+          ))}
+          <option value="Not sure yet">Not sure yet</option>
+        </select>
+      </span>
     </p>
 
     <p class="field">
@@ -132,13 +134,20 @@ const services = await getServices()
     font-weight: var(--weight-normal);
   }
 
+  /*
+   * The padding gives back whatever the border takes, so a field keeps its
+   * size and its text stays put when a rejected entry thickens the border.
+   */
   input,
   select,
   textarea {
+    --edge: 2px;
+    appearance: none;
     background: var(--color-bg);
-    border: 2px solid var(--color-border-strong);
+    border: var(--edge) solid var(--color-border-strong);
     border-radius: var(--radius);
-    padding: var(--space-2) var(--space-3);
+    padding: calc(var(--space-2) + 2px - var(--edge))
+      calc(var(--space-3) + 2px - var(--edge));
     width: 100%;
   }
 
@@ -146,12 +155,42 @@ const services = await getServices()
     resize: vertical;
   }
 
-  /* After the visitor has tried, a rejected entry shows in the error color. */
+  /* The menu gets the same square field, with its arrow drawn in ink. */
+  .select {
+    display: block;
+    position: relative;
+  }
+
+  .select::after {
+    background: currentColor;
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    content: '';
+    height: 0.375em;
+    pointer-events: none;
+    position: absolute;
+    right: var(--space-4);
+    top: calc(50% - 0.1875em);
+    width: 0.75em;
+  }
+
+  select {
+    cursor: pointer;
+    padding-right: calc(var(--space-4) * 2 + 0.75em + 2px - var(--edge));
+  }
+
+  /*
+   * After the visitor has tried, a rejected entry shows in the error color,
+   * and so does the rule its label states.
+   */
   input:user-invalid,
   textarea:user-invalid,
   select:user-invalid {
+    --edge: 3px;
     border-color: var(--color-error);
-    border-width: 3px;
+  }
+
+  .field:has(:user-invalid) .req {
+    color: var(--color-error);
   }
 
   .data-use {
@@ -167,8 +206,8 @@ const services = await getServices()
     cursor: pointer;
     font-size: var(--text-lg);
     font-weight: var(--weight-bold);
-    justify-self: start;
     padding: var(--space-3) var(--space-5);
+    text-underline-offset: 0.15em;
   }
 
   button:hover {

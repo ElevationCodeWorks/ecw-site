@@ -52,42 +52,52 @@ const jsonLd = [
       </div>
     </div>
 
-    <section class="section stack-tight" aria-labelledby="for-who">
-      <h2 id="for-who">Who it's for</h2>
-      <p>{data.forWho}</p>
-    </section>
-
-    <section class="section stack-tight" aria-labelledby="included">
-      <h2 id="included">What's included</h2>
-      <ul class="list">
-        {data.included.map((item) => (
-          <li>{item}</li>
-        ))}
-      </ul>
-    </section>
-
-    <section class="section stack-tight" aria-labelledby="not-included">
-      <h2 id="not-included">What's not included</h2>
-      <ul class="list">
-        {data.notIncluded.map((item) => (
-          <li>{item}</li>
-        ))}
-      </ul>
-    </section>
-
-    {related.length > 0 && (
-      <section class="section stack-tight" aria-labelledby="related">
-        <h2 id="related">Related work</h2>
-        <ul class="list">
-          {related.map((project) => (
-            <li>
-              <a href={`/work/${project.id}/`}>{project.data.name}</a>:{' '}
-              {project.data.description}
-            </li>
-          ))}
-        </ul>
+    <div class="section spec">
+      <section class="row" aria-labelledby="for-who">
+        <h2 id="for-who">Who it's for</h2>
+        <div>
+          <p>{data.forWho}</p>
+        </div>
       </section>
-    )}
+
+      <section class="row" aria-labelledby="included">
+        <h2 id="included">What's included</h2>
+        <div>
+          <ul class="marks">
+            {data.included.map((item) => (
+              <li>{item}</li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <section class="row" aria-labelledby="not-included">
+        <h2 id="not-included">What's not included</h2>
+        <div>
+          <ul class="marks excluded">
+            {data.notIncluded.map((item) => (
+              <li>{item}</li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {related.length > 0 && (
+        <section class="row" aria-labelledby="related">
+          <h2 id="related">Related work</h2>
+          <div>
+            <ul class="marks">
+              {related.map((project) => (
+                <li>
+                  <a href={`/work/${project.id}/`}>{project.data.name}</a>:{' '}
+                  {project.data.description}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      )}
+    </div>
 
     <CallToAction
       label={
@@ -99,50 +109,68 @@ const jsonLd = [
 </BaseLayout>
 
 <style>
-  /* Spec rows: each section's heading on the left, its content on the right. */
-  article > .section {
-    border-top: var(--border-width) solid var(--color-border-strong);
-    column-gap: var(--space-6);
+  /*
+   * Spec rows, ruled like a catalog table: an ink rule opens it and hairlines
+   * divide the rows. Each heading sits in the same 18rem label column as the
+   * Services list, on the baseline of its row's first line.
+   */
+  .spec {
+    border-top: var(--rule-width) solid var(--color-accent);
+  }
+
+  .row {
+    align-items: baseline;
+    border-bottom: var(--border-width) solid var(--color-border);
     display: grid;
-    grid-template-columns: minmax(0, 14rem) minmax(0, 1fr);
-    padding-top: var(--space-4);
+    gap: var(--space-2) var(--space-6);
+    grid-template-columns: minmax(0, 18rem) minmax(0, 1fr);
+    padding-block: var(--space-5) var(--space-6);
   }
 
-  /* No row gap: the heading spans empty rows, which must stay zero height. */
-  article > .section > :global(*) {
-    grid-column: 2;
-    margin-top: var(--space-2);
-  }
-
-  article > .section > h2 + :global(*) {
-    margin-top: 0;
-  }
-
-  article > .section > h2 {
+  .row h2 {
     font-size: var(--text-xl);
-    grid-column: 1;
-    grid-row: 1 / span 9;
   }
 
-  .list {
+  /*
+   * What's included is marked with small ink squares, what's not with a
+   * short rule, a minus. The marks hang in the column gap, so the text keeps
+   * the column's edge.
+   */
+  .marks {
     display: grid;
     gap: var(--space-2);
-    padding-left: var(--space-5);
+    list-style: none;
+    padding: 0;
+  }
+
+  .marks li {
+    position: relative;
+  }
+
+  /* Both marks center on the x-height of the item's first line. */
+  .marks li::before {
+    background: currentColor;
+    content: '';
+    height: 0.375em;
+    left: calc(-1 * var(--space-5));
+    position: absolute;
+    top: 0.5625em;
+    width: 0.375em;
+  }
+
+  .excluded li::before {
+    height: 0.125em;
+    top: 0.6875em;
+    width: 0.625em;
   }
 
   @media (max-width: 40rem) {
-    article > .section {
-      grid-template-columns: 1fr;
+    .row {
+      grid-template-columns: minmax(0, 1fr);
     }
 
-    article > .section > h2,
-    article > .section > :global(*) {
-      grid-column: 1;
-      grid-row: auto;
-    }
-
-    article > .section > h2 + :global(*) {
-      margin-top: var(--space-2);
+    .marks {
+      padding-left: var(--space-5);
     }
   }
 </style>

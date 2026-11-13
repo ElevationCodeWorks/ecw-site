@@ -34,7 +34,7 @@ const jsonLd = [
       alt={data.photoAlt}
       formats={['avif', 'webp']}
       widths={[320, 640]}
-      sizes="(min-width: 48rem) 20rem, 100vw"
+      sizes="(min-width: 40rem) 18rem, 100vw"
       loading="eager"
       fetchpriority="high"
     />
@@ -44,7 +44,7 @@ const jsonLd = [
     </div>
   </div>
 
-  <div class="section prose">
+  <div class="section story">
     <Content />
   </div>
 
@@ -52,24 +52,114 @@ const jsonLd = [
 </BaseLayout>
 
 <style>
+  /*
+   * One grid for the page: the photo fills the 18rem label column (the same
+   * as the service and case study pages), and the introduction and every
+   * section's text share the column beside it.
+   */
   .intro {
-    align-items: center;
+    align-items: start;
     display: grid;
-    gap: var(--space-6);
-    grid-template-columns: minmax(0, 20rem) minmax(0, 1fr);
+    gap: var(--space-5) var(--space-6);
+    grid-template-columns: minmax(0, 18rem) minmax(0, 1fr);
   }
 
   .intro :global(img) {
     border-radius: var(--radius);
+    width: 100%;
   }
 
-  @media (max-width: 48rem) {
-    .intro {
-      grid-template-columns: 1fr;
+  /* The name's capitals stand level with the top of the photo. */
+  .intro h1 {
+    text-box: trim-start cap alphabetic;
+  }
+
+  /*
+   * Each section's heading hangs in the label column on the baseline of its
+   * first paragraph, under a rule drawn across both columns.
+   */
+  .story {
+    align-items: baseline;
+    border-bottom: var(--border-width) solid var(--color-border);
+    column-gap: var(--space-6);
+    display: grid;
+    grid-template-columns: minmax(0, 18rem) minmax(0, 1fr);
+    padding-bottom: var(--space-6);
+    position: relative;
+  }
+
+  .story > :global(*) {
+    grid-column: 2;
+    margin-top: var(--space-4);
+  }
+
+  .story > :global(h2) {
+    font-size: var(--text-xl);
+    grid-column: 1;
+    margin-top: var(--space-6);
+    padding-top: var(--space-5);
+  }
+
+  .story > :global(h2:first-child) {
+    margin-top: 0;
+  }
+
+  .story > :global(h2 + *) {
+    margin-top: 0;
+  }
+
+  .story > :global(h2)::before {
+    border-top: var(--border-width) solid var(--color-border);
+    content: '';
+    display: block;
+    left: 0;
+    margin-top: calc(-1 * var(--space-5));
+    position: absolute;
+    right: 0;
+  }
+
+  .story > :global(h2:first-child)::before {
+    border-top: var(--rule-width) solid var(--color-accent);
+  }
+
+  /* Lists: small ink squares hung in the column gap. */
+  .story > :global(ul) {
+    display: grid;
+    gap: var(--space-2);
+    list-style: none;
+    padding: 0;
+  }
+
+  .story > :global(ul) > :global(li) {
+    position: relative;
+  }
+
+  .story > :global(ul) > :global(li)::before {
+    background: currentColor;
+    content: '';
+    height: 0.375em;
+    left: calc(-1 * var(--space-5));
+    position: absolute;
+    top: 0.5625em;
+    width: 0.375em;
+  }
+
+  @media (max-width: 40rem) {
+    .intro,
+    .story {
+      grid-template-columns: minmax(0, 1fr);
     }
 
-    .intro :global(img) {
-      max-width: min(20rem, 100%);
+    .story > :global(*) {
+      grid-column: 1;
+    }
+
+    .story > :global(h2 + *) {
+      margin-top: var(--space-2);
+    }
+
+    .story > :global(ul) {
+      padding-left: var(--space-5);
     }
   }
 </style>
