@@ -128,7 +128,7 @@
 - [ ] 9.2 Capture the round 2 sheet, including the symbol strip, and send it with the preview links. Record the owner's choice of variant and symbol, then close the losing PRs and delete their branches. Verify that the verdict is recorded and only the chosen branch remains open
 
 - [x] 9.3 Allow hero-only animation (design D14): the animation rule exempts `src/components/hero/` when every animation sits inside `@media (prefers-reduced-motion: no-preference)`, with the config key and README row updated. Verify with fixture tests that a guarded hero animation passes, an unguarded hero animation fails and names the file and line, and an animation outside the hero still fails
-- [ ] 9.4 Build hero options for Plate, each on its own branch from `comp/r2-catalog-a` with a draft PR, CSS only, inspired by the Art District on Santa Fe. Record each in `rounds.md` with its look review. Verify for each that the preview builds, `npm run check:structure` is empty, axe passes in both schemes, and with reduced motion no animation runs in the hero
+- [x] 9.4 Build hero options for Plate, each on its own branch from `comp/r2-catalog-a` with a draft PR, CSS only, inspired by the Art District on Santa Fe. Record each in `rounds.md` with its look review. Verify for each that the preview builds, `npm run check:structure` is empty, axe passes in both schemes, and with reduced motion no animation runs in the hero
 - [ ] 9.5 Send the owner the hero option previews. Record the chosen hero and symbol in `rounds.md`, then close the other round 2 PRs and delete their branches. Verify that the verdict is recorded
 
 ## 10. Round 3: final identity
