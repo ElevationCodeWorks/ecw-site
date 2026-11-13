@@ -112,6 +112,9 @@
   --space-6: 1.75rem;
   --space-7: 2.5rem;
   --space-8: 4rem;
+  --space-9: 6rem;
+  /* Between a page's major sections: 64px on a phone, 96px on a wide screen. */
+  --space-section: clamp(var(--space-8), 2rem + 4.5vw, var(--space-9));
 
   /* Shape */
   --radius: 0;
@@ -122,8 +125,16 @@
 
   /* Layout */
   --measure: 62ch;
-  --container: 78rem;
-  --gutter: var(--space-5);
+  --container: 80rem;
+  /* 20px on a phone, about 30px on a tablet, 40px on a wide screen. */
+  --gutter: clamp(var(--space-5), 0.6rem + 2.6vw, var(--space-7));
+  /*
+   * The page's one column line: a narrow column (the headline, each
+   * screenshot, each service name) and a wide one (the drawing, each entry's
+   * details, each service's summary), so the sections line up down the page.
+   */
+  --split: minmax(0, 3fr) minmax(0, 5fr);
+  --split-gap: var(--space-7);
 }
 
 @media (prefers-color-scheme: dark) {
