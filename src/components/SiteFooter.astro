@@ -37,10 +37,14 @@ import { site } from '../site.config.ts'
 
   .details {
     align-items: baseline;
-    display: grid;
+    display: flex;
+    flex-wrap: wrap;
     gap: var(--space-2) var(--space-6);
-    grid-template-columns: repeat(3, auto);
-    justify-content: start;
+  }
+
+  /* A taller hit area for the link, without moving the line. */
+  .details a {
+    padding-block: var(--space-2);
   }
 
   .brand {
@@ -54,9 +58,9 @@ import { site } from '../site.config.ts'
     color: var(--color-text-muted);
   }
 
-  @media (max-width: 48rem) {
-    .inner,
-    .details {
+  /* Stacks with the tables above it. */
+  @media (max-width: 40rem) {
+    .inner {
       grid-template-columns: 1fr;
     }
   }
