@@ -1,0 +1,37 @@
+[
+  {
+    "part": "sign",
+    "side": "left",
+    "x": 31.8,
+    "y": 8.7,
+    "shift": [0, -40]
+  },
+  {
+    "part": "window",
+    "side": "left",
+    "x": 27.7,
+    "y": 43.6,
+    "shift": [-29.4, 17]
+  },
+  {
+    "part": "hang",
+    "side": "left",
+    "x": 22.7,
+    "y": 58.2,
+    "shift": [-55.4, 32]
+  },
+  {
+    "part": "door",
+    "side": "right",
+    "x": 53.1,
+    "y": 94.8,
+    "shift": [-29.4, 17]
+  },
+  {
+    "part": "base",
+    "side": "right",
+    "x": 77.3,
+    "y": 71.7,
+    "shift": [0, 34]
+  }
+]

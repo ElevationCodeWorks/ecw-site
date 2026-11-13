@@ -1,0 +1,209 @@
+---
+/**
+ * Hero concept "Storefront, exploded": a one-story Santa Fe Drive shopfront
+ * drawn as an exploded parts-catalog plate (src/assets/brand/storefront.svg),
+ * each part one of the services. The labels are links to those services and
+ * reuse their titles. Hovering or focusing a label lights its part. On load
+ * the shop comes apart into its parts, once. CSS only; the motion sits inside
+ * the reduced-motion guard (design D14).
+ */
+import drawing from '../../assets/brand/storefront.svg?raw'
+import { getServices } from '../../lib/services.ts'
+import callouts from './storefront-callouts.json'
+
+/** Which service each part of the shop stands for. */
+const PART_SERVICE: Record<string, string> = {
+  sign: 'websites',
+  window: 'custom-web-apps',
+  hang: 'ai-features',
+  door: 'integrations',
+  base: 'care-and-rescue'
+}
+
+const services = await getServices()
+const labels = callouts.map((c) => {
+  const service = services.find((s) => s.id === PART_SERVICE[c.part])
+  if (!service) throw new Error(`No service for storefront part "${c.part}"`)
+  return {
+    ...c,
+    title: service.data.title,
+    href: `/services/${service.id}/`
+  }
+})
+
+const svg = drawing
+  .replace(/<!--[\s\S]*?-->\s*/g, '')
+  .replace(/<svg\b/, '<svg aria-hidden="true" focusable="false"')
+---
+
+<div class="hero-art">
+  <Fragment set:html={svg} />
+  <ul class="labels">
+    {labels.map((l) => (
+      <li
+        class={`label l-${l.part} ${l.side}`}
+        style={`--x: ${l.x}%; --y: ${l.y}%`}
+      >
+        <a href={l.href}>{l.title}</a>
+      </li>
+    ))}
+  </ul>
+</div>
+
+<style>
+  .hero-art {
+    color: var(--color-text);
+    position: relative;
+  }
+
+  .hero-art :global(svg) {
+    display: block;
+    height: auto;
+    overflow: visible;
+    width: 100%;
+  }
+
+  .hero-art :global(.face) {
+    fill: var(--color-bg);
+  }
+
+  .hero-art :global(.side) {
+    fill: var(--color-surface);
+  }
+
+  .hero-art :global(.part.sign .panel) {
+    fill: var(--color-highlight);
+  }
+
+  .hero-art :global(:is(.dash, .opening)) {
+    stroke-dasharray: 4 4;
+  }
+
+  .hero-art :global(.course) {
+    stroke: var(--color-border);
+  }
+
+  .hero-art :global(.part) {
+    transition: transform 200ms ease-out;
+  }
+
+  /* Labels sit beside their parts; each is a link to its service. */
+  .labels {
+    inset: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    pointer-events: none;
+    position: absolute;
+  }
+
+  .label {
+    left: var(--x);
+    pointer-events: auto;
+    position: absolute;
+    top: var(--y);
+    transform: translateY(-50%);
+    white-space: nowrap;
+  }
+
+  .label.left {
+    padding-right: var(--space-2);
+    transform: translate(-100%, -50%);
+  }
+
+  .label.right {
+    padding-left: var(--space-2);
+  }
+
+  .label a {
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-bold);
+  }
+
+  /* Pointing at a label lights its part and lifts it. */
+  .hero-art:has(.l-sign a:is(:hover, :focus-visible)) :global(.part.sign),
+  .hero-art:has(.l-window a:is(:hover, :focus-visible)) :global(.part.window),
+  .hero-art:has(.l-hang a:is(:hover, :focus-visible)) :global(.part.hang),
+  .hero-art:has(.l-door a:is(:hover, :focus-visible)) :global(.part.door),
+  .hero-art:has(.l-base a:is(:hover, :focus-visible)) :global(.part.base) {
+    transform: translateY(-6px);
+  }
+
+  .hero-art:has(.l-sign a:is(:hover, :focus-visible))
+    :global(.part.sign :is(.face, .side)),
+  .hero-art:has(.l-window a:is(:hover, :focus-visible))
+    :global(.part.window :is(.face, .side)),
+  .hero-art:has(.l-hang a:is(:hover, :focus-visible))
+    :global(.part.hang :is(.face, .side)),
+  .hero-art:has(.l-door a:is(:hover, :focus-visible))
+    :global(.part.door :is(.face, .side)),
+  .hero-art:has(.l-base a:is(:hover, :focus-visible))
+    :global(.part.base :is(.face, .side)) {
+    fill: var(--color-highlight);
+  }
+
+  /* On load the shop starts assembled and comes apart into its parts. */
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-art :global(.part.sign) {
+      --from: 0 40px;
+    }
+
+    .hero-art :global(:is(.part.window, .part.door)) {
+      --from: 29.4px -17px;
+    }
+
+    .hero-art :global(.part.hang) {
+      --from: 55.4px -32px;
+    }
+
+    .hero-art :global(.part.base) {
+      --from: 0 -34px;
+    }
+
+    .hero-art :global(.part:not(.body)) {
+      animation: come-apart 1.1s cubic-bezier(0.3, 0, 0.2, 1) 0.4s backwards;
+    }
+
+    .hero-art :global(:is(.assembly, .callouts)),
+    .labels {
+      animation: appear 0.5s ease-out 1.4s backwards;
+    }
+
+    @keyframes come-apart {
+      from {
+        translate: var(--from);
+      }
+    }
+
+    @keyframes appear {
+      from {
+        opacity: 0;
+      }
+    }
+  }
+
+  /* On narrow screens the labels become a list under the drawing. */
+  @media (max-width: 56rem) {
+    .hero-art :global(.callouts) {
+      display: none;
+    }
+
+    .labels {
+      display: grid;
+      gap: var(--space-2);
+      margin-top: var(--space-4);
+      pointer-events: auto;
+      position: static;
+    }
+
+    .label,
+    .label.left,
+    .label.right {
+      padding: 0;
+      position: static;
+      transform: none;
+    }
+  }
+</style>
