@@ -3,7 +3,7 @@ import { getImage } from 'astro:assets'
 import { getCollection } from 'astro:content'
 import BaseLayout from '../layouts/BaseLayout.astro'
 import CallToAction from '../components/CallToAction.astro'
-import HeroPlate from '../components/hero/HeroPlate.astro'
+import HeroStorefront from '../components/hero/HeroStorefront.astro'
 import ServiceList from '../components/ServiceList.astro'
 import WorkPreview from '../components/WorkPreview.astro'
 import founderPhoto from '../assets/founder.jpg'
@@ -32,7 +32,7 @@ const photo = await getImage({ src: founderPhoto, width: 640, format: 'jpg' })
       {data.lede && <p class="lede">{data.lede}</p>}
     </div>
     {data.cta && <CallToAction label={data.cta.label} href={data.cta.href} />}
-    <HeroPlate />
+    <HeroStorefront />
   </div>
 
   <section class="section" aria-labelledby="work-heading">
@@ -60,20 +60,21 @@ const photo = await getImage({ src: founderPhoto, width: 640, format: 'jpg' })
     align-items: start;
     display: grid;
     gap: 0 var(--space-7);
-    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
   }
 
   .hero-grid > :global(*) {
     grid-column: 1;
   }
 
-  .hero-grid > :global(.hero-plate) {
+  .hero-grid > :global(.hero-art) {
+    align-self: center;
     grid-column: 2;
     grid-row: 1 / span 2;
   }
 
   .hero h1 {
-    font-size: clamp(2.75rem, 1.5rem + 4.5vw, 5.25rem);
+    font-size: clamp(2.75rem, 1.5rem + 3.6vw, 4.5rem);
     max-width: 14ch;
   }
 
@@ -82,7 +83,7 @@ const photo = await getImage({ src: founderPhoto, width: 640, format: 'jpg' })
       grid-template-columns: 1fr;
     }
 
-    .hero-grid > :global(.hero-plate) {
+    .hero-grid > :global(.hero-art) {
       grid-column: 1;
       grid-row: auto;
       margin-top: var(--space-7);
