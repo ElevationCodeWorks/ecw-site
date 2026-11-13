@@ -1,0 +1,19 @@
+/* Fixture for src/lib/tokens.test.ts: a small two-scheme tokens file. */
+:root {
+  color-scheme: light dark;
+  --color-bg: #ffffff;
+  --color-text: #111111;
+  --color-focus: var(--color-link);
+  --color-link: #0b57d0;
+  --font-body: 'Overpass', 'Overpass Fallback', Arial, sans-serif;
+  --font-heading: var(--font-body);
+  --space-4: 1rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #121212;
+    --color-text: #ededed;
+    --color-link: #8ab4f8;
+  }
+}

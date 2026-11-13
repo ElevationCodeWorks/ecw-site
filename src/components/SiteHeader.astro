@@ -1,0 +1,90 @@
+---
+import Symbol from './Symbol.astro'
+import { nav, site } from '../site.config.ts'
+
+const path = Astro.url.pathname
+
+/** "page" for the exact page, "true" for pages inside that section. */
+function currentState(href: string): 'page' | 'true' | undefined {
+  if (path === href) return 'page'
+  if (path.startsWith(href)) return 'true'
+  return undefined
+}
+---
+
+<header class="site-header">
+  <div class="inner">
+    <a class="brand" href="/" aria-current={path === '/' ? 'page' : undefined}>
+      <Symbol class="symbol" />
+      {site.brandName}
+    </a>
+    <nav aria-label="Primary">
+      <ul>
+        {nav.map((item) => (
+          <li>
+            <a href={item.href} aria-current={currentState(item.href)}>
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  /* White, with the heavy ink rule a catalog page opens with. */
+  .site-header {
+    border-bottom: var(--rule-width) solid var(--color-accent);
+  }
+
+  .inner {
+    align-items: baseline;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3) var(--space-6);
+    justify-content: space-between;
+    margin-inline: auto;
+    max-width: var(--container);
+    padding: var(--space-4) var(--gutter) var(--space-3);
+  }
+
+  .brand {
+    align-items: center;
+    color: var(--color-text);
+    display: inline-flex;
+    font-family: var(--font-heading);
+    font-size: var(--text-xl);
+    font-weight: var(--weight-bold);
+    gap: var(--space-2);
+    text-decoration: none;
+  }
+
+  .brand :global(.symbol) {
+    flex: none;
+    height: 1.1em;
+    width: 1.1em;
+  }
+
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-2);
+    list-style: none;
+    padding: 0;
+  }
+
+  nav a {
+    color: var(--color-text);
+    font-weight: var(--weight-bold);
+    padding: var(--space-1) var(--space-2);
+    text-decoration: none;
+    text-underline-offset: 0.35em;
+  }
+
+  nav a:hover,
+  nav a[aria-current] {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+  }
+</style>

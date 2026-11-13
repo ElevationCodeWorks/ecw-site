@@ -1,0 +1,59 @@
+---
+import type { CollectionEntry } from 'astro:content'
+
+interface Props {
+  services: CollectionEntry<'services'>[]
+  /** Heading level for each service name, so the outline never skips. */
+  level?: 2 | 3
+}
+
+const { services, level = 2 } = Astro.props
+const Heading = `h${level}` as 'h2' | 'h3'
+---
+
+<ul class="services">
+  {services.map((service) => (
+    <li class="stack-tight">
+      <Heading>
+        <a href={`/services/${service.id}/`}>{service.data.title}</a>
+      </Heading>
+      <p>{service.data.summary}</p>
+    </li>
+  ))}
+</ul>
+
+<style>
+  /* Spec rows: the service name on the left, what it is on the right. */
+  .services {
+    border-top: var(--rule-width) solid var(--color-accent);
+    list-style: none;
+    padding: 0;
+  }
+
+  li {
+    border-bottom: var(--border-width) solid var(--color-border);
+    display: grid;
+    gap: var(--space-1) var(--space-6);
+    grid-template-columns: minmax(0, 18rem) minmax(0, 1fr);
+    max-width: none;
+    padding: var(--space-4) 0;
+  }
+
+  li > :first-child {
+    font-size: var(--text-xl);
+  }
+
+  li > :first-child a {
+    color: var(--color-text);
+  }
+
+  li p {
+    max-width: 60ch;
+  }
+
+  @media (max-width: 40rem) {
+    li {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

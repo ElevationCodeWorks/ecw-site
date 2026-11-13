@@ -1,0 +1,43 @@
+---
+import { site } from '../site.config.ts'
+---
+
+<footer class="site-footer">
+  <div class="inner">
+    <p class="brand">{site.brandName}</p>
+    <p>
+      {site.location.city}, {site.location.regionName}
+    </p>
+    <p data-brand-line>{site.brandLine}</p>
+    <p>
+      <a href="/contact/">Contact</a>
+    </p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: var(--rule-width) solid var(--color-accent);
+    font-size: var(--text-sm);
+    margin-top: var(--space-8);
+  }
+
+  .inner {
+    display: grid;
+    gap: var(--space-2) var(--space-6);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+    margin-inline: auto;
+    max-width: var(--container);
+    padding: var(--space-5) var(--gutter) var(--space-7);
+  }
+
+  .brand {
+    font-family: var(--font-heading);
+    font-size: var(--text-lg);
+    font-weight: var(--weight-bold);
+  }
+
+  p:not(.brand) {
+    color: var(--color-text-muted);
+  }
+</style>
