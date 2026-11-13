@@ -269,3 +269,26 @@ All three are in `src/assets/brand/options/`, pass the plain-vector rule (one pa
 The banned motifs checked for each: mountain peaks, upward arrows or chevrons, code brackets, a terminal prompt or cursor, a sparkle or four-point star, gears, lightbulbs, rockets, circuit traces, a hexagon badge, the Colorado flag's "C", the state's outline, and official signs, highway shields or agency marks.
 
 - **Owner's choice of variant and symbol:** Plate (2026-11-13). The symbol will be chosen after the hero options; Plate keeps the ECW nameplate until then.
+
+## Hero options for Plate (task 9.4)
+
+The owner chose Plate and asked for hero options that are interactive, 3D, animated and more artistic, drawing on the Art District on Santa Fe, where the owner lives. Each option is its own branch from `comp/r2-catalog-a` with a draft PR. Each uses CSS only (no JavaScript) and keeps every animation inside `@media (prefers-reduced-motion: no-preference)` (design D14). Each changes only `src/components/hero/HeroPlate.astro`, plus one shadow token for Gallery wall. Everything below the hero is Plate as the owner approved it, crop marks in the hero only.
+
+Every option: the site check passes, `npm run check:structure` is empty, axe passes at both sizes in both schemes, and with reduced motion no animation runs (`document.getAnimations()` is empty).
+
+| Option | Branch and PR | Preview | What it does |
+| --- | --- | --- | --- |
+| Drafting table | `comp/r2-hero-drafting`, #8 | https://deploy-preview-8--elevationcodeworks.netlify.app | The plate draws itself line by line, group by group: a see-through wireframe first, then the faces fill and the yellow lands last (about 2.8 seconds, once). Scrolling past, the lid and base slide toward the deck (scroll-driven; browsers without it show the still drawing). |
+| Gallery wall | `comp/r2-hero-gallery`, #9 | https://deploy-preview-9--elevationcodeworks.netlify.app | After the First Friday art walks: the plate hangs as a framed print in CSS 3D, an ink moulding with depth and a short neutral drop shadow, seen at an angle and swaying slowly on its hook, with an abstract wall label. Hovering turns it to face the visitor. |
+| Screen print | `comp/r2-hero-print`, #10 | https://deploy-preview-10--elevationcodeworks.netlify.app | After the prints in the district's galleries: two inks, flat yellow silhouettes under black linework, slightly out of register, the linework overprinting the yellow. On load the yellow pass slides in like a print pull; hovering snaps the passes into register. |
+
+**Look review notes** (every other checklist item passes as in 2.A, since only the hero changes):
+
+| Option | Item | Result | Note |
+| --- | --- | --- | --- |
+| Drafting table | 14. Looks like a template a tool would produce | Pass, with a note | Entrance animation is an AI-site tell when sections fade up. This is one drawing being drafted, once, in the hero only. The owner should judge whether it still reads as a template effect. |
+| Gallery wall | 3. Large rounded cards with soft shadows | Pass | One square frame with a short drop shadow (24px blur, neutral), not a grid of cards. |
+| Gallery wall | 14. Looks like a template a tool would produce | Pass, with a note | Product shots tilted in perspective are a common marketing device. Here it's a framed print with a wall label, not a device mockup. |
+| Screen print | 14. Looks like a template a tool would produce | Pass, with a note | The misregistered two-color print (the risograph look) is a current trend in design portfolios. It fits the catalog-and-print source, but it is a trend. |
+
+- **Owner's choice of hero and symbol:** pending.
