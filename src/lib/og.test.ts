@@ -10,7 +10,13 @@ import {
 import { tmpdir } from 'node:os'
 import path from 'node:path'
 import sharp from 'sharp'
-import { ogFonts, ogImagePath, ogSubject, renderOgImage } from './og.ts'
+import {
+  ogFonts,
+  ogImagePath,
+  ogSubject,
+  renderOgImage,
+  standaloneArt
+} from './og.ts'
 import { readTokens } from './tokens.ts'
 
 const tokens = readTokens(readFileSync('src/styles/tokens.css', 'utf8'))
@@ -82,4 +88,28 @@ test('an image renders as a 1200x630 PNG', async () => {
   })
   const meta = await sharp(png).metadata()
   assert.deepEqual([meta.format, meta.width, meta.height], ['png', 1200, 630])
+})
+
+test('the hero drawing stands alone: gutters cropped, faces styled from tokens', () => {
+  const art =
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="-100 0 200 50"><g class="callouts"></g><polygon class="face hl" fill="currentColor" stroke="currentColor" points="0,0 1,1" /></svg>'
+  const out = standaloneArt(art, tokens)
+  assert.match(out, /viewBox="-52 0 104 50"/)
+  assert.match(out, /\.hl\{fill:#ffdd00\}/)
+  assert.match(out, /\.callouts,\.detail\{display:none\}/)
+  assert.doesNotMatch(out, /currentColor/)
+})
+
+test('a social image with the hero drawing still renders at 1200x630', async () => {
+  const png = await renderOgImage({
+    title: 'Websites for Denver small businesses',
+    brandName: 'Elevation Code Works',
+    domain: 'elevationcode.works',
+    symbol: readFileSync('src/assets/brand/symbol.svg', 'utf8'),
+    art: readFileSync('src/assets/brand/storefront.svg', 'utf8'),
+    tokens,
+    fonts: ogFonts(tokens)
+  })
+  const meta = await sharp(png).metadata()
+  assert.deepEqual([meta.width, meta.height], [1200, 630])
 })

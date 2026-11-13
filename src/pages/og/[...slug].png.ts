@@ -1,4 +1,5 @@
 import type { APIRoute, GetStaticPaths } from 'astro'
+import art from '../../assets/brand/storefront.svg?raw'
 import symbol from '../../assets/brand/symbol.svg?raw'
 import tokensCss from '../../styles/tokens.css?raw'
 import { ogFonts, renderOgImage } from '../../lib/og.ts'
@@ -22,6 +23,7 @@ export const GET: APIRoute = async ({ props }) => {
     brandName: site.brandName,
     domain: new URL(PRODUCTION_ORIGIN).host,
     symbol,
+    art,
     tokens,
     fonts
   })

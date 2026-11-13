@@ -98,16 +98,126 @@ export interface OgImageInput {
   symbol: string
   tokens: Tokens
   fonts: OgFont[]
+  /**
+   * The hero drawing (src/assets/brand/storefront.svg), shown beside the
+   * title. Optional, so a page can go without it.
+   */
+  art?: string
 }
 
-/** Renders one social image as a 1200x630 PNG. */
-export async function renderOgImage(input: OgImageInput): Promise<Buffer> {
-  const color = (name: string) => token(input.tokens, name).light
-  const symbolSvg = input.symbol
+/**
+ * The hero drawing as a standalone image: its faces, its one yellow surface
+ * and its dashed lines styled from the light-scheme tokens, with the labels'
+ * leaders and the hover details left out.
+ */
+/** The share of the hero drawing's width on each side kept for labels. */
+const ART_GUTTER = 0.24
+
+export function standaloneArt(art: string, tokens: Tokens): string {
+  const color = (name: string) => token(tokens, name).light
+  const style = [
+    `.face{fill:${color('--color-bg')}}`,
+    `.side{fill:${color('--color-surface')}}`,
+    `.hl{fill:${color('--color-highlight')}}`,
+    `.course{stroke:${color('--color-border')}}`,
+    '.dash{stroke-dasharray:4 4}',
+    '.callouts,.detail{display:none}'
+  ].join('')
+  // Crop the side gutters the hero keeps for its HTML labels.
+  const cropped = art.replace(
+    /viewBox="([-\d.]+) ([-\d.]+) ([-\d.]+) ([-\d.]+)"/,
+    (_, x, y, w, h) =>
+      `viewBox="${+x + +w * ART_GUTTER} ${y} ${+w * (1 - 2 * ART_GUTTER)} ${h}"`
+  )
+  return cropped
     .replace(/<!--[\s\S]*?-->/g, '')
     .replace(/currentColor/g, color('--color-text'))
-  const symbolSrc = `data:image/svg+xml;base64,${Buffer.from(symbolSvg).toString('base64')}`
-  const titleSize = input.title.length > 44 ? 60 : 72
+    .replace(/(<svg\b[^>]*>)/, `$1<style>${style}</style>`)
+}
+
+const dataUri = (svg: string) =>
+  `data:image/svg+xml;base64,${Buffer.from(svg).toString('base64')}`
+
+/** Renders one social image as a 1200x630 PNG: a catalog plate. */
+export async function renderOgImage(input: OgImageInput): Promise<Buffer> {
+  const color = (name: string) => token(input.tokens, name).light
+  const ink = color('--color-text')
+  const symbolSvg = input.symbol
+    .replace(/<!--[\s\S]*?-->/g, '')
+    .replace(/currentColor/g, ink)
+  const titleSize = input.title.length > 40 ? 54 : 64
+
+  // Printer's crop marks just outside the frame's corners.
+  const frame = 28
+  const mark = (x: number, y: number, w: number, h: number) =>
+    el('div', {
+      position: 'absolute',
+      left: x,
+      top: y,
+      width: w,
+      height: h,
+      background: ink
+    })
+  const marks = [
+    [frame, frame],
+    [OG_WIDTH - frame, frame],
+    [frame, OG_HEIGHT - frame],
+    [OG_WIDTH - frame, OG_HEIGHT - frame]
+  ].flatMap(([x, y]) => {
+    const sx = x < OG_WIDTH / 2 ? -1 : 1
+    const sy = y < OG_HEIGHT / 2 ? -1 : 1
+    return [
+      mark(sx < 0 ? x - 20 : x + 6, y, 14, 1),
+      mark(x, sy < 0 ? y - 20 : y + 6, 1, 14)
+    ]
+  })
+
+  const text = el(
+    'div',
+    {
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'space-between',
+      height: '100%',
+      width: input.art ? 560 : 960
+    },
+    [
+      el('div', { display: 'flex', alignItems: 'center', gap: 16 }, [
+        el('img', { width: 52, height: 52 }, undefined, {
+          src: dataUri(symbolSvg),
+          width: 52,
+          height: 52
+        }),
+        el('div', { fontSize: 30, fontWeight: 700 }, input.brandName)
+      ]),
+      el(
+        'div',
+        {
+          display: 'flex',
+          fontSize: titleSize,
+          fontWeight: 700,
+          lineHeight: 1.05
+        },
+        input.title
+      ),
+      el(
+        'div',
+        { display: 'flex', fontSize: 26, color: color('--color-text-muted') },
+        input.domain
+      )
+    ]
+  )
+
+  const children: Node[] = [text]
+  if (input.art) {
+    children.push(
+      el('img', { width: 400, height: 444 }, undefined, {
+        src: dataUri(standaloneArt(input.art, input.tokens)),
+        width: 400,
+        height: 444
+      })
+    )
+  }
 
   const tree = el(
     'div',
@@ -116,37 +226,27 @@ export async function renderOgImage(input: OgImageInput): Promise<Buffer> {
       height: '100%',
       boxSizing: 'border-box',
       display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'space-between',
-      padding: 72,
       background: color('--color-bg'),
-      color: color('--color-text'),
-      fontFamily: input.fonts[0].name
+      color: ink,
+      fontFamily: input.fonts[0].name,
+      padding: frame,
+      position: 'relative'
     },
     [
-      el('div', { display: 'flex', alignItems: 'center', gap: 20 }, [
-        el('img', { width: 48, height: 48 }, undefined, {
-          src: symbolSrc,
-          width: 48,
-          height: 48
-        }),
-        el('div', { fontSize: 32, fontWeight: 700 }, input.brandName)
-      ]),
+      ...marks,
       el(
         'div',
         {
           display: 'flex',
-          fontSize: titleSize,
-          fontWeight: 700,
-          lineHeight: 1.1,
-          maxWidth: 1000
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          width: '100%',
+          height: '100%',
+          boxSizing: 'border-box',
+          border: `1px solid ${color('--color-border')}`,
+          padding: '44px 40px 40px 52px'
         },
-        input.title
-      ),
-      el(
-        'div',
-        { display: 'flex', fontSize: 28, color: color('--color-text-muted') },
-        input.domain
+        children
       )
     ]
   )
