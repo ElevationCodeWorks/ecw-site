@@ -33,7 +33,7 @@ function currentState(href: string): 'page' | 'true' | undefined {
 </header>
 
 <style>
-  /* White, with the heavy ink rule a catalog page opens with. */
+  /* White, with the hairline ink rule a catalog page opens with. */
   .site-header {
     border-bottom: var(--rule-width) solid var(--color-accent);
   }
@@ -42,11 +42,11 @@ function currentState(href: string): 'page' | 'true' | undefined {
     align-items: center;
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-3) var(--space-6);
+    gap: var(--space-2) var(--space-6);
     justify-content: space-between;
     margin-inline: auto;
     max-width: var(--container);
-    padding: var(--space-4) var(--gutter) var(--space-3);
+    padding: var(--space-4) var(--gutter);
   }
 
   .brand {
@@ -57,6 +57,8 @@ function currentState(href: string): 'page' | 'true' | undefined {
     font-size: var(--text-xl);
     font-weight: var(--weight-bold);
     gap: var(--space-2);
+    letter-spacing: var(--tracking-heading);
+    line-height: var(--leading-snug);
     text-decoration: none;
   }
 
@@ -66,20 +68,27 @@ function currentState(href: string): 'page' | 'true' | undefined {
     width: 1.1em;
   }
 
+  /*
+   * Each link keeps a padded hit area; the list's negative margin puts the
+   * words themselves on the page's edges, right on a wide screen and left
+   * when the links wrap under the name.
+   */
   ul {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-1) var(--space-2);
+    gap: 0 var(--space-3);
     list-style: none;
+    margin-inline: calc(-1 * var(--space-2));
     padding: 0;
   }
 
   nav a {
     color: var(--color-text);
+    display: block;
     font-weight: var(--weight-bold);
     padding: var(--space-1) var(--space-2);
     text-decoration: none;
-    text-underline-offset: 0.35em;
+    text-underline-offset: 0.4em;
   }
 
   nav a:hover,

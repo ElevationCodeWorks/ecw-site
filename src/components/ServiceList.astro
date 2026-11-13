@@ -13,7 +13,7 @@ const Heading = `h${level}` as 'h2' | 'h3'
 
 <ul class="services">
   {services.map((service) => (
-    <li class="stack-tight">
+    <li>
       <Heading>
         <a href={`/services/${service.id}/`}>{service.data.title}</a>
       </Heading>
@@ -23,7 +23,10 @@ const Heading = `h${level}` as 'h2' | 'h3'
 </ul>
 
 <style>
-  /* Spec rows: the service name on the left, what it is on the right. */
+  /*
+   * Spec rows: the service name in the narrow column, what it is in the wide
+   * one, on the page's split. The name and the summary share a baseline.
+   */
   .services {
     border-top: var(--rule-width) solid var(--color-accent);
     list-style: none;
@@ -31,12 +34,13 @@ const Heading = `h${level}` as 'h2' | 'h3'
   }
 
   li {
+    align-items: baseline;
     border-bottom: var(--border-width) solid var(--color-border);
     display: grid;
-    gap: var(--space-1) var(--space-6);
-    grid-template-columns: minmax(0, 18rem) minmax(0, 1fr);
+    gap: var(--space-2) var(--split-gap);
+    grid-template-columns: var(--split);
     max-width: none;
-    padding: var(--space-4) 0;
+    padding: var(--space-4) 0 var(--space-5);
   }
 
   li > :first-child {
@@ -48,7 +52,7 @@ const Heading = `h${level}` as 'h2' | 'h3'
   }
 
   li p {
-    max-width: 60ch;
+    max-width: 34rem;
   }
 
   @media (max-width: 40rem) {

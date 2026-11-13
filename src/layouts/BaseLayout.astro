@@ -112,10 +112,11 @@ const ogImageUrl = new URL(ogImage.path, Astro.site).href
     z-index: 1;
   }
 
+  /* The page opens 40px under the header rule on a phone, 64px when wide. */
   main {
     margin-inline: auto;
     max-width: var(--container);
-    padding: var(--space-7) var(--gutter) 0;
+    padding: clamp(var(--space-7), 5vw, var(--space-8)) var(--gutter) 0;
   }
 
   main:focus {
