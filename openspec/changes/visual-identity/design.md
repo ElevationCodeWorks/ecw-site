@@ -235,7 +235,7 @@ The plan put green circle, blue square and black diamond marks on the Services s
 | Heading accents | `dist/` HTML | The only elements allowed inside h1 to h6 are `a`, `abbr`, `code`, `br` and `svg[aria-hidden="true"]` |
 | Eyebrow labels | CSS | `text-transform: uppercase`, `font-variant-caps: all-small-caps` or `all-petite-caps`, or `letter-spacing` above 0.05em (px values divided by 16) |
 | Decorative backgrounds | CSS (with token values resolved) | Any `*-gradient(`, `filter: blur(`, any `text-shadow` other than `none`, and box shadows with a blur over 24px or a color with OKLCH C ≥ 0.02 |
-| Animation | CSS | `@keyframes`, `animation-name` or `animation` other than `none`, `animation-timeline`, `scroll-timeline`, `view-timeline`, and transition durations over 250ms. The reduced-motion reset in `base.css` passes, since it sets only durations |
+| Animation | CSS | `@keyframes`, `animation-name` or `animation` other than `none`, `animation-timeline`, `scroll-timeline`, `view-timeline`, and transition durations over 250ms. The reduced-motion reset in `base.css` passes, since it sets only durations. Hero components (`src/components/hero/`, D14) may animate inside `@media (prefers-reduced-motion: no-preference)` |
 | Image sources | `src/assets/`, `public/` | Rasters only under `src/assets/work/` or `src/assets/founder*`. Vectors only under `src/assets/brand/`. `public/` holds no images |
 | Scheme parity, contrast | Tokens | D5 |
 | Font budget, license, hosts | Tokens, font directories | D6 |
@@ -245,6 +245,13 @@ The plan put green circle, blue square and black diamond marks on the Services s
 **Portfolio references:** the colors and fonts in `portfolioReferences` are sampled once with Playwright, from computed styles and CSS custom properties on each site's Home. The sample date is recorded in the config. The memory notes record Chivo for Condies and a cobalt for Uphill. The sampling supplies the exact values.
 
 Every rule gets passing and failing fixture tests, following the Change 1 pattern.
+
+### D14. Hero motion (owner decision 2026-11-13)
+After round 2 the owner chose Plate and asked for more hero options: interactive, 3D, animated and more artistic, drawing on the Art District on Santa Fe. Two rules stood in the way, and the owner decided:
+- **Animation:** allowed in the Home hero only. Hero components live in `src/components/hero/`. There, `@keyframes` and keyframe or scroll-driven animations are allowed, but each animation must sit inside `@media (prefers-reduced-motion: no-preference)`. Everywhere else the ban stands, and transitions stay at 250ms or less. The audit's reduced-motion check already fails a page with running animations under `reducedMotion: 'reduce'`.
+- **JavaScript:** still none. Hero options use CSS only: 3D transforms, hover and focus states, and CSS animation. Scroll-driven animation is progressive: browsers without it show the still drawing.
+
+**Why hero-only:** an animated hero can be a deliberate piece of art; animation everywhere (fade-up sections, scroll reveals) is the AI-site tell the rule exists for.
 
 ### D11. Structure baseline
 - `scripts/structure-snapshot.ts` reads `dist/` and writes, for each page, its visible text in DOM order, its heading outline, its links (text and href) and its JSON-LD.

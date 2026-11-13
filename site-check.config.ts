@@ -132,6 +132,17 @@ export const siteCheckConfig = {
   maxTransitionMs: 250,
 
   /**
+   * The only place keyframe and scroll-driven animation is allowed: the Home
+   * hero's own components (visual-identity design D14). Each animation there
+   * must sit inside a media query matching `guard`, so visitors who prefer
+   * reduced motion never see it.
+   */
+  heroMotion: {
+    files: /^src\/components\/hero\//,
+    guard: /prefers-reduced-motion\s*:\s*no-preference/i
+  },
+
+  /**
    * Web font budget (visual-identity spec): families and files declared with
    * @font-face url() sources (fallback faces with only local() sources don't
    * count), their total size, and font preloads per page.

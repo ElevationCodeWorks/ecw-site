@@ -95,11 +95,23 @@ Styles SHALL NOT use gradients, blur filters, text shadows, shadows in a non-neu
 - **THEN** the check does not flag it
 
 ### Requirement: No keyframe or scroll-driven animation
-Styles SHALL NOT define keyframe animations or scroll-driven animations. Transitions SHALL last no longer than 250 milliseconds.
+Styles SHALL NOT define keyframe animations or scroll-driven animations, except in the Home hero's own components, where an animation SHALL apply only when the visitor has no reduced-motion preference. Transitions SHALL last no longer than 250 milliseconds.
 
 #### Scenario: Fade-up entrance
-- **WHEN** a stylesheet defines `@keyframes` or sets `animation-timeline`
+- **WHEN** a stylesheet outside the hero components defines `@keyframes` or sets `animation-timeline`
 - **THEN** the check fails
+
+#### Scenario: Hero animation for visitors who allow motion
+- **WHEN** a hero component sets an animation inside `@media (prefers-reduced-motion: no-preference)`
+- **THEN** the check does not flag it
+
+#### Scenario: Hero animation without the reduced-motion guard
+- **WHEN** a hero component sets an animation or a scroll-driven timeline outside that media query
+- **THEN** the check fails and names the file and line
+
+#### Scenario: Visitor prefers reduced motion
+- **WHEN** a visitor whose system prefers reduced motion opens Home
+- **THEN** no animation runs in the hero
 
 #### Scenario: Short hover transition
 - **WHEN** a style sets a 150-millisecond color transition

@@ -351,3 +351,51 @@ test('animation: the reduced-motion reset in base.css passes', () => {
   const css = readFileSync('src/styles/base.css', 'utf8')
   assert.deepEqual(animation(cssInputs(css), config), [])
 })
+
+const hero = (css: string) =>
+  animation(cssInputs(css, 'src/components/hero/HeroPlate.astro'), config)
+
+test('hero motion: a guarded hero animation passes', () => {
+  assert.deepEqual(
+    hero(`@keyframes settle { from { translate: 0 -2rem; } to { translate: 0 0; } }
+@media (prefers-reduced-motion: no-preference) {
+  .lid { animation: settle 1.2s ease-out both; }
+  .deck { animation-timeline: view(); animation-name: settle; }
+}`),
+    []
+  )
+})
+
+test('hero motion: an unguarded hero animation fails and names the file and line', () => {
+  const result = hero(`@keyframes settle { to { translate: 0 0; } }
+.lid {
+  animation: settle 1.2s ease-out both;
+}`)
+  assert.equal(result.length, 1)
+  assert.equal(result[0].rule, 'brand/animation')
+  assert.equal(result[0].file, 'src/components/hero/HeroPlate.astro')
+  assert.equal(result[0].line, 3)
+  assert.match(result[0].message ?? '', /prefers-reduced-motion: no-preference/)
+})
+
+test('hero motion: a guard for the wrong preference does not count', () => {
+  assert.equal(
+    hero(
+      `@media (prefers-reduced-motion: reduce) { .lid { animation: settle 1s; } }`
+    ).length,
+    1
+  )
+})
+
+test('hero motion: animation outside the hero still fails, even when guarded', () => {
+  const result = animation(
+    cssInputs(`@keyframes fade-up { to { opacity: 1; } }
+@media (prefers-reduced-motion: no-preference) { .card { animation: fade-up 0.6s; } }`),
+    config
+  )
+  assert.equal(result.length, 2)
+})
+
+test('hero motion: transitions in the hero keep the 250ms cap', () => {
+  assert.equal(hero('.frame { transition: rotate 600ms ease; }').length, 1)
+})

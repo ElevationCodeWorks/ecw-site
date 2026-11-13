@@ -335,7 +335,19 @@ function transitionDurations(prop: string, value: string): number[] {
  */
 export const animation: Rule = (inputs, config) => {
   const { resolve } = tokenResolver(inputs)
+  const inHero = (file: string) => config.heroMotion.files.test(file)
+  const guarded = (d: Decl) =>
+    d.atRules.some(
+      (a) => a.name === 'media' && config.heroMotion.guard.test(a.params)
+    )
+  const heroUnguarded = (d: Decl) =>
+    violation(
+      d,
+      'brand/animation',
+      'Hero animation must sit inside @media (prefers-reduced-motion: no-preference).'
+    )
   const keyframes: Violation[] = cssAtRules(inputs.css)
+    .filter((a) => !inHero(a.file))
     .filter((a) => /(^|-)keyframes$/.test(a.name))
     .map((a) => ({
       rule: 'brand/animation',
@@ -346,16 +358,20 @@ export const animation: Rule = (inputs, config) => {
     }))
   const decls = declarations(inputs.css).flatMap((d): Violation[] => {
     const value = resolve(d.value, 'light').trim().toLowerCase()
-    if (/^(?:-webkit-)?animation(?:-name)?$/.test(d.prop) && value !== 'none')
+    if (/^(?:-webkit-)?animation(?:-name)?$/.test(d.prop) && value !== 'none') {
+      if (inHero(d.file)) return guarded(d) ? [] : [heroUnguarded(d)]
       return [violation(d, 'brand/animation', 'No keyframe animations.')]
+    }
     if (
       /^(?:animation-timeline|scroll-timeline(?:-name|-axis)?|view-timeline(?:-name|-axis|-inset)?|timeline-scope)$/.test(
         d.prop
       ) &&
       value !== 'none' &&
       value !== 'auto'
-    )
+    ) {
+      if (inHero(d.file)) return guarded(d) ? [] : [heroUnguarded(d)]
       return [violation(d, 'brand/animation', 'No scroll-driven animations.')]
+    }
     if (d.prop === 'transition' || d.prop === 'transition-duration') {
       const longest = Math.max(0, ...transitionDurations(d.prop, value))
       if (longest > config.maxTransitionMs)
