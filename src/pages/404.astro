@@ -26,20 +26,42 @@ const links = [
 </BaseLayout>
 
 <style>
-  /* The way out, set as a short index of large links. */
+  /*
+   * The way out, set as a short index of large links, ruled like the spec
+   * tables: an ink rule opens it, hairlines divide the rows. Each link fills
+   * its row, so the whole row is the target and the focus ring frames it;
+   * the row reaches a little into the gutter so the ring clears the text.
+   */
   .links {
-    border-top: var(--border-width) solid var(--color-border-strong);
-    display: grid;
+    border-top: var(--rule-width) solid var(--color-accent);
     list-style: none;
-    max-width: 24rem;
     padding: 0;
+  }
+
+  .stack > .links {
+    margin-top: var(--space-7);
   }
 
   .links li {
     border-bottom: var(--border-width) solid var(--color-border);
+    max-width: none;
+  }
+
+  .links a {
+    color: var(--color-text);
+    display: block;
     font-family: var(--font-heading);
-    font-size: var(--text-xl);
+    font-size: var(--text-2xl);
     font-weight: var(--weight-bold);
-    padding: var(--space-2) 0;
+    line-height: var(--leading-tight);
+    margin-inline: calc(-1 * var(--space-3));
+    padding: var(--space-4) var(--space-3);
+    text-decoration: none;
+    text-underline-offset: 0.12em;
+  }
+
+  .links a:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 0.06em;
   }
 </style>
