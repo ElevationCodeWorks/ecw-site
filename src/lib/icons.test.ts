@@ -52,12 +52,12 @@ test('the touch icon is a 180x180 PNG', async () => {
   assert.deepEqual([meta.format, meta.width, meta.height], ['png', 180, 180])
 })
 
-test('the touch icon paints the light background token', async () => {
+test('the touch icon sets the symbol on the brand yellow', async () => {
   const { data } = await sharp(await touchIconPng(symbol, tokens))
     .raw()
     .toBuffer({ resolveWithObject: true })
-  // The top-left pixel is padding, so it shows --color-bg (#ffffff).
-  assert.deepEqual([...data.subarray(0, 3)], [255, 255, 255])
+  // The top-left pixel is padding, so it shows --color-highlight (#ffdd00).
+  assert.deepEqual([...data.subarray(0, 3)], [255, 221, 0])
 })
 
 test('icon.svg uses the light text token, and the dark one under a dark preference', () => {

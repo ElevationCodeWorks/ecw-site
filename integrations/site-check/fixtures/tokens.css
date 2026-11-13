@@ -5,6 +5,7 @@
   --color-text: #111111;
   --color-focus: var(--color-link);
   --color-link: #0b57d0;
+  --color-highlight: #ffdd00;
   --font-body: 'Overpass', 'Overpass Fallback', Arial, sans-serif;
   --font-heading: var(--font-body);
   --space-4: 1rem;
@@ -15,5 +16,6 @@
     --color-bg: #121212;
     --color-text: #ededed;
     --color-link: #8ab4f8;
+    --color-highlight: #ffdd00;
   }
 }
