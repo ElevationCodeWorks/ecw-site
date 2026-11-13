@@ -110,7 +110,7 @@
 ## 8. Round 1: three directions (design D3, D4)
 
 - [x] 8.1 Create `openspec/changes/visual-identity/rounds.md` with a per-comp template: source, preview URL, check status, checklist results and verdict. Record the owner's approval of the three D3 sources, given on 2026-11-12. Verify that the sources are recorded as approved
-- [ ] 8.2 Build comp A on `comp/r1-<slug>`:
+- [x] 8.2 Build comp A on `comp/r1-<slug>`:
   - Light and dark tokens
   - At most two OFL families added with `fonts.mjs`
   - Component styles
@@ -118,8 +118,8 @@
   - Any wordmark exception entry, with its reason
 
   Open its draft PR. Verify that the preview builds, `npm run check:structure` is empty, and the look review is recorded in `rounds.md`
-- [ ] 8.3 Build comp B the same way. Verify as in 8.2, and also that its typeface family, primary color and layout structure all differ from comp A's
-- [ ] 8.4 Build comp C the same way. Verify as in 8.2, and also that it differs from A and B in typeface family, primary color and layout structure
+- [x] 8.3 Build comp B the same way. Verify as in 8.2, and also that its typeface family, primary color and layout structure all differ from comp A's
+- [x] 8.4 Build comp C the same way. Verify as in 8.2, and also that it differs from A and B in typeface family, primary color and layout structure
 - [ ] 8.5 Run `capture-comps.mjs` for round 1, and send the owner the three preview links and the sheet. Ask whether to publish the sheet as a private Artifact. Record the verdict and notes in `rounds.md`. Then close the losing PRs and delete their branches. If no direction wins, repeat 8.1 to 8.5 with new sources. Verify that `gh pr list` shows only the winning comp PR and the `visual-identity` draft PR, besides PR #1
 
 ## 9. Round 2: refine the chosen direction
