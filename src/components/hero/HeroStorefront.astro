@@ -5,7 +5,8 @@
  * (src/assets/brand/storefront.svg): a browser window with the business found
  * first, a phone running its app, a chat window, a booking calendar and a
  * card terminal, a toolbox, and a checklist. Each label links to its service
- * and reuses its title. Pointing at a label lights its drawing. On load the
+ * and reuses its title. Pointing at a label, or at a drawing, expands it to
+ * show more detail. On load the
  * services come out of the shop, once. CSS only; the motion sits inside the
  * reduced-motion guard (design D14).
  */
@@ -78,7 +79,7 @@ const svg = drawing
   }
 
   .hero-art :global(.service) {
-    transition: transform 200ms ease-out;
+    transition: transform 250ms ease-out;
   }
 
   /* Labels sit beside their drawings; each is a link to its service. */
@@ -116,34 +117,65 @@ const svg = drawing
     font-weight: var(--weight-bold);
   }
 
-  /* Pointing at a label lights its drawing and lifts it. */
+  /*
+     * Pointing at a label, or at a drawing, expands the drawing from its own
+     * center and shows the detail it was holding back.
+     */
+  .hero-art :global(.service) {
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .hero-art :global(.detail) {
+    opacity: 0;
+    transition: opacity 200ms ease-out;
+  }
+
   .hero-art:has(.l-websites a:is(:hover, :focus-visible)) :global(.s-websites),
+  .hero-art :global(.s-websites:hover),
   .hero-art:has(.l-custom-web-apps a:is(:hover, :focus-visible))
     :global(.s-custom-web-apps),
+  .hero-art :global(.s-custom-web-apps:hover),
   .hero-art:has(.l-ai-features a:is(:hover, :focus-visible))
     :global(.s-ai-features),
+  .hero-art :global(.s-ai-features:hover),
   .hero-art:has(.l-integrations a:is(:hover, :focus-visible))
     :global(.s-integrations),
+  .hero-art :global(.s-integrations:hover),
   .hero-art:has(.l-care-and-rescue a:is(:hover, :focus-visible))
     :global(.s-care-and-rescue),
+  .hero-art :global(.s-care-and-rescue:hover),
   .hero-art:has(.l-tech-checkup a:is(:hover, :focus-visible))
-    :global(.s-tech-checkup) {
-    transform: translateY(-5px);
+    :global(.s-tech-checkup),
+  .hero-art :global(.s-tech-checkup:hover) {
+    transform: scale(1.35);
   }
 
   .hero-art:has(.l-websites a:is(:hover, :focus-visible))
-    :global(.s-websites :is(.face, .side)),
+    :global(.s-websites)
+    :global(.detail),
+  .hero-art :global(.s-websites:hover) :global(.detail),
   .hero-art:has(.l-custom-web-apps a:is(:hover, :focus-visible))
-    :global(.s-custom-web-apps :is(.face, .side)),
+    :global(.s-custom-web-apps)
+    :global(.detail),
+  .hero-art :global(.s-custom-web-apps:hover) :global(.detail),
   .hero-art:has(.l-ai-features a:is(:hover, :focus-visible))
-    :global(.s-ai-features :is(.face, .side)),
+    :global(.s-ai-features)
+    :global(.detail),
+  .hero-art :global(.s-ai-features:hover) :global(.detail),
   .hero-art:has(.l-integrations a:is(:hover, :focus-visible))
-    :global(.s-integrations :is(.face, .side)),
+    :global(.s-integrations)
+    :global(.detail),
+  .hero-art :global(.s-integrations:hover) :global(.detail),
   .hero-art:has(.l-care-and-rescue a:is(:hover, :focus-visible))
-    :global(.s-care-and-rescue :is(.face, .side)),
+    :global(.s-care-and-rescue)
+    :global(.detail),
+  .hero-art :global(.s-care-and-rescue:hover) :global(.detail),
   .hero-art:has(.l-tech-checkup a:is(:hover, :focus-visible))
-    :global(.s-tech-checkup :is(.face, .side)) {
-    fill: var(--color-highlight);
+    :global(.s-tech-checkup)
+    :global(.detail),
+  .hero-art :global(.s-tech-checkup:hover) :global(.detail) {
+    opacity: 1;
   }
 
   /* On load the services come out of the shop, once. */
