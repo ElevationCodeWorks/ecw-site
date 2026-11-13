@@ -1,0 +1,148 @@
+---
+import type { GetStaticPaths } from 'astro'
+import { getEntries, render } from 'astro:content'
+import type { CollectionEntry } from 'astro:content'
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import CallToAction from '../../components/CallToAction.astro'
+import { getServices } from '../../lib/services.ts'
+import { asJsonLd, breadcrumbs, serviceEntity } from '../../lib/schema.ts'
+
+export const getStaticPaths = (async () => {
+  const services = await getServices()
+  return services.map((service) => ({
+    params: { slug: service.id },
+    props: { service }
+  }))
+}) satisfies GetStaticPaths
+
+interface Props {
+  service: CollectionEntry<'services'>
+}
+
+const { service } = Astro.props
+const { data } = service
+const { Content } = await render(service)
+const related = await getEntries(data.relatedWork)
+const path = `/services/${service.id}/`
+
+const jsonLd = [
+  asJsonLd(
+    serviceEntity({ name: data.title, description: data.summary, path })
+  ),
+  asJsonLd(
+    breadcrumbs([
+      { name: 'Services', path: '/services/' },
+      { name: data.title, path }
+    ])
+  )
+]
+---
+
+<BaseLayout
+  title={data.seo.title}
+  description={data.seo.description}
+  jsonLd={jsonLd}
+>
+  <article>
+    <div class="stack">
+      <h1>{data.title}</h1>
+      <p class="lede">{data.summary}</p>
+      <div class="prose">
+        <Content />
+      </div>
+    </div>
+
+    <section class="section stack-tight" aria-labelledby="for-who">
+      <h2 id="for-who">Who it's for</h2>
+      <p>{data.forWho}</p>
+    </section>
+
+    <section class="section stack-tight" aria-labelledby="included">
+      <h2 id="included">What's included</h2>
+      <ul class="list">
+        {data.included.map((item) => (
+          <li>{item}</li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="section stack-tight" aria-labelledby="not-included">
+      <h2 id="not-included">What's not included</h2>
+      <ul class="list">
+        {data.notIncluded.map((item) => (
+          <li>{item}</li>
+        ))}
+      </ul>
+    </section>
+
+    {related.length > 0 && (
+      <section class="section stack-tight" aria-labelledby="related">
+        <h2 id="related">Related work</h2>
+        <ul class="list">
+          {related.map((project) => (
+            <li>
+              <a href={`/work/${project.id}/`}>{project.data.name}</a>:{' '}
+              {project.data.description}
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    <CallToAction
+      label={
+        data.isEntryOffer ? 'Book a tech checkup' : 'Tell me about your project'
+      }
+      href="/contact/"
+    />
+  </article>
+</BaseLayout>
+
+<style>
+  /* Spec rows: each section's heading on the left, its content on the right. */
+  article > .section {
+    border-top: var(--border-width) solid var(--color-border-strong);
+    column-gap: var(--space-6);
+    display: grid;
+    grid-template-columns: minmax(0, 14rem) minmax(0, 1fr);
+    padding-top: var(--space-4);
+  }
+
+  /* No row gap: the heading spans empty rows, which must stay zero height. */
+  article > .section > :global(*) {
+    grid-column: 2;
+    margin-top: var(--space-2);
+  }
+
+  article > .section > h2 + :global(*) {
+    margin-top: 0;
+  }
+
+  article > .section > h2 {
+    font-size: var(--text-xl);
+    grid-column: 1;
+    grid-row: 1 / span 9;
+  }
+
+  .list {
+    display: grid;
+    gap: var(--space-2);
+    padding-left: var(--space-5);
+  }
+
+  @media (max-width: 40rem) {
+    article > .section {
+      grid-template-columns: 1fr;
+    }
+
+    article > .section > h2,
+    article > .section > :global(*) {
+      grid-column: 1;
+      grid-row: auto;
+    }
+
+    article > .section > h2 + :global(*) {
+      margin-top: var(--space-2);
+    }
+  }
+</style>

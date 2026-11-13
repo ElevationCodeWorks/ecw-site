@@ -1,0 +1,45 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import { getPage } from '../lib/pages.ts'
+
+const { data } = await getPage('not-found')
+const links = [
+  { label: 'Home', href: '/' },
+  { label: 'Services', href: '/services/' },
+  { label: 'Work', href: '/work/' },
+  { label: 'Contact', href: '/contact/' }
+]
+---
+
+<BaseLayout title={data.seo.title} description={data.seo.description} noindex>
+  <div class="stack">
+    <h1>{data.h1}</h1>
+    {data.lede && <p class="lede">{data.lede}</p>}
+    <ul class="links">
+      {links.map((link) => (
+        <li>
+          <a href={link.href}>{link.label}</a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</BaseLayout>
+
+<style>
+  /* The way out, set as a short index of large links. */
+  .links {
+    border-top: var(--border-width) solid var(--color-border-strong);
+    display: grid;
+    list-style: none;
+    max-width: 24rem;
+    padding: 0;
+  }
+
+  .links li {
+    border-bottom: var(--border-width) solid var(--color-border);
+    font-family: var(--font-heading);
+    font-size: var(--text-xl);
+    font-weight: var(--weight-bold);
+    padding: var(--space-2) 0;
+  }
+</style>

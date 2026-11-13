@@ -1,0 +1,38 @@
+[
+  {
+    "part": "tech-checkup",
+    "side": "right",
+    "x": 79.3,
+    "y": 47.1
+  },
+  {
+    "part": "ai-features",
+    "side": "left",
+    "x": 20,
+    "y": 11.5
+  },
+  {
+    "part": "websites",
+    "side": "right",
+    "x": 77.1,
+    "y": 30.3
+  },
+  {
+    "part": "care-and-rescue",
+    "side": "right",
+    "x": 77.1,
+    "y": 89.5
+  },
+  {
+    "part": "integrations",
+    "side": "left",
+    "x": 22.9,
+    "y": 82.4
+  },
+  {
+    "part": "custom-web-apps",
+    "side": "left",
+    "x": 21.3,
+    "y": 55.1
+  }
+]

@@ -1,0 +1,233 @@
+---
+/**
+ * Hero concept "Storefront, exploded": a client's shop drawn as a
+ * parts-catalog plate, with a drawing of each service coming out of it
+ * (src/assets/brand/storefront.svg): a browser window with the business found
+ * first, a phone running its app, a chat window, a booking calendar and a
+ * card terminal, a toolbox, and a checklist. Each label links to its service
+ * and reuses its title. Pointing at a label, or at a drawing, expands it to
+ * show more detail. On load the
+ * services come out of the shop, once. CSS only; the motion sits inside the
+ * reduced-motion guard (design D14).
+ */
+import drawing from '../../assets/brand/storefront.svg?raw'
+import { getServices } from '../../lib/services.ts'
+import callouts from './storefront-callouts.json'
+
+const services = await getServices()
+const labels = callouts.map((c) => {
+  const service = services.find((s) => s.id === c.part)
+  if (!service) throw new Error(`No service "${c.part}" in the storefront`)
+  return {
+    ...c,
+    title: service.data.title,
+    href: `/services/${service.id}/`
+  }
+})
+
+const svg = drawing
+  .replace(/<!--[\s\S]*?-->\s*/g, '')
+  .replace(/<svg\b/, '<svg aria-hidden="true" focusable="false"')
+---
+
+<div class="hero-art">
+  <Fragment set:html={svg} />
+  <ul class="labels">
+    {labels.map((l) => (
+      <li
+        class={`label l-${l.part} ${l.side}`}
+        style={`--x: ${l.x}%; --y: ${l.y}%`}
+      >
+        <a href={l.href}>{l.title}</a>
+      </li>
+    ))}
+  </ul>
+</div>
+
+<style>
+  .hero-art {
+    color: var(--color-text);
+    position: relative;
+  }
+
+  .hero-art :global(svg) {
+    display: block;
+    height: auto;
+    overflow: visible;
+    width: 100%;
+  }
+
+  /* Even, crisp linework at any size, and when a drawing expands. */
+  .hero-art :global(svg *) {
+    stroke-width: 1.25px;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .hero-art :global(.face) {
+    fill: var(--color-bg);
+  }
+
+  .hero-art :global(.side) {
+    fill: var(--color-surface);
+  }
+
+  /* The one yellow touch: the client's business, found first in search. */
+  .hero-art :global(.hl) {
+    fill: var(--color-highlight);
+  }
+
+  .hero-art :global(.dash) {
+    stroke-dasharray: 4 4;
+  }
+
+  .hero-art :global(.course) {
+    stroke: var(--color-border);
+  }
+
+  .hero-art :global(.service) {
+    transition: transform 250ms ease-out;
+  }
+
+  /* Labels sit beside their drawings; each is a link to its service. */
+  .labels {
+    inset: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    pointer-events: none;
+    position: absolute;
+  }
+
+  .label {
+    left: var(--x);
+    pointer-events: auto;
+    position: absolute;
+    top: var(--y);
+    transform: translateY(-50%);
+    white-space: nowrap;
+  }
+
+  .label.left {
+    padding-right: var(--space-2);
+    transform: translate(-100%, -50%);
+  }
+
+  .label.right {
+    padding-left: var(--space-2);
+  }
+
+  .label a {
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-bold);
+  }
+
+  /*
+     * Pointing at a label, or at a drawing, expands the drawing from its own
+     * center and shows the detail it was holding back.
+     */
+  .hero-art :global(.service) {
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .hero-art :global(.detail) {
+    opacity: 0;
+    transition: opacity 200ms ease-out;
+  }
+
+  .hero-art:has(.l-websites a:is(:hover, :focus-visible)) :global(.s-websites),
+  .hero-art :global(.s-websites:hover),
+  .hero-art:has(.l-custom-web-apps a:is(:hover, :focus-visible))
+    :global(.s-custom-web-apps),
+  .hero-art :global(.s-custom-web-apps:hover),
+  .hero-art:has(.l-ai-features a:is(:hover, :focus-visible))
+    :global(.s-ai-features),
+  .hero-art :global(.s-ai-features:hover),
+  .hero-art:has(.l-integrations a:is(:hover, :focus-visible))
+    :global(.s-integrations),
+  .hero-art :global(.s-integrations:hover),
+  .hero-art:has(.l-care-and-rescue a:is(:hover, :focus-visible))
+    :global(.s-care-and-rescue),
+  .hero-art :global(.s-care-and-rescue:hover),
+  .hero-art:has(.l-tech-checkup a:is(:hover, :focus-visible))
+    :global(.s-tech-checkup),
+  .hero-art :global(.s-tech-checkup:hover) {
+    transform: scale(1.35);
+  }
+
+  .hero-art:has(.l-websites a:is(:hover, :focus-visible))
+    :global(.s-websites)
+    :global(.detail),
+  .hero-art :global(.s-websites:hover) :global(.detail),
+  .hero-art:has(.l-custom-web-apps a:is(:hover, :focus-visible))
+    :global(.s-custom-web-apps)
+    :global(.detail),
+  .hero-art :global(.s-custom-web-apps:hover) :global(.detail),
+  .hero-art:has(.l-ai-features a:is(:hover, :focus-visible))
+    :global(.s-ai-features)
+    :global(.detail),
+  .hero-art :global(.s-ai-features:hover) :global(.detail),
+  .hero-art:has(.l-integrations a:is(:hover, :focus-visible))
+    :global(.s-integrations)
+    :global(.detail),
+  .hero-art :global(.s-integrations:hover) :global(.detail),
+  .hero-art:has(.l-care-and-rescue a:is(:hover, :focus-visible))
+    :global(.s-care-and-rescue)
+    :global(.detail),
+  .hero-art :global(.s-care-and-rescue:hover) :global(.detail),
+  .hero-art:has(.l-tech-checkup a:is(:hover, :focus-visible))
+    :global(.s-tech-checkup)
+    :global(.detail),
+  .hero-art :global(.s-tech-checkup:hover) :global(.detail) {
+    opacity: 1;
+  }
+
+  /* On load the services come out of the shop, once. */
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-art :global(.service) {
+      animation: come-out 1s cubic-bezier(0.3, 0, 0.2, 1) 0.35s backwards;
+    }
+
+    .hero-art :global(:is(.assembly, .callouts)),
+    .labels {
+      animation: appear 0.5s ease-out 1.25s backwards;
+    }
+
+    @keyframes come-out {
+      from {
+        opacity: 0;
+        translate: var(--from);
+      }
+    }
+
+    @keyframes appear {
+      from {
+        opacity: 0;
+      }
+    }
+  }
+
+  /*
+   * On narrow screens the drawing fills the column: its label gutters are
+   * cropped away, and the labels are hidden, since the full list of services
+   * follows further down the page.
+   */
+  @media (max-width: 56rem) {
+    .hero-art {
+      overflow: hidden;
+    }
+
+    .hero-art :global(svg) {
+      margin-left: -42%;
+      max-width: none;
+      width: 184%;
+    }
+
+    .hero-art :global(.callouts),
+    .labels {
+      display: none;
+    }
+  }
+</style>

@@ -1,0 +1,124 @@
+---
+import '../styles/tokens.css'
+import '../styles/base.css'
+import SiteHeader from '../components/SiteHeader.astro'
+import SiteFooter from '../components/SiteFooter.astro'
+import { PRODUCTION_ORIGIN, site } from '../site.config.ts'
+import { serializeJsonLd } from '../lib/json-ld.ts'
+import { currentDeployEnv, isIndexable } from '../lib/env.ts'
+import { preloadFonts } from '../lib/fonts.ts'
+import { OG_HEIGHT, OG_WIDTH, ogImagePath, ogSubject } from '../lib/og.ts'
+import { DEFAULT_OG } from '../lib/og-pages.ts'
+
+interface Props {
+  /** Page subject. The brand suffix is appended unless `fullTitle` is set. */
+  title: string
+  /** Use `title` as the complete <title> (Home only). */
+  fullTitle?: boolean
+  description: string
+  /** Page-level noindex, e.g. the 404 and contact confirmation pages. */
+  noindex?: boolean
+  /** Structured data objects, rendered as JSON-LD. */
+  jsonLd?: Record<string, unknown>[]
+}
+
+const {
+  title,
+  fullTitle = false,
+  description,
+  noindex = false,
+  jsonLd = []
+} = Astro.props
+
+// Page-level noindex, or the whole build is not indexable (design D3).
+const robotsNoindex =
+  noindex || !isIndexable(currentDeployEnv(), PRODUCTION_ORIGIN)
+const documentTitle = fullTitle ? title : `${title}${site.titleSuffix}`
+const canonical = new URL(Astro.url.pathname, Astro.site).href
+// Each indexable page has its own social image, generated at build time by
+// src/pages/og/[...slug].png.ts from the same title (design D7).
+const ogImage = noindex
+  ? { path: ogImagePath(Astro.url.pathname, true), alt: DEFAULT_OG.alt }
+  : {
+      path: ogImagePath(Astro.url.pathname),
+      alt: `${fullTitle ? ogSubject(title, site.brandName) : title}, ${site.brandName}`
+    }
+const ogImageUrl = new URL(ogImage.path, Astro.site).href
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {/* First paint already uses the visitor's scheme (design D5). */}
+    <meta name="color-scheme" content="light dark" />
+    <title>{documentTitle}</title>
+    {preloadFonts.map((href) => (
+      <link
+        rel="preload"
+        href={href}
+        as="font"
+        type="font/woff2"
+        crossorigin="anonymous"
+      />
+    ))}
+    <meta name="description" content={description} />
+    {/* Canonical links belong only on indexable pages. */}
+    {!noindex && <link rel="canonical" href={canonical} />}
+    {robotsNoindex && <meta name="robots" content="noindex, nofollow" />}
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.brandName} />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content={documentTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content={String(OG_WIDTH)} />
+    <meta property="og:image:height" content={String(OG_HEIGHT)} />
+    <meta property="og:image:alt" content={ogImage.alt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={documentTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+    <meta name="twitter:image:alt" content={ogImage.alt} />
+    {/* Site icons, all drawn from the symbol (visual-identity design D8). */}
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    {jsonLd.map((data) => (
+      <script type="application/ld+json" set:html={serializeJsonLd(data)} />
+    ))}
+  </head>
+  <body>
+    <a class="skip-link visually-hidden" href="#main">
+      Skip to main content
+    </a>
+    <SiteHeader />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <SiteFooter />
+  </body>
+</html>
+
+<style>
+  .skip-link:focus {
+    background: var(--color-bg);
+    left: var(--space-4);
+    padding: var(--space-2) var(--space-4);
+    position: absolute;
+    top: var(--space-4);
+    z-index: 1;
+  }
+
+  main {
+    margin-inline: auto;
+    max-width: var(--container);
+    padding: var(--space-7) var(--gutter) 0;
+  }
+
+  main:focus {
+    outline: none;
+  }
+</style>
