@@ -293,3 +293,28 @@ Every option: the site check passes, `npm run check:structure` is empty, axe pas
 
 - **Owner verdict on these three (2026-11-13):** the art and animations aren't very meaningful. The owner asked to try three concepts that say something about the business (task 9.6, below).
 - **Accessibility note:** Gallery wall's sway loops forever. Moving content that starts on its own and runs longer than 5 seconds needs a way to pause it (WCAG 2.2.2), so it would have to play once and stop to ship.
+
+## Hero concepts that say something (task 9.6)
+
+The owner found the 9.4 heroes not meaningful and asked to try three concepts that say something true about the business. Each is its own branch from `comp/r2-catalog-a` with a draft PR, CSS only. Each animation plays once and ends within about three seconds (WCAG 2.2.2) and sits inside the reduced-motion guard (design D14). The hero links reuse the existing service and project names, so there is no new copy. `npm run check:structure` reports only "link reordered" and "text reordered" on Home: the hero repeats links that are already on the page.
+
+Every concept: the site check passes, axe passes at both sizes in both schemes, all 172 tests pass, and with reduced motion no animation runs.
+
+| Concept | Branch and PR | Preview | What it says |
+| --- | --- | --- | --- |
+| Storefront, exploded | `comp/r2-hero-storefront`, #11 | https://deploy-preview-11--elevationcodeworks.netlify.app | A one-story Santa Fe Drive shopfront (stepped parapet, brick courses) drawn as an exploded catalog plate. Each part is a service, and its label links to it: the sign (Websites that get found), the display window (Custom web apps), the sign hanging in the window (AI features), the door (Integrations), the foundation (Care and rescue). Pointing at a label lights its part. On load the shop comes apart into its parts. |
+| First Friday on Santa Fe | `comp/r2-hero-firstfriday`, #12 | https://deploy-preview-12--elevationcodeworks.netlify.app | Two-story brick gallery fronts on Santa Fe Drive. Each display window shows one of the real projects, with a placard naming it and a link to its case study, under a string of First Friday bulbs that come on one by one. The art walk is a walk past the work. |
+| A customer's path | `comp/r2-hero-path`, #13 | https://deploy-preview-13--elevationcodeworks.netlify.app | A route map, like the light rail along Santa Fe Drive, of the order in which a small business's customers meet the services: found, book and pay, use the app, get answers, get help. Each stop links to its service. The line draws itself along the route, and each stop flashes as the line reaches it. |
+
+**Look review notes** (everything below the hero is Plate as approved):
+
+| Concept | Item | Result | Note |
+| --- | --- | --- | --- |
+| Storefront, exploded | 9. Flat-vector illustrations | Pass | A line drawing of a building, no people. |
+| Storefront, exploded | 14. Looks like a template | Pass | Specific to the business: the parts are the services. Tech checkup has no part. |
+| First Friday on Santa Fe | 2. Three-up grid with icons in tinted tiles | Pass | Three gallery fronts showing real screenshots, not icons or tiles. |
+| First Friday on Santa Fe | 5. Logo cloud or "trusted by" strip | Pass | It shows the owner's own projects with their names, not client logos. |
+| A customer's path | 2. Three-up grid with icons in tinted tiles | Pass | Stops on a line, deliberately not icons in tiles. |
+| A customer's path | Site check: numbered labels | Pass | The stops are an ordered list (`ol`) with no visible numbers. |
+
+- **Owner's choice of hero and symbol:** pending.
