@@ -3,7 +3,6 @@ import { getImage } from 'astro:assets'
 import { getCollection } from 'astro:content'
 import BaseLayout from '../layouts/BaseLayout.astro'
 import CallToAction from '../components/CallToAction.astro'
-import HeroPlate from '../components/HeroPlate.astro'
 import ServiceList from '../components/ServiceList.astro'
 import WorkPreview from '../components/WorkPreview.astro'
 import founderPhoto from '../assets/founder.jpg'
@@ -26,13 +25,24 @@ const photo = await getImage({ src: founderPhoto, width: 640, format: 'jpg' })
   description={data.seo.description}
   jsonLd={[homeGraph(data.seo.description, photo.src)]}
 >
-  <div class="hero-grid">
+  <div class="cover">
     <div class="stack hero">
       <h1>{data.h1}</h1>
       {data.lede && <p class="lede">{data.lede}</p>}
     </div>
     {data.cta && <CallToAction label={data.cta.label} href={data.cta.href} />}
-    <HeroPlate />
+    {/* The hang tag, drawn large in outline, tilted and cropped by the cover. */}
+    <svg
+      class="cover-tag"
+      aria-hidden="true"
+      focusable="false"
+      viewBox="0 0 16 16"
+      fill="none"
+      stroke="currentColor"
+    >
+      <path d="M5 1h6l3 3v11H2V4z" />
+      <circle cx="8" cy="4.7" r="1.5" />
+    </svg>
   </div>
 
   <section class="section" aria-labelledby="work-heading">
@@ -55,43 +65,74 @@ const photo = await getImage({ src: founderPhoto, width: 640, format: 'jpg' })
 </BaseLayout>
 
 <style>
-  /* The headline, lede and button on the left; the plate on the right. */
-  .hero-grid {
-    align-items: start;
-    display: grid;
-    gap: 0 var(--space-7);
-    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  /*
+   * The hero is a catalog cover: a yellow panel with a printed-label frame,
+   * an oversized condensed headline, and the hang tag drawn large in outline.
+   */
+  .cover {
+    background: var(--color-highlight);
+    color: var(--color-on-highlight);
+    isolation: isolate;
+    overflow: hidden;
+    padding: clamp(2rem, 1rem + 5vw, 4.5rem);
+    position: relative;
   }
 
-  .hero-grid > :global(*) {
-    grid-column: 1;
-  }
-
-  .hero-grid > :global(.hero-plate) {
-    grid-column: 2;
-    grid-row: 1 / span 2;
+  .cover::after {
+    border: var(--border-width) solid currentColor;
+    content: '';
+    inset: var(--space-3);
+    pointer-events: none;
+    position: absolute;
   }
 
   .hero h1 {
-    font-size: clamp(2.75rem, 1.5rem + 4.5vw, 5.25rem);
-    max-width: 14ch;
-  }
-
-  @media (max-width: 56rem) {
-    .hero-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .hero-grid > :global(.hero-plate) {
-      grid-column: 1;
-      grid-row: auto;
-      margin-top: var(--space-7);
-      max-width: 26rem;
-    }
+    font-size: clamp(3rem, 1.4rem + 6.5vw, 6.75rem);
+    line-height: 0.95;
+    max-width: 13ch;
   }
 
   .hero .lede {
-    max-width: 58ch;
+    color: inherit;
+    font-size: var(--text-lg);
+    max-width: 40ch;
+  }
+
+  .cover :global(.cta a) {
+    background: var(--color-on-highlight);
+    color: var(--color-highlight);
+  }
+
+  .cover :global(:focus-visible) {
+    outline-color: var(--color-on-highlight);
+  }
+
+  .cover-tag {
+    height: auto;
+    position: absolute;
+    right: -8%;
+    stroke-width: 0.12;
+    top: 50%;
+    transform: translateY(-50%) rotate(-12deg);
+    width: min(46%, 30rem);
+    z-index: -1;
+  }
+
+  /* On narrow screens the tag would sit behind the text, so the cover goes plain. */
+  @media (max-width: 48rem) {
+    .cover-tag {
+      display: none;
+    }
+  }
+
+  /* Section headings carry a small yellow index tab. */
+  .section > h2::before {
+    background: var(--color-highlight);
+    content: '';
+    display: inline-block;
+    height: 0.5em;
+    margin-right: 0.3em;
+    width: 0.5em;
   }
 
   .projects,
