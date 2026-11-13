@@ -136,7 +136,7 @@ const services = await getServices()
   select,
   textarea {
     background: var(--color-bg);
-    border: var(--border-width) solid var(--color-border-strong);
+    border: 2px solid var(--color-border-strong);
     border-radius: var(--radius);
     padding: var(--space-2) var(--space-3);
     width: 100%;
@@ -152,17 +152,19 @@ const services = await getServices()
   }
 
   button {
-    background: var(--color-text);
-    border: var(--border-width) solid var(--color-text);
+    background: var(--color-highlight);
+    border: 2px solid var(--color-accent);
     border-radius: var(--radius);
-    color: var(--color-bg);
+    color: var(--color-on-highlight);
     cursor: pointer;
+    font-size: var(--text-lg);
     font-weight: var(--weight-bold);
+    justify-self: start;
     padding: var(--space-3) var(--space-5);
   }
 
   button:hover {
-    background: var(--color-link-hover);
-    border-color: var(--color-link-hover);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
   }
 </style>

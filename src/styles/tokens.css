@@ -2,81 +2,135 @@
  * Design tokens: the ONLY file allowed to contain color values or font-family names.
  * Every other stylesheet and component references these variables.
  *
- * This is a deliberately neutral placeholder look. The visual identity change
- * replaces these values; nothing else should need to change.
+ * Comp R1.B "Catalog": industrial parts catalogs and hardware-store shelf
+ * tags. Dense and factual, black on white, heavy rules, condensed headings in
+ * Archivo Narrow over Archivo. One high-visibility yellow, used only as a fill
+ * behind black text, never as text on white.
  *
  * Two color schemes, chosen by the visitor's system preference. Every color
  * token is declared in :root (light) and again in the dark block below; the
  * site check fails if either value is missing. Components use role names only.
  */
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('../assets/fonts/archivo/archivo-latin-wght-normal.woff2')
+    format('woff2');
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212,
+    U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Archivo Narrow';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('../assets/fonts/archivo-narrow/archivo-narrow-latin-wght-normal.woff2')
+    format('woff2');
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212,
+    U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Archivo Fallback';
+  src: local('Arial'), local('ArialMT');
+  ascent-override: 88.9575%;
+  descent-override: 21.2769%;
+  line-gap-override: 0%;
+  size-adjust: 98.6988%;
+}
+
+@font-face {
+  font-family: 'Archivo Narrow Fallback';
+  src: local('Arial'), local('ArialMT');
+  ascent-override: 125.3815%;
+  descent-override: 37.7962%;
+  line-gap-override: 0%;
+  size-adjust: 82.5481%;
+}
+
 :root {
   color-scheme: light dark;
 
   /* Color (light scheme) */
   --color-bg: #ffffff;
-  --color-surface: #f4f4f5;
-  --color-text: #111111;
+  --color-surface: #f0f0f0;
+  --color-text: #0a0a0a;
   --color-text-muted: #4a4a4a;
-  --color-border: #d4d4d4;
-  --color-border-strong: #6b6b6b;
-  --color-link: #0b57d0;
-  --color-link-hover: #083f99;
-  --color-focus: #0b57d0;
-  --color-accent: #0b57d0;
+  --color-border: #c8c8c8;
+  --color-border-strong: #0a0a0a;
+  --color-link: #0a0a0a;
+  --color-link-hover: #0a0a0a;
+  --color-focus: #0a0a0a;
+  /* Ink: rules, button edges and the header's heavy underline. */
+  --color-accent: #0a0a0a;
   --color-on-accent: #ffffff;
+  /* High-visibility yellow: a fill behind black text only. */
+  --color-highlight: #ffdd00;
+  --color-on-highlight: #0a0a0a;
 
   /* Type */
-  --font-body: system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-heading: var(--font-body);
+  --font-body: Archivo, 'Archivo Fallback', Arial, sans-serif;
+  --font-heading:
+    'Archivo Narrow', 'Archivo Narrow Fallback', Arial, sans-serif;
   --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
 
   --text-sm: 0.875rem;
   --text-base: 1rem;
   --text-lg: 1.125rem;
   --text-xl: 1.375rem;
-  --text-2xl: clamp(1.5rem, 1.2rem + 1.2vw, 1.875rem);
-  --text-3xl: clamp(1.875rem, 1.4rem + 2.2vw, 2.75rem);
+  --text-2xl: clamp(1.75rem, 1.3rem + 1.8vw, 2.5rem);
+  --text-3xl: clamp(2.5rem, 1.6rem + 4vw, 4.25rem);
 
-  --leading-tight: 1.2;
-  --leading-body: 1.6;
+  --leading-tight: 1.02;
+  --leading-body: 1.5;
   --weight-normal: 400;
   --weight-bold: 700;
 
-  /* Space */
+  /* Space: tighter than the other directions; a catalog is dense. */
   --space-1: 0.25rem;
   --space-2: 0.5rem;
   --space-3: 0.75rem;
   --space-4: 1rem;
-  --space-5: 1.5rem;
-  --space-6: 2rem;
-  --space-7: 3rem;
-  --space-8: 4.5rem;
+  --space-5: 1.25rem;
+  --space-6: 1.75rem;
+  --space-7: 2.5rem;
+  --space-8: 4rem;
 
   /* Shape */
-  --radius: 2px;
+  --radius: 0;
   --border-width: 1px;
+  --rule-width: 3px;
   --focus-width: 3px;
   --shadow: none;
 
   /* Layout */
-  --measure: 68ch;
-  --container: 72rem;
-  --gutter: var(--space-4);
+  --measure: 70ch;
+  --container: 78rem;
+  --gutter: var(--space-5);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    /* Color (dark scheme): a plain inverted neutral placeholder. */
-    --color-bg: #121212;
-    --color-surface: #1e1e1e;
-    --color-text: #ededed;
-    --color-text-muted: #b3b3b3;
-    --color-border: #3d3d3d;
-    --color-border-strong: #8f8f8f;
-    --color-link: #8ab4f8;
-    --color-link-hover: #aecbfa;
-    --color-focus: #8ab4f8;
-    --color-accent: #8ab4f8;
-    --color-on-accent: #121212;
+    /* Color (dark scheme): white ink on a neutral near-black. */
+    --color-bg: #0e0e0e;
+    --color-surface: #1c1c1c;
+    --color-text: #f2f2f2;
+    --color-text-muted: #b5b5b5;
+    --color-border: #3a3a3a;
+    --color-border-strong: #f2f2f2;
+    --color-link: #f2f2f2;
+    --color-link-hover: #f2f2f2;
+    --color-focus: #f2f2f2;
+    --color-accent: #f2f2f2;
+    --color-on-accent: #0e0e0e;
+    --color-highlight: #ffdd00;
+    --color-on-highlight: #0a0a0a;
   }
 }

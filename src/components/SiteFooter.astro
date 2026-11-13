@@ -17,23 +17,27 @@ import { site } from '../site.config.ts'
 
 <style>
   .site-footer {
-    border-top: var(--border-width) solid var(--color-border);
-    color: var(--color-text-muted);
+    border-top: var(--rule-width) solid var(--color-accent);
     font-size: var(--text-sm);
     margin-top: var(--space-8);
   }
 
   .inner {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
     gap: var(--space-2) var(--space-6);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
     margin-inline: auto;
     max-width: var(--container);
-    padding: var(--space-6) var(--gutter);
+    padding: var(--space-5) var(--gutter) var(--space-7);
   }
 
   .brand {
-    color: var(--color-text);
+    font-family: var(--font-heading);
+    font-size: var(--text-lg);
     font-weight: var(--weight-bold);
+  }
+
+  p:not(.brand) {
+    color: var(--color-text-muted);
   }
 </style>

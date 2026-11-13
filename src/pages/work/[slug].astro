@@ -133,15 +133,37 @@ const formatDate = (value: Date | string) =>
 </BaseLayout>
 
 <style>
+  /* A spec table: label on the left, value on the right, ruled. */
   .facts {
+    border-top: var(--rule-width) solid var(--color-accent);
+  }
+
+  .facts > div {
+    border-bottom: var(--border-width) solid var(--color-border);
     display: grid;
-    gap: var(--space-3) var(--space-6);
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+    gap: var(--space-1) var(--space-6);
+    grid-template-columns: minmax(0, 12rem) minmax(0, 1fr);
+    padding: var(--space-3) 0;
   }
 
   dt {
-    color: var(--color-text-muted);
-    font-size: var(--text-sm);
+    font-family: var(--font-heading);
+    font-weight: var(--weight-bold);
+  }
+
+  .quote {
+    border-left: var(--rule-width) solid var(--color-accent);
+    padding-left: var(--space-5);
+  }
+
+  .quote blockquote {
+    font-size: var(--text-lg);
+  }
+
+  @media (max-width: 40rem) {
+    .facts > div {
+      grid-template-columns: 1fr;
+    }
   }
 
   dd {

@@ -17,17 +17,22 @@ const { label, href } = Astro.props
     margin-top: var(--space-7);
   }
 
+  /* The yellow fill, edged in ink, with black text. */
   a {
-    border: var(--border-width) solid var(--color-text);
-    border-radius: var(--radius);
-    color: var(--color-text);
+    background: var(--color-highlight);
+    border: 2px solid var(--color-accent);
+    color: var(--color-on-highlight);
     display: inline-block;
+    font-size: var(--text-lg);
     font-weight: var(--weight-bold);
     padding: var(--space-3) var(--space-5);
     text-decoration: none;
   }
 
   a:hover {
-    background: var(--color-surface);
+    background: var(--color-highlight);
+    color: var(--color-on-highlight);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
   }
 </style>
