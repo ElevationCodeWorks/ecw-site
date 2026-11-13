@@ -1,9 +1,12 @@
 ---
 /**
- * The hero drawing for comp R2.A "Plate": an exploded assembly drawn like a
- * parts-catalog plate (src/assets/brand/plate-hero.svg). Decorative, so it is
- * hidden from assistive technology. Its faces and its one yellow surface are
- * colored here with tokens, so it follows both color schemes.
+ * Hero option "Screen print" for comp R2.A Plate, after the prints shown in
+ * the galleries of the Art District on Santa Fe: the exploded assembly is
+ * printed in two inks, a flat yellow pass and a line pass, slightly out of
+ * register. The line pass overprints the yellow (multiply on light paper,
+ * screen on dark). On load the yellow pass slides into place; on hover the
+ * two snap into register. CSS only; the slide sits inside the reduced-motion
+ * guard (design D14). Decorative, so it is hidden from assistive technology.
  */
 import drawing from '../../assets/brand/plate-hero.svg?raw'
 
@@ -12,37 +15,102 @@ const svg = drawing
   .replace(/<svg\b/, '<svg aria-hidden="true" focusable="false"')
 ---
 
-<div class="hero-plate">
-  <Fragment set:html={svg} />
+<div class="hero-plate" aria-hidden="true">
+  <div class="pass yellow">
+    <Fragment set:html={svg} />
+  </div>
+  <div class="pass ink">
+    <Fragment set:html={svg} />
+  </div>
 </div>
 
 <style>
+  /* Both passes print on the same spot. */
   .hero-plate {
-    color: var(--color-text);
+    display: grid;
+    isolation: isolate;
+  }
+
+  .pass {
+    grid-area: 1 / 1;
   }
 
   .hero-plate :global(svg) {
+    display: block;
     height: auto;
     width: 100%;
   }
 
-  .hero-plate :global(.face) {
+  /* The yellow pass: flat silhouettes of the parts, a little off register. */
+  .yellow {
+    color: var(--color-highlight);
+    transition: translate 250ms ease-out;
+    translate: 0.7rem 0.45rem;
+  }
+
+  .yellow :global(:is(polygon, circle)) {
+    fill: var(--color-highlight);
+    stroke-width: 5;
+  }
+
+  .yellow :global(:is(.frame, .assembly, .callouts)) {
+    display: none;
+  }
+
+  /* The line pass: ink on paper-colored faces, overprinting the yellow. */
+  .ink {
+    color: var(--color-text);
+    mix-blend-mode: multiply;
+  }
+
+  .ink :global(:is(.face, .hl)) {
     fill: var(--color-bg);
   }
 
-  .hero-plate :global(.side) {
+  .ink :global(.side) {
     fill: var(--color-surface);
   }
 
-  .hero-plate :global(.hl) {
-    fill: var(--color-highlight);
-  }
-
-  .hero-plate :global(.assembly) {
+  .ink :global(.assembly) {
     stroke-dasharray: 4 4;
   }
 
-  .hero-plate :global(rect.frame) {
+  .ink :global(rect.frame) {
     stroke: var(--color-border);
+  }
+
+  /* On dark paper the overprint lightens instead of darkening. */
+  @media (prefers-color-scheme: dark) {
+    .ink {
+      mix-blend-mode: screen;
+    }
+  }
+
+  .hero-plate:hover .yellow {
+    translate: 0.1rem 0.05rem;
+  }
+
+  /* The yellow pass slides in like a print pull, then settles off register. */
+  @media (prefers-reduced-motion: no-preference) {
+    .yellow {
+      animation: pull 1.1s cubic-bezier(0.2, 0.7, 0.2, 1) 0.2s backwards;
+    }
+
+    .ink {
+      animation: print 0.35s ease-out 1.1s backwards;
+    }
+
+    @keyframes pull {
+      from {
+        opacity: 0;
+        translate: 4rem -2.5rem;
+      }
+    }
+
+    @keyframes print {
+      from {
+        opacity: 0;
+      }
+    }
   }
 </style>
