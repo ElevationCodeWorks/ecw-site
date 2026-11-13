@@ -7,6 +7,7 @@ This repository is public, so this record names no employer.
 ## Owner decisions
 
 - **2026-11-12:** approved the three round 1 sources in design D3 (Trailhead, Catalog and Letterhead) without changes.
+- **2026-11-13:** chose the Storefront hero (reworked so each service is its own drawing, expanding on hover) and the ECW nameplate symbol; round 3 polishes it.
 - **2026-11-13:** chose Plate in round 2, asked for more hero options, and allowed hero-only CSS animation with no JavaScript (design D14).
 - **2026-11-13:** chose Catalog in round 1, with changes (see 1.B).
 - **2026-11-12:** dropped the trail-rating marks (design D9). A fixed size per service could set the wrong expectations, since a project's scope depends on the client.
@@ -101,7 +102,7 @@ Sources approved on 2026-11-12. Each comp must differ from the others in typefac
 
 **Symbol motif review:** mountain peaks, upward arrows or chevrons, code brackets, a terminal prompt or cursor, a sparkle or four-point star, gears, lightbulbs, rockets, circuit traces, a hexagon badge, the Colorado flag's "C", the state's outline, and official signs, highway shields or agency marks are all absent. The marks step down and to the right, so they don't read as rising steps or an arrow.
 
-- **Owner verdict:** 2026-11-13: not chosen. PR #3 and its branch are still open, waiting on the owner's OK to close and delete them.
+- **Owner verdict:** 2026-11-13: not chosen. PR #3 closed and the branch deleted (2026-11-13, with the owner's OK).
 
 ### 1.B Catalog
 
@@ -176,7 +177,7 @@ Sources approved on 2026-11-12. Each comp must differ from the others in typefac
 
 **Left out:** the plan's founder photo and signature on Home and About. Home has no founder photo, and adding one (or a signature) would add content, which a comp may not do. About keeps its photo.
 
-- **Owner verdict:** 2026-11-13: not chosen. PR #5 and its branch are still open, waiting on the owner's OK to close and delete them.
+- **Owner verdict:** 2026-11-13: not chosen. PR #5 closed and the branch deleted (2026-11-13, with the owner's OK).
 
 ## Round 2: two Catalog variants and three symbols
 
@@ -254,7 +255,7 @@ What each variant varies is the **artistic element and the hero**: a technical d
 | 13 | Echoes a portfolio site | Pass, closest call | Unchanged from round 1: the yellow is 9.9 from Uphill Ski CO's gold and 8.2 from Condies' yellow (the limit is 8). |
 | 14 | Looks like a template a tool would produce | Pass | A color-block cover with a big condensed headline is a known industrial and Swiss poster device, but the tilted, cropped tag outline and the printed-label frame tie it to this brand. |
 
-- **Owner verdict:** 2026-11-13: not chosen. PR #7 and its branch stay open until the round 2 cleanup, which needs the owner's OK.
+- **Owner verdict:** 2026-11-13: not chosen. PR #7 closed and the branch deleted (2026-11-13, with the owner's OK).
 
 ### Symbol options
 
@@ -269,3 +270,72 @@ All three are in `src/assets/brand/options/`, pass the plain-vector rule (one pa
 The banned motifs checked for each: mountain peaks, upward arrows or chevrons, code brackets, a terminal prompt or cursor, a sparkle or four-point star, gears, lightbulbs, rockets, circuit traces, a hexagon badge, the Colorado flag's "C", the state's outline, and official signs, highway shields or agency marks.
 
 - **Owner's choice of variant and symbol:** Plate (2026-11-13). The symbol will be chosen after the hero options; Plate keeps the ECW nameplate until then.
+
+## Hero options for Plate (task 9.4)
+
+The owner chose Plate and asked for hero options that are interactive, 3D, animated and more artistic, drawing on the Art District on Santa Fe, where the owner lives. Each option is its own branch from `comp/r2-catalog-a` with a draft PR. Each uses CSS only (no JavaScript) and keeps every animation inside `@media (prefers-reduced-motion: no-preference)` (design D14). Each changes only `src/components/hero/HeroPlate.astro`, plus one shadow token for Gallery wall. Everything below the hero is Plate as the owner approved it, crop marks in the hero only.
+
+Every option: the site check passes, `npm run check:structure` is empty, axe passes at both sizes in both schemes, and with reduced motion no animation runs (`document.getAnimations()` is empty).
+
+| Option | Branch and PR | Preview | What it does |
+| --- | --- | --- | --- |
+| Drafting table | `comp/r2-hero-drafting`, #8 | https://deploy-preview-8--elevationcodeworks.netlify.app | The plate draws itself line by line, group by group: a see-through wireframe first, then the faces fill and the yellow lands last (about 2.8 seconds, once). Scrolling past, the lid and base slide toward the deck (scroll-driven; browsers without it show the still drawing). |
+| Gallery wall | `comp/r2-hero-gallery`, #9 | https://deploy-preview-9--elevationcodeworks.netlify.app | After the First Friday art walks: the plate hangs as a framed print in CSS 3D, an ink moulding with depth and a short neutral drop shadow, seen at an angle and swaying slowly on its hook, with an abstract wall label. Hovering turns it to face the visitor. |
+| Screen print | `comp/r2-hero-print`, #10 | https://deploy-preview-10--elevationcodeworks.netlify.app | After the prints in the district's galleries: two inks, flat yellow silhouettes under black linework, slightly out of register, the linework overprinting the yellow. On load the yellow pass slides in like a print pull; hovering snaps the passes into register. |
+
+**Look review notes** (every other checklist item passes as in 2.A, since only the hero changes):
+
+| Option | Item | Result | Note |
+| --- | --- | --- | --- |
+| Drafting table | 14. Looks like a template a tool would produce | Pass, with a note | Entrance animation is an AI-site tell when sections fade up. This is one drawing being drafted, once, in the hero only. The owner should judge whether it still reads as a template effect. |
+| Gallery wall | 3. Large rounded cards with soft shadows | Pass | One square frame with a short drop shadow (24px blur, neutral), not a grid of cards. |
+| Gallery wall | 14. Looks like a template a tool would produce | Pass, with a note | Product shots tilted in perspective are a common marketing device. Here it's a framed print with a wall label, not a device mockup. |
+| Screen print | 14. Looks like a template a tool would produce | Pass, with a note | The misregistered two-color print (the risograph look) is a current trend in design portfolios. It fits the catalog-and-print source, but it is a trend. |
+
+- **Owner verdict on these three (2026-11-13):** the art and animations aren't very meaningful. The owner asked to try three concepts that say something about the business (task 9.6, below).
+- **Accessibility note:** Gallery wall's sway loops forever. Moving content that starts on its own and runs longer than 5 seconds needs a way to pause it (WCAG 2.2.2), so it would have to play once and stop to ship.
+
+## Hero concepts that say something (task 9.6)
+
+The owner found the 9.4 heroes not meaningful and asked to try three concepts that say something true about the business. Each is its own branch from `comp/r2-catalog-a` with a draft PR, CSS only. Each animation plays once and ends within about three seconds (WCAG 2.2.2) and sits inside the reduced-motion guard (design D14). The hero links reuse the existing service and project names, so there is no new copy. `npm run check:structure` reports only "link reordered" and "text reordered" on Home: the hero repeats links that are already on the page.
+
+Every concept: the site check passes, axe passes at both sizes in both schemes, all 172 tests pass, and with reduced motion no animation runs.
+
+| Concept | Branch and PR | Preview | What it says |
+| --- | --- | --- | --- |
+| Storefront, exploded | `comp/r2-hero-storefront`, #11 | https://deploy-preview-11--elevationcodeworks.netlify.app | A one-story Santa Fe Drive shopfront (stepped parapet, brick courses) drawn as an exploded catalog plate. Each part is a service, and its label links to it: the sign (Websites that get found), the display window (Custom web apps), the sign hanging in the window (AI features), the door (Integrations), the foundation (Care and rescue). Pointing at a label lights its part. On load the shop comes apart into its parts. |
+| First Friday on Santa Fe | `comp/r2-hero-firstfriday`, #12 | https://deploy-preview-12--elevationcodeworks.netlify.app | Two-story brick gallery fronts on Santa Fe Drive. Each display window shows one of the real projects, with a placard naming it and a link to its case study, under a string of First Friday bulbs that come on one by one. The art walk is a walk past the work. |
+| A customer's path | `comp/r2-hero-path`, #13 | https://deploy-preview-13--elevationcodeworks.netlify.app | A route map, like the light rail along Santa Fe Drive, of the order in which a small business's customers meet the services: found, book and pay, use the app, get answers, get help. Each stop links to its service. The line draws itself along the route, and each stop flashes as the line reaches it. |
+
+**Look review notes** (everything below the hero is Plate as approved):
+
+| Concept | Item | Result | Note |
+| --- | --- | --- | --- |
+| Storefront, exploded | 9. Flat-vector illustrations | Pass | A line drawing of a building, no people. |
+| Storefront, exploded | 14. Looks like a template | Pass | Specific to the business: the parts are the services. Tech checkup has no part. |
+| First Friday on Santa Fe | 2. Three-up grid with icons in tinted tiles | Pass | Three gallery fronts showing real screenshots, not icons or tiles. |
+| First Friday on Santa Fe | 5. Logo cloud or "trusted by" strip | Pass | It shows the owner's own projects with their names, not client logos. |
+| A customer's path | 2. Three-up grid with icons in tinted tiles | Pass | Stops on a line, deliberately not icons in tiles. |
+| A customer's path | Site check: numbered labels | Pass | The stops are an ordered list (`ol`) with no visible numbers. |
+
+- **Owner verdict (2026-11-13):** likes Storefront, exploded, but the parts don't make sense as the services. It should use art that connects with the services (task 9.7): the shop stays as the client's business, and a drawing of each service comes out of it.
+
+### Storefront, exploded, reworked (task 9.7)
+
+Same branch and PR (`comp/r2-hero-storefront`, #11, https://deploy-preview-11--elevationcodeworks.netlify.app). The shop now stands for the client's business, and a drawing of each service comes out of it, wired back to where it plugs in:
+
+| Service (label links to it) | Drawing | Where it connects |
+| --- | --- | --- |
+| Websites that get found | A browser window with search results; the business's result is first, in yellow | The shop's sign |
+| Custom web apps | A phone running the business's app | The display window |
+| AI features | A chat window with a question and an answer | The display window |
+| Integrations | A booking calendar and a card terminal | The door |
+| Care and rescue | A toolbox | The foundation |
+| Tech checkup | A clipboard with a checklist | The roof |
+
+Pointing at a label fills its drawing yellow. On load the services come out of the shop once, in under two seconds. Checks as in 9.6: the site check, axe in both schemes and all 172 tests pass, and the structure check reports only the hero's repeated links.
+
+- **Owner verdict (2026-11-13):** the yellow highlighting on hover degrades the look; try a different animation, perhaps the object expanding to show more detail.
+- **Changed (`20335b7`):** pointing at a label, or at a drawing, now expands that drawing from its own center (a 250ms transition) and shows the detail it was holding back, all in ink. The browser gains a map card with a pin beside the results. The phone's app cards fill in and its order button is checked. The chat's answer grows and a typing bubble appears. A card slides into the terminal and the booked day is checked. Tools stand in the toolbox. The checklist's last box is ticked, with a pencil. No hover fills yellow. The one still yellow touch stays (the business's result on top of the search), pending the owner's word.
+- **Owner's choice of hero and symbol (2026-11-13):** **Storefront, exploded** (as reworked, with the expand-to-show-detail hover) and the **ECW nameplate** symbol (option C). The one yellow touch (the business's search result on top) stays. The owner's note: it needs polishing and higher quality, which round 3 takes on.
+- **Cleanup (2026-11-13, with the owner's OK):** closed #3, #5, #7, #8, #9, #10, #12 and #13 and deleted their branches. Open: #1, #2, #4 (round 1 winner), #6 (round 2 winner) and #11 (the final direction, where round 3 happens).
