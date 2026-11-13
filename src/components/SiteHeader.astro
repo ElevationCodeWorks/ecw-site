@@ -79,10 +79,12 @@ function currentState(href: string): 'page' | 'true' | undefined {
     font-weight: var(--weight-bold);
     padding: var(--space-1) var(--space-2);
     text-decoration: none;
+    text-underline-offset: 0.35em;
   }
 
+  nav a:hover,
   nav a[aria-current] {
-    background: var(--color-highlight);
-    color: var(--color-on-highlight);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
   }
 </style>

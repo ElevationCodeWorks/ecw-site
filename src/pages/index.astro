@@ -3,6 +3,7 @@ import { getImage } from 'astro:assets'
 import { getCollection } from 'astro:content'
 import BaseLayout from '../layouts/BaseLayout.astro'
 import CallToAction from '../components/CallToAction.astro'
+import HeroPlate from '../components/HeroPlate.astro'
 import ServiceList from '../components/ServiceList.astro'
 import WorkPreview from '../components/WorkPreview.astro'
 import founderPhoto from '../assets/founder.jpg'
@@ -25,11 +26,14 @@ const photo = await getImage({ src: founderPhoto, width: 640, format: 'jpg' })
   description={data.seo.description}
   jsonLd={[homeGraph(data.seo.description, photo.src)]}
 >
-  <div class="stack hero">
-    <h1>{data.h1}</h1>
-    {data.lede && <p class="lede">{data.lede}</p>}
+  <div class="hero-grid">
+    <div class="stack hero">
+      <h1>{data.h1}</h1>
+      {data.lede && <p class="lede">{data.lede}</p>}
+    </div>
+    {data.cta && <CallToAction label={data.cta.label} href={data.cta.href} />}
+    <HeroPlate />
   </div>
-  {data.cta && <CallToAction label={data.cta.label} href={data.cta.href} />}
 
   <section class="section" aria-labelledby="work-heading">
     <h2 id="work-heading">{data.workHeading}</h2>
@@ -51,8 +55,39 @@ const photo = await getImage({ src: founderPhoto, width: 640, format: 'jpg' })
 </BaseLayout>
 
 <style>
+  /* The headline, lede and button on the left; the plate on the right. */
+  .hero-grid {
+    align-items: start;
+    display: grid;
+    gap: 0 var(--space-7);
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  }
+
+  .hero-grid > :global(*) {
+    grid-column: 1;
+  }
+
+  .hero-grid > :global(.hero-plate) {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+  }
+
   .hero h1 {
-    max-width: 20ch;
+    font-size: clamp(2.75rem, 1.5rem + 4.5vw, 5.25rem);
+    max-width: 14ch;
+  }
+
+  @media (max-width: 56rem) {
+    .hero-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .hero-grid > :global(.hero-plate) {
+      grid-column: 1;
+      grid-row: auto;
+      margin-top: var(--space-7);
+      max-width: 26rem;
+    }
   }
 
   .hero .lede {

@@ -61,10 +61,9 @@ a {
   text-underline-offset: 0.15em;
 }
 
-/* A hovered link gets the high-visibility fill. */
 a:hover {
-  background: var(--color-highlight);
-  color: var(--color-on-highlight);
+  color: var(--color-link-hover);
+  text-decoration-thickness: 2px;
 }
 
 :focus-visible {
