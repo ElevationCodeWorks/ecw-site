@@ -146,6 +146,14 @@ const services = await getServices()
     resize: vertical;
   }
 
+  /* After the visitor has tried, a rejected entry shows in the error color. */
+  input:user-invalid,
+  textarea:user-invalid,
+  select:user-invalid {
+    border-color: var(--color-error);
+    border-width: 3px;
+  }
+
   .data-use {
     color: var(--color-text-muted);
     font-size: var(--text-sm);
@@ -153,7 +161,7 @@ const services = await getServices()
 
   button {
     background: var(--color-highlight);
-    border: 2px solid var(--color-accent);
+    border: 0;
     border-radius: var(--radius);
     color: var(--color-on-highlight);
     cursor: pointer;

@@ -74,6 +74,8 @@
   /* High-visibility yellow: a fill behind black text only. */
   --color-highlight: #ffdd00;
   --color-on-highlight: #0a0a0a;
+  /* Form errors: an entry the browser has rejected. */
+  --color-error: #b3261e;
 
   /* Type */
   --font-body: Archivo, 'Archivo Fallback', Arial, sans-serif;
@@ -132,5 +134,6 @@
     --color-on-accent: #0e0e0e;
     --color-highlight: #ffdd00;
     --color-on-highlight: #0a0a0a;
+    --color-error: #ff8a80;
   }
 }

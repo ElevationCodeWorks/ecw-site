@@ -57,6 +57,12 @@ const svg = drawing
     width: 100%;
   }
 
+  /* Even, crisp linework at any size, and when a drawing expands. */
+  .hero-art :global(svg *) {
+    stroke-width: 1.25px;
+    vector-effect: non-scaling-stroke;
+  }
+
   .hero-art :global(.face) {
     fill: var(--color-bg);
   }
@@ -203,26 +209,25 @@ const svg = drawing
     }
   }
 
-  /* On narrow screens the labels become a list under the drawing. */
+  /*
+   * On narrow screens the drawing fills the column: its label gutters are
+   * cropped away, and the labels are hidden, since the full list of services
+   * follows further down the page.
+   */
   @media (max-width: 56rem) {
-    .hero-art :global(.callouts) {
-      display: none;
+    .hero-art {
+      overflow: hidden;
     }
 
+    .hero-art :global(svg) {
+      margin-left: -42%;
+      max-width: none;
+      width: 184%;
+    }
+
+    .hero-art :global(.callouts),
     .labels {
-      display: grid;
-      gap: var(--space-2);
-      margin-top: var(--space-4);
-      pointer-events: auto;
-      position: static;
-    }
-
-    .label,
-    .label.left,
-    .label.right {
-      padding: 0;
-      position: static;
-      transform: none;
+      display: none;
     }
   }
 </style>
