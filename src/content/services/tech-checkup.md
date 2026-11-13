@@ -1,7 +1,6 @@
 ---
 title: Tech checkup
 order: 6
-rating: green-circle
 summary: A short, focused review of your website and the software your customers use, with plain advice on what to fix first. A good first step before any project.
 forWho: Owners who aren't sure what they need yet, or want a second opinion before spending money.
 included:

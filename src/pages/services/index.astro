@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro'
 import CallToAction from '../../components/CallToAction.astro'
-import RatingMark from '../../components/RatingMark.astro'
 import ServiceList from '../../components/ServiceList.astro'
 import { getPage } from '../../lib/pages.ts'
 import { getServices } from '../../lib/services.ts'
@@ -22,45 +21,7 @@ const { data } = page
     {data.lede && <p class="lede">{data.lede}</p>}
   </div>
   <div class="section">
-    <ServiceList services={services} showRatings />
+    <ServiceList services={services} />
   </div>
-  {data.ratingLegend && (
-    <section class="section stack-tight" aria-labelledby="ratings">
-      <h2 id="ratings">{data.ratingLegendHeading}</h2>
-      {data.ratingLegendIntro && <p>{data.ratingLegendIntro}</p>}
-      <dl class="legend">
-        {data.ratingLegend.map((item) => (
-          <div>
-            <dt>
-              <RatingMark rating={item.rating} />
-            </dt>
-            <dd>{item.meaning}</dd>
-          </div>
-        ))}
-      </dl>
-    </section>
-  )}
   {data.cta && <CallToAction label={data.cta.label} href={data.cta.href} />}
 </BaseLayout>
-
-<style>
-  .legend {
-    display: grid;
-    gap: var(--space-3);
-  }
-
-  .legend div {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-1) var(--space-4);
-  }
-
-  .legend dt {
-    font-weight: var(--weight-bold);
-    min-width: 9rem;
-  }
-
-  .legend dd {
-    margin: 0;
-  }
-</style>

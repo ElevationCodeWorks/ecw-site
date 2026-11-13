@@ -86,26 +86,15 @@
 - [x] 5.4 Add `satori` and write `src/lib/og.ts` and the `src/pages/og/[...slug].png.ts` endpoint from D7. Make `BaseLayout` derive each page's image path and alt text. Delete `scripts/make-og.mjs` and `public/og/default.png`, and update the README scripts list. Verify that `dist/og/` holds one PNG per indexable page plus `default.png`, each 1200×630, and that the not-found and confirmation pages point to `default.png`
 - [x] 5.5 Add the social-image site-check rule: every indexable page's `og:image` exists in `dist/`, is unique, and has a PNG header that says 1200×630. Verify with fixture tests for a missing file, a duplicate and a wrong size
 
-## 6. Trail-rating marks (design D9)
+## 6. Trail-rating marks (design D9, dropped 2026-11-12)
 
-- [x] 6.1 Content changes:
-  - Add `rating` to the `services` schema
-  - Add `ratingLegend` to `src/content/pages/services.md`, validated to cover each rating exactly once
-  - Give each service its proposed rating
-  - Add `pending` markers asking the owner to confirm the meanings and the assignment
-
-  Verify that a temporary service fixture with no rating fails the build and names the service, and that `npm run release-check` lists the new markers
-- [x] 6.2 Build the marks:
-  - Add `RatingMark.astro`: an inline SVG shape with `aria-hidden`, plus a visible text label
-  - Add the `--color-rating-*` tokens in both schemes, with a light outline for the black diamond in dark, and add them to the contrast pairs
-  - Add `showRatings` to `ServiceList`
-  - Put the legend on the Services index and the mark under the H1 on each service page
-
-  Verify:
-  - `dist/services/index.html` shows six marks with labels plus the legend
-  - `dist/index.html` contains no rating marks
-  - axe passes in both schemes
-  - In a grayscale screenshot of `/services/`, each rating is told apart by its shape and label
+- [x] 6.1 Add the rating content: the `rating` field on services, the legend on the Services page, a proposed rating for each service, and `pending` markers for the owner. Built in phase A, then removed by 6.3
+- [x] 6.2 Build the marks: `RatingMark.astro`, the `--color-rating-*` tokens and their contrast pairs, `showRatings` on `ServiceList`, the legend on the Services index and the mark on each service page. Built in phase A, then removed by 6.3
+- [x] 6.3 Remove the trail-rating marks (owner decision 2026-11-12). Delete `RatingMark.astro`, the `rating` field, the legend fields and copy, each service's rating, the two pending rating questions, `showRatings`, the `--color-rating-*` tokens and their contrast pairs. Re-capture the structure baseline from the result. Verify:
+  - `grep -ri rating src site-check.config.ts` finds nothing
+  - `npm run release-check` no longer lists the rating questions
+  - `dist/services/index.html` has no rating marks or legend
+  - `npm test`, `npm run build` and `npm run check:structure` pass, and axe passes in both schemes
 
 ## 7. Structure baseline, comp tooling and phase A check (design D2, D11)
 
@@ -120,7 +109,7 @@
 
 ## 8. Round 1: three directions (design D3, D4)
 
-- [ ] 8.1 Create `openspec/changes/visual-identity/rounds.md` with a per-comp template: source, preview URL, check status, checklist results and verdict. Ask the owner to approve or swap the three D3 sources, and to confirm or change the rating meanings and assignment. Record the answers. If the ratings are confirmed, update the content and remove those pending markers. Verify that the sources are recorded as approved
+- [x] 8.1 Create `openspec/changes/visual-identity/rounds.md` with a per-comp template: source, preview URL, check status, checklist results and verdict. Record the owner's approval of the three D3 sources, given on 2026-11-12. Verify that the sources are recorded as approved
 - [ ] 8.2 Build comp A on `comp/r1-<slug>`:
   - Light and dark tokens
   - At most two OFL families added with `fonts.mjs`
@@ -147,7 +136,7 @@
 
   Delete `src/assets/brand/options/`. Verify that the site check passes, `npm run check:structure` is empty, and a look review of every page template is recorded
 - [ ] 10.2 Style the social image template and the icons for the identity. Verify by viewing the Home, a service and a case study image, plus the icons at 16, 32 and 180 px, and recording the owner's sign-off in `rounds.md`
-- [ ] 10.3 Add a "Visual identity" section to `README.md`: the token roles in both schemes, the typefaces and their licenses, how the symbol is used, the rating meanings, and how to add a token. Verify that every file path and command it names exists and runs
+- [ ] 10.3 Add a "Visual identity" section to `README.md`: the token roles in both schemes, the typefaces and their licenses, how the symbol is used, and how to add a token. Verify that every file path and command it names exists and runs
 - [ ] 10.4 Send the owner the final preview, and record the final sign-off in `rounds.md`. Verify that the record shows the sign-off with its date
 
 ## 11. Integration checks

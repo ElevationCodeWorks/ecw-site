@@ -46,7 +46,7 @@ The default AI dark navies (slate-900/950, gray-900) sit at L 0.13 to 0.21, C ab
 
 **Non-Goals:**
 - No client JavaScript, so there's no theme toggle and no motion library.
-- No change to content collections beyond the `rating` field and the legend copy.
+- No change to content collections.
 - No CMS-style theme system with multiple themes shipped at once. The site ships exactly one identity.
 
 ## Decisions
@@ -57,7 +57,6 @@ The default AI dark navies (slate-900/950, gray-900) sit at L 0.13 to 0.21, C ab
    - dark-scheme token structure (D5)
    - font loading (D6)
    - social image and icon endpoints (D7, D8)
-   - trail-rating content and components (D9)
    - the structure baseline (D11)
    - the dark-scheme audit (D12)
 
@@ -100,7 +99,7 @@ It may not change content collections, `src/lib/`, SEO or structured data. D11 c
 - *Static mockups:* the owner chose real previews.
 
 ### D3. Round 1 directions
-These are starting candidates. The owner approves or swaps each source before any comp is built. Each direction must differ from the others in typeface family, primary color and layout structure, and each names its distance from the four AI defaults:
+The owner approved all three sources on 2026-11-12. Each direction must differ from the others in typeface family, primary color and layout structure, and each names its distance from the four AI defaults:
 - SaaS: Inter, centered hero, indigo gradient, cards.
 - Claude editorial: cream, display serif, terracotta, italic accent, mono eyebrows.
 - Dev brutalist: monospace everywhere, grid lines.
@@ -108,7 +107,7 @@ These are starting candidates. The owner approves or swaps each source before an
 
 **A. Trailhead**
 - **Source:** Colorado highway guide signs and Forest Service trailhead signs.
-- **Look:** sign green as the primary color, with white type on green panels in the header, footer and calls to action. Square corners and plain, legible hierarchy. The trail-rating marks are native to it.
+- **Look:** sign green as the primary color, with white type on green panels in the header, footer and calls to action. Square corners and plain, legible hierarchy.
 - **Type:** Overpass, which descends from Highway Gothic.
 - **Risk:** imitating official signage. Borrow the color and the type, never shields, arrow panels or sign layouts.
 
@@ -154,12 +153,12 @@ The checklist lives in `README.md` under "Look review" and is part of the brand-
 ### D5. Dark scheme in the tokens
 - `tokens.css` declares every color token in `:root`, sets `color-scheme: light dark`, and redeclares every color token inside `@media (prefers-color-scheme: dark) { :root { … } }`.
 - `BaseLayout` adds `<meta name="color-scheme" content="light dark">`, so the first paint is already in the right scheme.
-- **Token roles grow:** `--color-accent` and `--color-on-accent`, plus the rating tokens from D9. Components keep using role names, never scheme names.
+- **Token roles grow:** `--color-accent` and `--color-on-accent`. Components keep using role names, never scheme names.
 - **The site check learns schemes:** `css.ts` records the full at-rule ancestry of each declaration, so color rules evaluate each scheme separately.
 
 **New rules**
 - *Scheme parity:* every color token has a value in both schemes.
-- *Contrast pairs:* `site-check.config.ts` lists `{ fg, bg, min }` pairs. Text on backgrounds and surfaces needs 4.5. Large headings, `--color-border-strong`, focus and rating marks need 3. Each pair is measured with `wcagContrast` in both schemes.
+- *Contrast pairs:* `site-check.config.ts` lists `{ fg, bg, min }` pairs. Text on backgrounds and surfaces needs 4.5. Large headings, `--color-border-strong`, focus and other graphics need 3. Each pair is measured with `wcagContrast` in both schemes.
 
 **Alternative considered:** `light-dark()` in each token value. It's more compact, but it hides the dark palette inside light declarations, and the check would have to parse function arguments.
 
@@ -223,39 +222,8 @@ The checklist lives in `README.md` under "Look review" and is part of the brand-
 - *Symbol plain vector:* the symbol has no `linearGradient`, `radialGradient`, `filter`, `pattern`, `image` or `text` elements, and no fill other than `currentColor`.
 - *Banned colors* also scan `dist/icon.svg`.
 
-### D9. Trail-rating marks
-**Content**
-- The `services` schema gains `rating: z.enum(['green-circle', 'blue-square', 'black-diamond'])`.
-- `src/content/pages/services.md` gains `ratingLegend: [{ rating, name, meaning }]`, validated to cover all three ratings exactly once.
-
-**The proposed meaning is the size of the commitment:**
-
-| Rating | Meaning |
-|---|---|
-| Green circle | Small and fixed in scope: a few days |
-| Blue square | A project: a few weeks |
-| Black diamond | A build: a month or more |
-
-**Proposed assignment:**
-
-| Rating | Services |
-|---|---|
-| Green circle | Tech checkup, Care and rescue |
-| Blue square | Websites that get found, Integrations, AI features |
-| Black diamond | Custom web apps |
-
-Both tables carry `pending` markers until the owner confirms them. That keeps `release-check` red, which is the existing mechanism for owner input.
-
-**Components**
-- `RatingMark.astro` renders an inline SVG shape (`aria-hidden`) plus a visible text label with the rating's name from the legend.
-- `ServiceList` gains a `showRatings` prop. The Services index sets it, and Home doesn't.
-- Service pages show the mark and its label directly under the H1, outside the heading, so the heading-accent rule holds.
-
-**Colors:** `--color-rating-green`, `--color-rating-blue`, `--color-rating-black` and `--color-rating-outline`. In the dark scheme the black diamond keeps a dark fill with a light outline, so the shape meets 3:1. All four tokens are in the contrast pairs.
-
-**Placement assumption:** "Services page only" from the explore session is read as the Services section, meaning the index and the six service pages. If the owner wants the index only, the service template just stops rendering the mark.
-
-**Alternatives considered:** rating technical difficulty tells a customer nothing. Rating price would bring pricing in, and pricing is out of scope.
+### D9. Trail-rating marks (dropped)
+The plan put green circle, blue square and black diamond marks on the Services section, rating each service by the size of the commitment. The owner dropped them on 2026-11-12: a fixed size per service could set the wrong expectations, since a project's scope depends on the client. They were built in phase A (tasks 6.1 and 6.2) and then removed (task 6.3). Nothing of them remains in the content, tokens or components.
 
 ### D10. New guardrail rules and how each is checked
 | Rule | Input | Method |
@@ -280,8 +248,9 @@ Every rule gets passing and failing fixture tests, following the Change 1 patter
 
 ### D11. Structure baseline
 - `scripts/structure-snapshot.ts` reads `dist/` and writes, for each page, its visible text in DOM order, its heading outline, its links (text and href) and its JSON-LD.
-- The baseline is captured at the end of phase A, once the rating labels and legend exist. It goes to `openspec/changes/visual-identity/structure-baseline.json`, so every comp's expected diff is **empty**.
+- The baseline is captured at the end of phase A. It goes to `openspec/changes/visual-identity/structure-baseline.json`, so every comp's expected diff is **empty**.
 - `npm run check:structure` builds, snapshots and diffs against the baseline, and exits non-zero on any difference.
+- Text is compared in DOM order, with whitespace normalized. Wrappers and classes don't count as changes, but a comp that reorders elements inside a component (which D2 allows) shows up as a text or heading reordering. The comp's review then records whether the new order changes what the page says.
 
 **Why a separate script:** the baseline only means something during this change. A permanent build rule would block every later content edit.
 
@@ -309,9 +278,6 @@ Every rule gets passing and failing fixture tests, following the Change 1 patter
 **Generated images and icons**
 - [Satori's CSS subset limits the social image design] → Flexbox-only layout, static WOFF files, and a deliberately simple template.
 - [The SVG favicon's dark variant isn't honored in Safari] → Safari falls back to the ICO and touch icon. Acceptable.
-
-**Ratings**
-- [A black diamond reads as "experts only" and puts customers off] → The legend frames ratings as project size, and the owner confirms the meanings before launch.
 
 **Guardrails**
 - [The uppercase and letter-spacing ban is too strict] → An exception entry with a reason, one file and line at a time. The wordmark is the expected case.

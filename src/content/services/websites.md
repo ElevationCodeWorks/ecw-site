@@ -1,7 +1,6 @@
 ---
 title: Websites that get found
 order: 1
-rating: blue-square
 summary: Fast, accessible websites built so search engines can read every page and customers can find you and get in touch.
 forWho: Small businesses whose website is slow, dated, hard to update, or missing from search results.
 included:

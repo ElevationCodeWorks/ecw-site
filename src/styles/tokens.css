@@ -24,12 +24,6 @@
   --color-focus: #0b57d0;
   --color-accent: #0b57d0;
   --color-on-accent: #ffffff;
-  /* Trail-rating marks (Services section). The outline draws the black
-     diamond's edge, so the shape stays visible on dark backgrounds. */
-  --color-rating-green: #2e7d32;
-  --color-rating-blue: #0b57d0;
-  --color-rating-black: #111111;
-  --color-rating-outline: #111111;
 
   /* Type */
   --font-body: system-ui, -apple-system, 'Segoe UI', sans-serif;
@@ -84,9 +78,5 @@
     --color-focus: #8ab4f8;
     --color-accent: #8ab4f8;
     --color-on-accent: #121212;
-    --color-rating-green: #66bb6a;
-    --color-rating-blue: #8ab4f8;
-    --color-rating-black: #000000;
-    --color-rating-outline: #ededed;
   }
 }

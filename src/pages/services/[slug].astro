@@ -4,7 +4,6 @@ import { getEntries, render } from 'astro:content'
 import type { CollectionEntry } from 'astro:content'
 import BaseLayout from '../../layouts/BaseLayout.astro'
 import CallToAction from '../../components/CallToAction.astro'
-import RatingMark from '../../components/RatingMark.astro'
 import { getServices } from '../../lib/services.ts'
 import { asJsonLd, breadcrumbs, serviceEntity } from '../../lib/schema.ts'
 
@@ -47,9 +46,6 @@ const jsonLd = [
   <article>
     <div class="stack">
       <h1>{data.title}</h1>
-      <div class="rating-line">
-        <RatingMark rating={data.rating} />
-      </div>
       <p class="lede">{data.summary}</p>
       <div class="prose">
         <Content />

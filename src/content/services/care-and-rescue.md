@@ -1,7 +1,6 @@
 ---
 title: Care and rescue
 order: 5
-rating: green-circle
 summary: Ongoing care for your website and customer-facing apps, and help when a project has stalled or a developer has disappeared.
 forWho: Businesses with a site or app that nobody is looking after, or one that is slow, broken or built on software that is out of date.
 included:
