@@ -196,7 +196,8 @@ export async function renderOgImage(input: OgImageInput): Promise<Buffer> {
           display: 'flex',
           fontSize: titleSize,
           fontWeight: 700,
-          lineHeight: 1.05
+          lineHeight: 1.05,
+          textWrap: 'balance'
         },
         input.title
       ),
