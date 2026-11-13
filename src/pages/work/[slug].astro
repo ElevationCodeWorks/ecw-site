@@ -1,0 +1,188 @@
+---
+import type { GetStaticPaths } from 'astro'
+import { Picture } from 'astro:assets'
+import { getCollection, render } from 'astro:content'
+import type { CollectionEntry } from 'astro:content'
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import CallToAction from '../../components/CallToAction.astro'
+import { asJsonLd, breadcrumbs } from '../../lib/schema.ts'
+
+export const getStaticPaths = (async () => {
+  const projects = await getCollection('work')
+  return projects.map((project) => ({
+    params: { slug: project.id },
+    props: { project }
+  }))
+}) satisfies GetStaticPaths
+
+interface Props {
+  project: CollectionEntry<'work'>
+}
+
+const { project } = Astro.props
+const { data } = project
+const { Content } = await render(project)
+const path = `/work/${project.id}/`
+const host = new URL(data.liveUrl).host
+
+const formatDate = (value: Date | string) =>
+  typeof value === 'string'
+    ? value
+    : value.toLocaleDateString('en-US', {
+        month: 'long',
+        year: 'numeric',
+        timeZone: 'UTC'
+      })
+---
+
+<BaseLayout
+  title={data.seo.title}
+  description={data.seo.description}
+  jsonLd={[
+    asJsonLd(
+      breadcrumbs([
+        { name: 'Work', path: '/work/' },
+        { name: data.name, path }
+      ])
+    )
+  ]}
+>
+  <article>
+    <div class="stack">
+      <h1>{data.name}</h1>
+      <p class="lede">{data.description}</p>
+      <dl class="facts">
+        <div>
+          <dt>Who it serves</dt>
+          <dd>{data.audience}</dd>
+        </div>
+        <div>
+          <dt>My role</dt>
+          <dd>{data.role}</dd>
+        </div>
+        {data.client && (
+          <div>
+            <dt>Client</dt>
+            <dd>{data.client}</dd>
+          </div>
+        )}
+        <div>
+          <dt>Live site</dt>
+          <dd>
+            <a href={data.liveUrl}>{host}</a>
+          </dd>
+        </div>
+      </dl>
+    </div>
+
+    <div class="section shots">
+      {data.screenshots.map((shot, index) => (
+        <figure class={shot.viewport}>
+          <Picture
+            src={shot.image}
+            alt={shot.alt}
+            formats={['avif', 'webp']}
+            widths={shot.viewport === 'mobile' ? [390] : [480, 960, 1440]}
+            sizes={
+              shot.viewport === 'mobile'
+                ? '390px'
+                : '(min-width: 72rem) 52rem, 100vw'
+            }
+            loading={index === 0 ? 'eager' : 'lazy'}
+            fetchpriority={index === 0 ? 'high' : 'auto'}
+          />
+        </figure>
+      ))}
+    </div>
+
+    <div class="section prose">
+      <Content />
+    </div>
+
+    {data.quote && (
+      <figure class="section quote">
+        <blockquote>
+          <p>{data.quote.text}</p>
+        </blockquote>
+        <figcaption>
+          {[data.quote.name, data.quote.role, data.quote.organization]
+            .filter(Boolean)
+            .join(', ')}
+        </figcaption>
+      </figure>
+    )}
+
+    {data.outcomes.length > 0 && (
+      <section class="section stack-tight" aria-labelledby="results">
+        <h2 id="results">Results</h2>
+        <ul class="outcomes">
+          {data.outcomes.map((outcome) => (
+            <li>
+              {outcome.claim}{' '}
+              <span class="source">
+                (Source: {outcome.source}, {formatDate(outcome.measuredAt)})
+              </span>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    <CallToAction label="Tell me about your project" href="/contact/" />
+  </article>
+</BaseLayout>
+
+<style>
+  .facts {
+    display: grid;
+    gap: var(--space-3) var(--space-6);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+  }
+
+  dt {
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+  }
+
+  dd {
+    margin: 0;
+  }
+
+  .shots {
+    align-items: start;
+    display: grid;
+    gap: var(--space-5);
+    grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+  }
+
+  .shots :global(img) {
+    border: var(--border-width) solid var(--color-border);
+    border-radius: var(--radius);
+  }
+
+  @media (max-width: 40rem) {
+    .shots {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .outcomes {
+    display: grid;
+    gap: var(--space-2);
+    padding-left: var(--space-5);
+  }
+
+  .quote blockquote {
+    margin: 0;
+  }
+
+  .quote figcaption {
+    color: var(--color-text-muted);
+    margin-top: var(--space-2);
+  }
+
+  .source {
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+  }
+</style>
