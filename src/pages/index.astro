@@ -35,7 +35,7 @@ const photo = await getImage({ src: founderPhoto, width: 640, format: 'jpg' })
     <HeroStorefront />
   </div>
 
-  <section class="section" aria-labelledby="work-heading">
+  <section class="home-section" aria-labelledby="work-heading">
     <h2 id="work-heading">{data.workHeading}</h2>
     <div class="projects">
       {projects.map((project, index) => (
@@ -44,7 +44,7 @@ const photo = await getImage({ src: founderPhoto, width: 640, format: 'jpg' })
     </div>
   </section>
 
-  <section class="section" aria-labelledby="services-heading">
+  <section class="home-section" aria-labelledby="services-heading">
     <h2 id="services-heading">{data.servicesHeading}</h2>
     <div class="services">
       <ServiceList services={services} level={3} />
@@ -55,53 +55,79 @@ const photo = await getImage({ src: founderPhoto, width: 640, format: 'jpg' })
 </BaseLayout>
 
 <style>
-  /* The headline, lede and button on the left; the plate on the right. */
+  /*
+   * The headline, lede and button in the narrow column; the drawing in the
+   * wide one, on the same split as the listings below. The drawing's labels
+   * run past its edge when it is narrower than about 45rem, which the wide
+   * column is below 80rem, so there the drawing moves under the button, up
+   * to 46rem wide and set to the right.
+   */
   .hero-grid {
     align-items: start;
     display: grid;
-    gap: 0 var(--space-7);
-    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-  }
-
-  .hero-grid > :global(*) {
-    grid-column: 1;
-  }
-
-  .hero-grid > :global(.hero-art) {
-    align-self: center;
-    grid-column: 2;
-    grid-row: 1 / span 2;
+    gap: 0 var(--split-gap);
+    grid-template-columns: 1fr;
   }
 
   .hero h1 {
-    font-size: clamp(2.75rem, 1.5rem + 3.6vw, 4.5rem);
-    max-width: 14ch;
+    max-width: 24ch;
+  }
+
+  .hero .lede {
+    max-width: 52ch;
+  }
+
+  .hero-grid > :global(.hero-art) {
+    justify-self: end;
+    margin-top: var(--space-7);
+    max-width: 46rem;
+    width: 100%;
   }
 
   @media (max-width: 56rem) {
-    .hero-grid {
-      grid-template-columns: 1fr;
-    }
-
     .hero-grid > :global(.hero-art) {
-      grid-column: 1;
-      grid-row: auto;
-      margin-top: var(--space-7);
+      justify-self: start;
       max-width: 36rem;
     }
   }
 
-  .hero .lede {
-    max-width: 58ch;
+  @media (min-width: 80rem) {
+    .hero-grid {
+      grid-template-columns: var(--split);
+    }
+
+    .hero-grid > :global(*) {
+      grid-column: 1;
+    }
+
+    .hero h1 {
+      max-width: 14ch;
+    }
+
+    .hero-grid > :global(.hero-art) {
+      align-self: center;
+      grid-column: 2;
+      grid-row: 1 / span 2;
+      margin-top: 0;
+      max-width: none;
+    }
+  }
+
+  /*
+   * Wide breaks between the hero and each section; the closing button sits
+   * close under the services, as the end of that table.
+   */
+  .home-section {
+    margin-top: var(--space-section);
   }
 
   .projects,
   .services {
-    margin-top: var(--space-5);
+    margin-top: var(--space-4);
   }
 
   .projects {
     display: grid;
-    gap: var(--space-6);
+    gap: var(--space-7);
   }
 </style>

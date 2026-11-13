@@ -26,7 +26,7 @@ const shot =
     loading={priority ? 'eager' : 'lazy'}
     fetchpriority={priority ? 'high' : 'auto'}
   />
-  <div class="stack-tight">
+  <div class="details">
     <Heading>
       <a href={`/work/${project.id}/`}>{project.data.name}</a>
     </Heading>
@@ -36,13 +36,16 @@ const shot =
 </article>
 
 <style>
-  /* A catalog listing: the screenshot beside the entry's details. */
+  /*
+   * A catalog listing: the screenshot in the narrow column, the entry's
+   * details in the wide one, on the page's split.
+   */
   .preview {
     align-items: start;
     border-top: var(--rule-width) solid var(--color-accent);
     display: grid;
-    gap: var(--space-4) var(--space-6);
-    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+    gap: var(--space-4) var(--split-gap);
+    grid-template-columns: var(--split);
     padding-top: var(--space-5);
   }
 
@@ -54,11 +57,31 @@ const shot =
     color: var(--color-text);
   }
 
-  .role {
+  /* One measure for the entry, so its rule ends where its text does. */
+  .details {
+    max-width: 34rem;
+  }
+
+  /* The name's capitals line up with the top edge of the screenshot. */
+  .details > :first-child {
+    text-box-edge: cap alphabetic;
+    text-box-trim: trim-start;
+  }
+
+  .details > * + * {
+    margin-top: var(--space-2);
+  }
+
+  .details p {
+    max-width: none;
+  }
+
+  .details .role {
     border-top: var(--border-width) solid var(--color-border);
     color: var(--color-text-muted);
     font-size: var(--text-sm);
-    padding-top: var(--space-2);
+    margin-top: var(--space-4);
+    padding-top: var(--space-3);
   }
 
   @media (max-width: 40rem) {
