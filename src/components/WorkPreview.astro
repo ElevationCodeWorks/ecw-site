@@ -17,15 +17,42 @@ const shot =
 ---
 
 <article class="preview">
-  <Picture
-    src={shot.image}
-    alt={shot.alt}
-    formats={['avif', 'webp']}
-    widths={[480, 960, 1440]}
-    sizes="(min-width: 72rem) 36rem, 100vw"
-    loading={priority ? 'eager' : 'lazy'}
-    fetchpriority={priority ? 'high' : 'auto'}
-  />
+  <div class="shot">
+    <Picture
+      src={shot.image}
+      alt={shot.alt}
+      formats={['avif', 'webp']}
+      widths={[480, 960, 1440]}
+      sizes="(min-width: 72rem) 36rem, 100vw"
+      loading={priority ? 'eager' : 'lazy'}
+      fetchpriority={priority ? 'high' : 'auto'}
+    />
+    {/* Printer's crop marks just outside the screenshot's corners. */}
+    <svg
+      class="crop"
+      aria-hidden="true"
+      focusable="false"
+      stroke="currentColor"
+      overflow="visible"
+    >
+      <svg x="0" y="0" overflow="visible">
+        <line x1="-6" y1="0" x2="-18" y2="0" />
+        <line x1="0" y1="-6" x2="0" y2="-18" />
+      </svg>
+      <svg x="100%" y="0" overflow="visible">
+        <line x1="6" y1="0" x2="18" y2="0" />
+        <line x1="0" y1="-6" x2="0" y2="-18" />
+      </svg>
+      <svg x="0" y="100%" overflow="visible">
+        <line x1="-6" y1="0" x2="-18" y2="0" />
+        <line x1="0" y1="6" x2="0" y2="18" />
+      </svg>
+      <svg x="100%" y="100%" overflow="visible">
+        <line x1="6" y1="0" x2="18" y2="0" />
+        <line x1="0" y1="6" x2="0" y2="18" />
+      </svg>
+    </svg>
+  </div>
   <div class="stack-tight">
     <Heading>
       <a href={`/work/${project.id}/`}>{project.data.name}</a>
@@ -46,8 +73,22 @@ const shot =
     padding-top: var(--space-5);
   }
 
-  .preview :global(img) {
-    border: var(--border-width) solid var(--color-border-strong);
+  .shot {
+    margin: var(--space-4);
+    position: relative;
+  }
+
+  .shot :global(img) {
+    border: var(--border-width) solid var(--color-border);
+  }
+
+  .crop {
+    color: var(--color-text-muted);
+    height: 100%;
+    inset: 0;
+    pointer-events: none;
+    position: absolute;
+    width: 100%;
   }
 
   .preview a {
