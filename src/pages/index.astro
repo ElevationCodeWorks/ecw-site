@@ -57,10 +57,8 @@ const photo = await getImage({ src: founderPhoto, width: 640, format: 'jpg' })
 <style>
   /*
    * The headline, lede and button in the narrow column; the drawing in the
-   * wide one, on the same split as the listings below. The drawing's labels
-   * run past its edge when it is narrower than about 45rem, which the wide
-   * column is below 80rem, so there the drawing moves under the button, up
-   * to 46rem wide and set to the right.
+   * wide one, on the same split as the listings below. Below 56rem the
+   * drawing hides its labels and moves under the button.
    */
   .hero-grid {
     align-items: start;
@@ -78,20 +76,12 @@ const photo = await getImage({ src: founderPhoto, width: 640, format: 'jpg' })
   }
 
   .hero-grid > :global(.hero-art) {
-    justify-self: end;
     margin-top: var(--space-7);
-    max-width: 46rem;
+    max-width: 36rem;
     width: 100%;
   }
 
-  @media (max-width: 56rem) {
-    .hero-grid > :global(.hero-art) {
-      justify-self: start;
-      max-width: 36rem;
-    }
-  }
-
-  @media (min-width: 80rem) {
+  @media (min-width: 56rem) {
     .hero-grid {
       grid-template-columns: var(--split);
     }
