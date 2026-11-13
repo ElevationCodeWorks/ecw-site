@@ -60,9 +60,15 @@ export const bannedWords: Rule = (inputs, config) =>
   dedupe(
     inputs.html.flatMap((source) => {
       const page = parsePage(source)
-      const units = [...copyTextNodes(page), ...metadataCopy(page)].map(
-        (u) => ({ ...u, text: blank(u.text, config.brandAllowList) })
+      // A quotation is shown exactly as the client gave it, so its words are
+      // exempt; its attribution (a figcaption outside the blockquote) is not.
+      const ownCopy = copyTextNodes(page).filter(
+        (u) => !u.ancestors.includes('blockquote')
       )
+      const units = [...ownCopy, ...metadataCopy(page)].map((u) => ({
+        ...u,
+        text: blank(u.text, config.brandAllowList)
+      }))
       return config.bannedWords.flatMap((w) =>
         scan(page, units, 'brand/banned-word', w.pattern, w.label)
       )

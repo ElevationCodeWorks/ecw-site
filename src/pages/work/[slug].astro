@@ -99,6 +99,19 @@ const formatDate = (value: Date | string) =>
       <Content />
     </div>
 
+    {data.quote && (
+      <figure class="section quote">
+        <blockquote>
+          <p>{data.quote.text}</p>
+        </blockquote>
+        <figcaption>
+          {[data.quote.name, data.quote.role, data.quote.organization]
+            .filter(Boolean)
+            .join(', ')}
+        </figcaption>
+      </figure>
+    )}
+
     {data.outcomes.length > 0 && (
       <section class="section stack-tight" aria-labelledby="results">
         <h2 id="results">Results</h2>
@@ -157,6 +170,15 @@ const formatDate = (value: Date | string) =>
     display: grid;
     gap: var(--space-2);
     padding-left: var(--space-5);
+  }
+
+  .quote blockquote {
+    margin: 0;
+  }
+
+  .quote figcaption {
+    color: var(--color-text-muted);
+    margin-top: var(--space-2);
   }
 
   .source {
