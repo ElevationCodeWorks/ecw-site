@@ -7,6 +7,7 @@ This repository is public, so this record names no employer.
 ## Owner decisions
 
 - **2026-11-12:** approved the three round 1 sources in design D3 (Trailhead, Catalog and Letterhead) without changes.
+- **2026-11-13:** chose Plate in round 2, asked for more hero options, and allowed hero-only CSS animation with no JavaScript (design D14).
 - **2026-11-13:** chose Catalog in round 1, with changes (see 1.B).
 - **2026-11-12:** dropped the trail-rating marks (design D9). A fixed size per service could set the wrong expectations, since a project's scope depends on the client.
 
@@ -222,7 +223,9 @@ What each variant varies is the **artistic element and the hero**: a technical d
 | 13 | Echoes a portfolio site | Pass, closest call | Unchanged from round 1: the yellow is 9.9 from Uphill Ski CO's gold and 8.2 from Condies' yellow (the limit is 8). |
 | 14 | Looks like a template a tool would produce | Pass, with a note | See item 9. |
 
-- **Owner verdict:** pending.
+- **Owner verdict:** 2026-11-13: **chosen**, with changes:
+  - Keep the crop marks in the hero only, not around the work screenshots (done: `a26bc83`).
+  - Test more hero options: interactive, 3D, animated, more artistic, drawing on the Art District on Santa Fe, where the owner lives. The owner allowed hero-only CSS animation with a reduced-motion guard and no JavaScript (design D14).
 
 ### 2.B Cover
 
@@ -251,7 +254,7 @@ What each variant varies is the **artistic element and the hero**: a technical d
 | 13 | Echoes a portfolio site | Pass, closest call | Unchanged from round 1: the yellow is 9.9 from Uphill Ski CO's gold and 8.2 from Condies' yellow (the limit is 8). |
 | 14 | Looks like a template a tool would produce | Pass | A color-block cover with a big condensed headline is a known industrial and Swiss poster device, but the tilted, cropped tag outline and the printed-label frame tie it to this brand. |
 
-- **Owner verdict:** pending.
+- **Owner verdict:** 2026-11-13: not chosen. PR #7 and its branch stay open until the round 2 cleanup, which needs the owner's OK.
 
 ### Symbol options
 
@@ -265,4 +268,4 @@ All three are in `src/assets/brand/options/`, pass the plain-vector rule (one pa
 
 The banned motifs checked for each: mountain peaks, upward arrows or chevrons, code brackets, a terminal prompt or cursor, a sparkle or four-point star, gears, lightbulbs, rockets, circuit traces, a hexagon badge, the Colorado flag's "C", the state's outline, and official signs, highway shields or agency marks.
 
-- **Owner's choice of variant and symbol:** pending.
+- **Owner's choice of variant and symbol:** Plate (2026-11-13). The symbol will be chosen after the hero options; Plate keeps the ECW nameplate until then.
