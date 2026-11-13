@@ -67,6 +67,18 @@ const work = defineCollection({
           })
         )
         .default([]),
+      /**
+       * A client's words, shown exactly as given and attributed to a named
+       * person and organization (site-content "Client quotes").
+       */
+      quote: z
+        .object({
+          text: z.string().min(1),
+          name: z.string().min(1),
+          organization: z.string().min(1),
+          role: z.string().min(1).optional()
+        })
+        .optional(),
       seo: suffixedSeo,
       pending
     })

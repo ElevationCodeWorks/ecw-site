@@ -40,6 +40,32 @@ test('banned words: checks metadata and alt text, reports the line', () => {
   assert.equal(result[0].line, 7)
 })
 
+const quoteFigure = (caption: string) =>
+  `<figure>\n<blockquote><p>Tejen was able to seamlessly step in and get them done.</p></blockquote>\n<figcaption>${caption}</figcaption>\n</figure>`
+
+test('banned words: a client quote in a blockquote is exempt', () => {
+  assert.deepEqual(
+    hits(bannedWords, quoteFigure('Conor Britain, Important, Not Important')),
+    []
+  )
+})
+
+test('banned words: the quote attribution is still checked', () => {
+  assert.deepEqual(hits(bannedWords, quoteFigure('Seamless Co, a client')), [
+    'Seamless'
+  ])
+})
+
+test('banned words: the same word outside a quote fails', () => {
+  assert.deepEqual(
+    hits(
+      bannedWords,
+      `${quoteFigure('Conor Britain, Important, Not Important')}\n<p>I step in seamlessly.</p>`
+    ),
+    ['seamlessly']
+  )
+})
+
 test('banned phrases: flags "not just" across inline markup', () => {
   assert.deepEqual(
     hits(
