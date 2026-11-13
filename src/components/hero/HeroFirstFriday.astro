@@ -1,0 +1,272 @@
+---
+/**
+ * Hero concept "First Friday on Santa Fe": a row of brick gallery fronts on
+ * Santa Fe Drive, each window showing one of the real projects, under a
+ * string of First Friday bulbs. Each window is a link to its case study,
+ * named by its placard (the project's own name). The bulbs come on one by
+ * one, once; pointing at a gallery lights its sign band. CSS only; the motion
+ * sits inside the reduced-motion guard (design D14).
+ */
+import { Picture } from 'astro:assets'
+import { getCollection } from 'astro:content'
+import lights from '../../assets/brand/first-friday-lights.svg?raw'
+
+const projects = (await getCollection('work')).sort(
+  (a, b) => a.data.order - b.data.order
+)
+const shot = (p: (typeof projects)[number]) =>
+  p.data.screenshots.find((s) => s.viewport === 'desktop') ??
+  p.data.screenshots[0]
+
+const bulbs = lights
+  .replace(/<!--[\s\S]*?-->\s*/g, '')
+  .replace(/<svg\b/, '<svg aria-hidden="true" focusable="false" class="lights"')
+---
+
+<div class="hero-art street">
+  <Fragment set:html={bulbs} />
+  <ul class="fronts">
+    {projects.map((p, i) => (
+      <li class={`front f${i + 1}`}>
+        <span class="parapet" aria-hidden="true" />
+        <span class="upper" aria-hidden="true">
+          <span />
+          <span />
+        </span>
+        <span class="band" aria-hidden="true" />
+        <a class="window" href={`/work/${p.id}/`}>
+          <Picture
+            src={shot(p).image}
+            alt=""
+            formats={['avif', 'webp']}
+            widths={[360, 720]}
+            sizes="(min-width: 56rem) 14rem, 30vw"
+            loading="eager"
+          />
+          <span class="placard">{p.data.name}</span>
+        </a>
+        <span class="door" aria-hidden="true" />
+      </li>
+    ))}
+  </ul>
+  <span class="street-line" aria-hidden="true" />
+</div>
+
+<style>
+  .street {
+    --line: 1.5px solid var(--color-text);
+    color: var(--color-text);
+  }
+
+  .street :global(.lights) {
+    display: block;
+    height: auto;
+    margin-bottom: calc(-1 * var(--space-4));
+    position: relative;
+    width: 100%;
+    z-index: 1;
+  }
+
+  .street :global(.glass) {
+    fill: var(--color-highlight);
+  }
+
+  /* The fronts share walls, like the buildings on the street. */
+  .fronts {
+    align-items: end;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .front {
+    border: var(--line);
+    border-bottom: 0;
+    display: grid;
+    gap: var(--space-2);
+    grid-template-columns: minmax(0, 1fr) auto;
+    max-width: none;
+    padding: var(--space-3);
+    position: relative;
+  }
+
+  .front + .front {
+    border-left: 0;
+  }
+
+  /* Different heights and parapets give the row its rhythm. */
+  .f1 {
+    padding-top: var(--space-6);
+  }
+
+  .f2 {
+    padding-top: var(--space-4);
+  }
+
+  .f3 {
+    padding-top: var(--space-5);
+  }
+
+  .parapet {
+    border: var(--line);
+    border-bottom: 0;
+    height: var(--space-3);
+    left: 30%;
+    position: absolute;
+    right: 30%;
+    top: calc(-1 * var(--space-3) - 1.5px);
+  }
+
+  .f2 .parapet {
+    height: var(--space-2);
+    left: -1.5px;
+    right: -1.5px;
+    top: calc(-1 * var(--space-2) - 1.5px);
+  }
+
+  .f3 .parapet {
+    left: 12%;
+    right: 12%;
+  }
+
+  /* The upper story: a pair of tall windows. */
+  .upper {
+    display: flex;
+    gap: 22%;
+    grid-column: 1 / -1;
+    justify-content: center;
+    margin-bottom: var(--space-2);
+  }
+
+  .upper span {
+    aspect-ratio: 2 / 3;
+    border: var(--line);
+    width: 16%;
+  }
+
+  /* The sign band: blank until the gallery is pointed at. */
+  .band {
+    border: var(--line);
+    grid-column: 1 / -1;
+    height: var(--space-5);
+    transition: background-color 200ms ease-out;
+  }
+
+  .front:has(.window:is(:hover, :focus-visible)) .band {
+    background: var(--color-highlight);
+  }
+
+  .window {
+    border: var(--line);
+    color: var(--color-text);
+    display: grid;
+    text-decoration: none;
+  }
+
+  .window :global(img) {
+    aspect-ratio: 4 / 3;
+    border-bottom: var(--line);
+    object-fit: cover;
+    object-position: top left;
+    width: 100%;
+  }
+
+  .placard {
+    font-size: 0.8125rem;
+    font-weight: var(--weight-bold);
+    line-height: 1.25;
+    padding: var(--space-1) var(--space-2);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .door {
+    align-self: end;
+    border: var(--line);
+    border-bottom: 0;
+    height: 4.5rem;
+    width: 1.75rem;
+  }
+
+  .street-line {
+    border-top: var(--line);
+    display: block;
+  }
+
+  /* The bulbs come on one after another, once. */
+  @media (prefers-reduced-motion: no-preference) {
+    .street :global(.bulb) {
+      animation: switch-on 0.25s ease-out backwards;
+    }
+
+    .street :global(.b1) {
+      animation-delay: 0.3s;
+    }
+
+    .street :global(.b2) {
+      animation-delay: 0.45s;
+    }
+
+    .street :global(.b3) {
+      animation-delay: 0.6s;
+    }
+
+    .street :global(.b4) {
+      animation-delay: 0.75s;
+    }
+
+    .street :global(.b5) {
+      animation-delay: 0.9s;
+    }
+
+    .street :global(.b6) {
+      animation-delay: 1.05s;
+    }
+
+    .street :global(.b7) {
+      animation-delay: 1.2s;
+    }
+
+    .street :global(.b8) {
+      animation-delay: 1.35s;
+    }
+
+    .street :global(.b9) {
+      animation-delay: 1.5s;
+    }
+
+    .street :global(.b10) {
+      animation-delay: 1.65s;
+    }
+
+    .street :global(.b11) {
+      animation-delay: 1.8s;
+    }
+
+    .street :global(.b12) {
+      animation-delay: 1.95s;
+    }
+
+    .street :global(.b13) {
+      animation-delay: 2.1s;
+    }
+
+    @keyframes switch-on {
+      from {
+        opacity: 0.15;
+      }
+    }
+  }
+
+  @media (max-width: 40rem) {
+    .door {
+      display: none;
+    }
+
+    .front {
+      padding: var(--space-2);
+    }
+  }
+</style>
