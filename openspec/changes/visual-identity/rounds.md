@@ -7,6 +7,7 @@ This repository is public, so this record names no employer.
 ## Owner decisions
 
 - **2026-11-12:** approved the three round 1 sources in design D3 (Trailhead, Catalog and Letterhead) without changes.
+- **2026-11-13:** chose the Storefront hero (reworked so each service is its own drawing, expanding on hover) and the ECW nameplate symbol; round 3 polishes it.
 - **2026-11-13:** chose Plate in round 2, asked for more hero options, and allowed hero-only CSS animation with no JavaScript (design D14).
 - **2026-11-13:** chose Catalog in round 1, with changes (see 1.B).
 - **2026-11-12:** dropped the trail-rating marks (design D9). A fixed size per service could set the wrong expectations, since a project's scope depends on the client.
@@ -101,7 +102,7 @@ Sources approved on 2026-11-12. Each comp must differ from the others in typefac
 
 **Symbol motif review:** mountain peaks, upward arrows or chevrons, code brackets, a terminal prompt or cursor, a sparkle or four-point star, gears, lightbulbs, rockets, circuit traces, a hexagon badge, the Colorado flag's "C", the state's outline, and official signs, highway shields or agency marks are all absent. The marks step down and to the right, so they don't read as rising steps or an arrow.
 
-- **Owner verdict:** 2026-11-13: not chosen. PR #3 and its branch are still open, waiting on the owner's OK to close and delete them.
+- **Owner verdict:** 2026-11-13: not chosen. PR #3 closed and the branch deleted (2026-11-13, with the owner's OK).
 
 ### 1.B Catalog
 
@@ -176,7 +177,7 @@ Sources approved on 2026-11-12. Each comp must differ from the others in typefac
 
 **Left out:** the plan's founder photo and signature on Home and About. Home has no founder photo, and adding one (or a signature) would add content, which a comp may not do. About keeps its photo.
 
-- **Owner verdict:** 2026-11-13: not chosen. PR #5 and its branch are still open, waiting on the owner's OK to close and delete them.
+- **Owner verdict:** 2026-11-13: not chosen. PR #5 closed and the branch deleted (2026-11-13, with the owner's OK).
 
 ## Round 2: two Catalog variants and three symbols
 
@@ -254,7 +255,7 @@ What each variant varies is the **artistic element and the hero**: a technical d
 | 13 | Echoes a portfolio site | Pass, closest call | Unchanged from round 1: the yellow is 9.9 from Uphill Ski CO's gold and 8.2 from Condies' yellow (the limit is 8). |
 | 14 | Looks like a template a tool would produce | Pass | A color-block cover with a big condensed headline is a known industrial and Swiss poster device, but the tilted, cropped tag outline and the printed-label frame tie it to this brand. |
 
-- **Owner verdict:** 2026-11-13: not chosen. PR #7 and its branch stay open until the round 2 cleanup, which needs the owner's OK.
+- **Owner verdict:** 2026-11-13: not chosen. PR #7 closed and the branch deleted (2026-11-13, with the owner's OK).
 
 ### Symbol options
 
@@ -336,4 +337,5 @@ Pointing at a label fills its drawing yellow. On load the services come out of t
 
 - **Owner verdict (2026-11-13):** the yellow highlighting on hover degrades the look; try a different animation, perhaps the object expanding to show more detail.
 - **Changed (`20335b7`):** pointing at a label, or at a drawing, now expands that drawing from its own center (a 250ms transition) and shows the detail it was holding back, all in ink. The browser gains a map card with a pin beside the results. The phone's app cards fill in and its order button is checked. The chat's answer grows and a typing bubble appears. A card slides into the terminal and the booked day is checked. Tools stand in the toolbox. The checklist's last box is ticked, with a pencil. No hover fills yellow. The one still yellow touch stays (the business's result on top of the search), pending the owner's word.
-- **Owner's choice of hero and symbol:** pending.
+- **Owner's choice of hero and symbol (2026-11-13):** **Storefront, exploded** (as reworked, with the expand-to-show-detail hover) and the **ECW nameplate** symbol (option C). The one yellow touch (the business's search result on top) stays. The owner's note: it needs polishing and higher quality, which round 3 takes on.
+- **Cleanup (2026-11-13, with the owner's OK):** closed #3, #5, #7, #8, #9, #10, #12 and #13 and deleted their branches. Open: #1, #2, #4 (round 1 winner), #6 (round 2 winner) and #11 (the final direction, where round 3 happens).
