@@ -25,14 +25,34 @@ const Heading = `h${level}` as 'h2' | 'h3'
 <style>
   .services {
     display: grid;
-    gap: var(--space-6);
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+    gap: var(--space-6) var(--space-7);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
     list-style: none;
     padding: 0;
   }
 
-  li {
-    border-top: var(--border-width) solid var(--color-border);
-    padding-top: var(--space-4);
+  /* Each service name sits on its own small green panel. */
+  li > :first-child {
+    background: var(--color-accent);
+    color: var(--color-on-accent);
+    display: inline-block;
+    font-size: var(--text-lg);
+    padding: var(--space-2) var(--space-4);
+  }
+
+  li > :first-child a,
+  li > :first-child a:hover {
+    color: var(--color-on-accent);
+    text-decoration-color: transparent;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.25em;
+  }
+
+  li > :first-child a:hover {
+    text-decoration-color: currentColor;
+  }
+
+  li > :first-child :focus-visible {
+    outline-color: var(--color-on-accent);
   }
 </style>

@@ -17,9 +17,8 @@ import { site } from '../site.config.ts'
 
 <style>
   .site-footer {
-    border-top: var(--border-width) solid var(--color-border);
-    color: var(--color-text-muted);
-    font-size: var(--text-sm);
+    background: var(--color-accent);
+    color: var(--color-on-accent);
     margin-top: var(--space-8);
   }
 
@@ -33,7 +32,15 @@ import { site } from '../site.config.ts'
   }
 
   .brand {
-    color: var(--color-text);
     font-weight: var(--weight-bold);
+  }
+
+  a,
+  a:hover {
+    color: var(--color-on-accent);
+  }
+
+  .site-footer :focus-visible {
+    outline-color: var(--color-on-accent);
   }
 </style>

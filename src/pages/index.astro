@@ -52,12 +52,17 @@ const photo = await getImage({ src: founderPhoto, width: 640, format: 'jpg' })
 
 <style>
   .hero h1 {
-    max-width: 22ch;
+    max-width: 18ch;
+  }
+
+  .hero .lede {
+    font-size: var(--text-xl);
+    max-width: 44ch;
   }
 
   .projects,
   .services {
-    margin-top: var(--space-5);
+    margin-top: var(--space-6);
   }
 
   .projects {

@@ -1,4 +1,4 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-  <!-- Placeholder symbol: a plain square until the comp rounds choose one. -->
-  <path fill="currentColor" d="M2 2h12v12H2z" />
+  <!-- Comp R1.A Trailhead: a double trail blaze, two painted marks offset to show a turn. -->
+  <path fill="currentColor" d="M2.5 1h5v6.25h-5zM8.5 8.75h5V15h-5z" />
 </svg>

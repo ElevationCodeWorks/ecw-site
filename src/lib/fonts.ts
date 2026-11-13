@@ -9,4 +9,5 @@
  * The placeholder look uses system fonts only, so there is nothing to
  * preload.
  */
-export const preloadFonts: string[] = []
+import overpass from '../assets/fonts/overpass/overpass-latin-wght-normal.woff2?url'
+export const preloadFonts: string[] = [overpass]
