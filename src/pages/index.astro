@@ -3,7 +3,7 @@ import { getImage } from 'astro:assets'
 import { getCollection } from 'astro:content'
 import BaseLayout from '../layouts/BaseLayout.astro'
 import CallToAction from '../components/CallToAction.astro'
-import HeroPlate from '../components/hero/HeroPlate.astro'
+import HeroPath from '../components/hero/HeroPath.astro'
 import ServiceList from '../components/ServiceList.astro'
 import WorkPreview from '../components/WorkPreview.astro'
 import founderPhoto from '../assets/founder.jpg'
@@ -32,7 +32,7 @@ const photo = await getImage({ src: founderPhoto, width: 640, format: 'jpg' })
       {data.lede && <p class="lede">{data.lede}</p>}
     </div>
     {data.cta && <CallToAction label={data.cta.label} href={data.cta.href} />}
-    <HeroPlate />
+    <HeroPath />
   </div>
 
   <section class="section" aria-labelledby="work-heading">
@@ -67,7 +67,8 @@ const photo = await getImage({ src: founderPhoto, width: 640, format: 'jpg' })
     grid-column: 1;
   }
 
-  .hero-grid > :global(.hero-plate) {
+  .hero-grid > :global(.hero-art) {
+    align-self: center;
     grid-column: 2;
     grid-row: 1 / span 2;
   }
@@ -82,11 +83,11 @@ const photo = await getImage({ src: founderPhoto, width: 640, format: 'jpg' })
       grid-template-columns: 1fr;
     }
 
-    .hero-grid > :global(.hero-plate) {
+    .hero-grid > :global(.hero-art) {
       grid-column: 1;
       grid-row: auto;
       margin-top: var(--space-7);
-      max-width: 26rem;
+      max-width: 36rem;
     }
   }
 

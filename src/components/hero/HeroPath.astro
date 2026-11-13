@@ -1,0 +1,298 @@
+---
+/**
+ * Hero concept "A customer's path": a route map, like a light-rail line, of
+ * the order in which a small business's customers meet the services. They
+ * find the business, book and pay, use its app, get their questions
+ * answered, and get help when something breaks. Each stop is a link to its
+ * service and reuses its title. On load the line draws itself along the
+ * route and each stop flashes as the line reaches it, once. CSS only; the
+ * motion sits inside the reduced-motion guard (design D14).
+ */
+import { getServices } from '../../lib/services.ts'
+
+/** The stops, in the order a customer reaches them. */
+const ROUTE = [
+  'websites',
+  'integrations',
+  'custom-web-apps',
+  'ai-features',
+  'care-and-rescue'
+]
+
+const services = await getServices()
+const stops = ROUTE.map((id) => {
+  const service = services.find((s) => s.id === id)
+  if (!service) throw new Error(`No service "${id}" for the route map`)
+  return { id, title: service.data.title, href: `/services/${service.id}/` }
+})
+---
+
+<div class="hero-art route">
+  <span class="track top" aria-hidden="true"></span>
+  <span class="track bend" aria-hidden="true"></span>
+  <span class="track bottom" aria-hidden="true"></span>
+  <ol class="stops">
+    {stops.map((stop, i) => (
+      <li class={`stop s${i + 1}`}>
+        <svg
+          class="marker"
+          aria-hidden="true"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <circle
+            cx="12"
+            cy="12"
+            r="9"
+            fill="currentColor"
+            stroke="currentColor"
+            stroke-width="5"
+          />
+        </svg>
+        <a href={stop.href}>{stop.title}</a>
+      </li>
+    ))}
+  </ol>
+</div>
+
+<style>
+  /*
+   * The route: a top run left to right, a bend, and a bottom run back to the
+   * left. --t is the top run's height, --g the gap to the bottom run, --r the
+   * bend's radius.
+   */
+  .route {
+    --g: 7rem;
+    --line: 6px;
+    --r: 3.5rem;
+    --t: 5.5rem;
+    color: var(--color-text);
+    height: calc(var(--t) + var(--g) + 4.5rem);
+    position: relative;
+  }
+
+  .track {
+    border-color: currentColor;
+    border-style: solid;
+    border-width: 0;
+    position: absolute;
+  }
+
+  .top,
+  .bottom {
+    border-top-width: var(--line);
+    left: 5%;
+    right: calc(5% + var(--r));
+  }
+
+  .top {
+    top: calc(var(--t) - var(--line) / 2);
+  }
+
+  .bottom {
+    top: calc(var(--t) + var(--g) - var(--line) / 2);
+  }
+
+  .bend {
+    border-bottom-right-radius: var(--r);
+    border-bottom-width: var(--line);
+    border-right-width: var(--line);
+    border-top-right-radius: var(--r);
+    border-top-width: var(--line);
+    height: calc(var(--g) + var(--line));
+    right: 5%;
+    top: calc(var(--t) - var(--line) / 2);
+    width: var(--r);
+  }
+
+  /* Stops sit on the line; their names sit above the top run and below the
+     bottom run. */
+  .stops {
+    inset: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+  }
+
+  .stop {
+    left: var(--x);
+    position: absolute;
+    top: var(--y);
+  }
+
+  .s1 {
+    --x: 5%;
+    --y: var(--t);
+  }
+
+  .s2 {
+    --x: calc(50% - var(--r) / 2);
+    --y: var(--t);
+  }
+
+  .s3 {
+    --x: calc(95% - var(--r));
+    --y: var(--t);
+  }
+
+  .s4 {
+    --x: calc(50% - var(--r) / 2);
+    --y: calc(var(--t) + var(--g));
+  }
+
+  .s5 {
+    --x: 5%;
+    --y: calc(var(--t) + var(--g));
+  }
+
+  .marker {
+    display: block;
+    height: 1.5rem;
+    max-width: none;
+    overflow: visible;
+    left: 0;
+    position: absolute;
+    top: 0;
+    transform: translate(-50%, -50%);
+    width: 1.5rem;
+  }
+
+  .marker circle {
+    fill: var(--color-bg);
+    transition: fill 200ms ease-out;
+  }
+
+  .stop a {
+    color: var(--color-text);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-bold);
+    left: 0;
+    line-height: 1.25;
+    position: absolute;
+    text-align: center;
+    transform: translateX(-50%);
+    width: 9rem;
+  }
+
+  .s1 a,
+  .s2 a,
+  .s3 a {
+    bottom: 1.25rem;
+  }
+
+  .s4 a,
+  .s5 a {
+    top: 1.25rem;
+  }
+
+  .stop:has(a:is(:hover, :focus-visible)) .marker circle {
+    fill: var(--color-highlight);
+  }
+
+  /* The line draws itself along the route, and each stop flashes yellow as
+     the line reaches it. Once. */
+  @media (prefers-reduced-motion: no-preference) {
+    .top {
+      animation: run 0.8s linear 0.3s backwards;
+      transform-origin: left;
+    }
+
+    .bend {
+      animation: bend 0.5s linear 1.1s backwards;
+    }
+
+    .bottom {
+      animation: run 0.8s linear 1.6s backwards;
+      transform-origin: right;
+    }
+
+    .marker circle {
+      animation: arrive 0.7s ease-out backwards;
+    }
+
+    .s1 .marker circle {
+      animation-delay: 0.2s;
+    }
+
+    .s2 .marker circle {
+      animation-delay: 0.65s;
+    }
+
+    .s3 .marker circle {
+      animation-delay: 1.05s;
+    }
+
+    .s4 .marker circle {
+      animation-delay: 1.95s;
+    }
+
+    .s5 .marker circle {
+      animation-delay: 2.35s;
+    }
+
+    @keyframes run {
+      from {
+        transform: scaleX(0);
+      }
+    }
+
+    @keyframes bend {
+      from {
+        clip-path: inset(0 0 100% 0);
+      }
+    }
+
+    @keyframes arrive {
+      15%,
+      55% {
+        fill: var(--color-highlight);
+      }
+    }
+  }
+
+  /* On narrow screens the route runs straight down. */
+  @media (max-width: 40rem) {
+    .route {
+      height: auto;
+      padding-left: var(--space-5);
+    }
+
+    .track {
+      display: none;
+    }
+
+    .stops {
+      border-left: var(--line) solid currentColor;
+      display: grid;
+      gap: var(--space-5);
+      padding: var(--space-2) 0;
+      position: static;
+    }
+
+    .stop {
+      position: relative;
+      --x: 0;
+      --y: 50%;
+    }
+
+    .stop a,
+    .s1 a,
+    .s2 a,
+    .s3 a,
+    .s4 a,
+    .s5 a {
+      bottom: auto;
+      display: block;
+      margin-left: var(--space-5);
+      position: static;
+      text-align: left;
+      transform: none;
+      width: auto;
+    }
+
+    .marker {
+      left: calc(-1 * var(--line) / 2);
+    }
+  }
+</style>
