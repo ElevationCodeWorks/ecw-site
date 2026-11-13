@@ -52,7 +52,11 @@ const photo = await getImage({ src: founderPhoto, width: 640, format: 'jpg' })
 
 <style>
   .hero h1 {
-    max-width: 22ch;
+    max-width: 20ch;
+  }
+
+  .hero .lede {
+    max-width: 58ch;
   }
 
   .projects,
@@ -62,7 +66,6 @@ const photo = await getImage({ src: founderPhoto, width: 640, format: 'jpg' })
 
   .projects {
     display: grid;
-    gap: var(--space-7) var(--space-6);
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+    gap: var(--space-6);
   }
 </style>

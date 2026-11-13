@@ -36,20 +36,34 @@ const shot =
 </article>
 
 <style>
+  /* A catalog listing: the screenshot beside the entry's details. */
   .preview {
-    /* Keep extra height (from taller sibling cards) at the bottom. */
-    align-content: start;
+    align-items: start;
+    border-top: var(--rule-width) solid var(--color-accent);
     display: grid;
-    gap: var(--space-4);
+    gap: var(--space-4) var(--space-6);
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+    padding-top: var(--space-5);
   }
 
   .preview :global(img) {
-    border: var(--border-width) solid var(--color-border);
-    border-radius: var(--radius);
+    border: var(--border-width) solid var(--color-border-strong);
+  }
+
+  .preview a {
+    color: var(--color-text);
   }
 
   .role {
+    border-top: var(--border-width) solid var(--color-border);
     color: var(--color-text-muted);
     font-size: var(--text-sm);
+    padding-top: var(--space-2);
+  }
+
+  @media (max-width: 40rem) {
+    .preview {
+      grid-template-columns: 1fr;
+    }
   }
 </style>

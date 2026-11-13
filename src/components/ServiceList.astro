@@ -23,16 +23,37 @@ const Heading = `h${level}` as 'h2' | 'h3'
 </ul>
 
 <style>
+  /* Spec rows: the service name on the left, what it is on the right. */
   .services {
-    display: grid;
-    gap: var(--space-6);
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+    border-top: var(--rule-width) solid var(--color-accent);
     list-style: none;
     padding: 0;
   }
 
   li {
-    border-top: var(--border-width) solid var(--color-border);
-    padding-top: var(--space-4);
+    border-bottom: var(--border-width) solid var(--color-border);
+    display: grid;
+    gap: var(--space-1) var(--space-6);
+    grid-template-columns: minmax(0, 18rem) minmax(0, 1fr);
+    max-width: none;
+    padding: var(--space-4) 0;
+  }
+
+  li > :first-child {
+    font-size: var(--text-xl);
+  }
+
+  li > :first-child a {
+    color: var(--color-text);
+  }
+
+  li p {
+    max-width: 60ch;
+  }
+
+  @media (max-width: 40rem) {
+    li {
+      grid-template-columns: 1fr;
+    }
   }
 </style>

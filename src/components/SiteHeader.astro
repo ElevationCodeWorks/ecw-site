@@ -33,50 +33,56 @@ function currentState(href: string): 'page' | 'true' | undefined {
 </header>
 
 <style>
+  /* White, with the heavy ink rule a catalog page opens with. */
   .site-header {
-    border-bottom: var(--border-width) solid var(--color-border);
+    border-bottom: var(--rule-width) solid var(--color-accent);
   }
 
   .inner {
-    align-items: center;
+    align-items: baseline;
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-3) var(--space-6);
     justify-content: space-between;
     margin-inline: auto;
     max-width: var(--container);
-    padding: var(--space-4) var(--gutter);
+    padding: var(--space-4) var(--gutter) var(--space-3);
   }
 
   .brand {
     align-items: center;
     color: var(--color-text);
     display: inline-flex;
-    gap: var(--space-2);
+    font-family: var(--font-heading);
+    font-size: var(--text-xl);
     font-weight: var(--weight-bold);
+    gap: var(--space-2);
     text-decoration: none;
   }
 
   .brand :global(.symbol) {
     flex: none;
-    height: 1.25em;
-    width: 1.25em;
+    height: 1.1em;
+    width: 1.1em;
   }
 
   ul {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-2) var(--space-5);
+    gap: var(--space-1) var(--space-2);
     list-style: none;
     padding: 0;
   }
 
   nav a {
     color: var(--color-text);
+    font-weight: var(--weight-bold);
+    padding: var(--space-1) var(--space-2);
+    text-decoration: none;
   }
 
   nav a[aria-current] {
-    font-weight: var(--weight-bold);
-    text-decoration-thickness: var(--focus-width);
+    background: var(--color-highlight);
+    color: var(--color-on-highlight);
   }
 </style>
