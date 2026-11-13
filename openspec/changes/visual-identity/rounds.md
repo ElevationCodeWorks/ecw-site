@@ -318,3 +318,20 @@ Every concept: the site check passes, axe passes at both sizes in both schemes, 
 | A customer's path | Site check: numbered labels | Pass | The stops are an ordered list (`ol`) with no visible numbers. |
 
 - **Owner verdict (2026-11-13):** likes Storefront, exploded, but the parts don't make sense as the services. It should use art that connects with the services (task 9.7): the shop stays as the client's business, and a drawing of each service comes out of it.
+
+### Storefront, exploded, reworked (task 9.7)
+
+Same branch and PR (`comp/r2-hero-storefront`, #11, https://deploy-preview-11--elevationcodeworks.netlify.app). The shop now stands for the client's business, and a drawing of each service comes out of it, wired back to where it plugs in:
+
+| Service (label links to it) | Drawing | Where it connects |
+| --- | --- | --- |
+| Websites that get found | A browser window with search results; the business's result is first, in yellow | The shop's sign |
+| Custom web apps | A phone running the business's app | The display window |
+| AI features | A chat window with a question and an answer | The display window |
+| Integrations | A booking calendar and a card terminal | The door |
+| Care and rescue | A toolbox | The foundation |
+| Tech checkup | A clipboard with a checklist | The roof |
+
+Pointing at a label fills its drawing yellow. On load the services come out of the shop once, in under two seconds. Checks as in 9.6: the site check, axe in both schemes and all 172 tests pass, and the structure check reports only the hero's repeated links.
+
+- **Owner's choice of hero and symbol:** pending.
