@@ -7,6 +7,7 @@ This repository is public, so this record names no employer.
 ## Owner decisions
 
 - **2026-11-12:** approved the three round 1 sources in design D3 (Trailhead, Catalog and Letterhead) without changes.
+- **2026-11-13:** chose Plate in round 2, asked for more hero options, and allowed hero-only CSS animation with no JavaScript (design D14).
 - **2026-11-13:** chose Catalog in round 1, with changes (see 1.B).
 - **2026-11-12:** dropped the trail-rating marks (design D9). A fixed size per service could set the wrong expectations, since a project's scope depends on the client.
 
@@ -176,3 +177,95 @@ Sources approved on 2026-11-12. Each comp must differ from the others in typefac
 **Left out:** the plan's founder photo and signature on Home and About. Home has no founder photo, and adding one (or a signature) would add content, which a comp may not do. About keeps its photo.
 
 - **Owner verdict:** 2026-11-13: not chosen. PR #5 and its branch are still open, waiting on the owner's OK to close and delete them.
+
+## Round 2: two Catalog variants and three symbols
+
+Both variants start from Catalog (round 1, #4) and make the same fixes for the owner's notes:
+
+- **Hover:** links no longer get a yellow fill. They thicken their underline instead.
+- **Rules:** every thick rule is now a hairline (`--rule-width` 3px to 1px).
+- **Navigation:** the current item is underlined, not filled with yellow.
+- **Button:** the call to action loses its black border.
+
+What each variant varies is the **artistic element and the hero**: a technical drawing (A) or a composed cover (B).
+
+| | 2.A Plate | 2.B Cover |
+| --- | --- | --- |
+| Hero | Headline beside an exploded assembly drawn like a parts-catalog plate | A yellow catalog cover with a printed-label frame and the hang tag in outline |
+| Yellow | One face of the drawing and the button | The whole cover, the section index tabs and the button lettering |
+| Other detail | Printer's crop marks frame each work screenshot | Small yellow index tabs before Home's section headings |
+| Symbol shown | Option C, the ECW plate | Option A, the hang tag |
+
+### 2.A Plate
+
+- **Branch and PR:** `comp/r2-catalog-a`, #6 (draft)
+- **Preview:** https://deploy-preview-6--elevationcodeworks.netlify.app
+- **Typefaces, colors:** as Catalog (Archivo Narrow and Archivo; ink with the yellow `#ffdd00`).
+- **New brand vectors:** `src/assets/brand/plate-hero.svg` (the hero drawing, generated from an isometric projection, line art in `currentColor` with faces and the yellow top styled by class) and the crop-mark overlay in `WorkPreview`. Both are decorative and hidden from assistive technology.
+- **Site check:** passes; the preview built on Netlify.
+- **Structure check:** empty.
+- **Exceptions:** none.
+
+| # | Look checklist item (README "Look review") | Result | Note |
+| --- | --- | --- | --- |
+| 1 | Centered hero with headline, subhead and two buttons | Pass | The headline, lede and one button sit left; the drawing sits right. |
+| 2 | Three-up feature grid with icons in tinted tiles | Pass |  |
+| 3 | Large rounded cards with soft shadows as the main container | Pass |  |
+| 4 | Bento grids | Pass |  |
+| 5 | Logo cloud or "trusted by" strip | Pass |  |
+| 6 | Row of big unsourced numbers | Pass |  |
+| 7 | Every section the same width and rhythm, centered headings | Pass |  |
+| 8 | Dark navy or near-black hero with a bright accent | Pass | In the dark scheme the drawing turns to light lines on near-black with one yellow face, following the visitor's setting. It is not a neon look. |
+| 9 | Blob or flat-vector people, stock photos, AI images | Pass, with a note | The drawing shows parts, not people, and it is hand-authored line art, not a flat-vector scene. But isometric layered stacks are a common SaaS hero illustration. What sets this one apart is the catalog-plate treatment: line only, one yellow face, assembly lines, callouts, a hairline frame and crop marks. The owner should judge. |
+| 10 | Sparkle icon for anything AI | Pass |  |
+| 11 | Check marks in colored circles as bullets | Pass |  |
+| 12 | Eyebrow label above a heading, in any styling | Pass |  |
+| 13 | Echoes a portfolio site | Pass, closest call | Unchanged from round 1: the yellow is 9.9 from Uphill Ski CO's gold and 8.2 from Condies' yellow (the limit is 8). |
+| 14 | Looks like a template a tool would produce | Pass, with a note | See item 9. |
+
+- **Owner verdict:** 2026-11-13: **chosen**, with changes:
+  - Keep the crop marks in the hero only, not around the work screenshots (done: `a26bc83`).
+  - Test more hero options: interactive, 3D, animated, more artistic, drawing on the Art District on Santa Fe, where the owner lives. The owner allowed hero-only CSS animation with a reduced-motion guard and no JavaScript (design D14).
+
+### 2.B Cover
+
+- **Branch and PR:** `comp/r2-catalog-b`, #7 (draft)
+- **Preview:** https://deploy-preview-7--elevationcodeworks.netlify.app
+- **Typefaces, colors:** as Catalog. Text on the cover uses `--color-on-highlight`, so it stays black on yellow in both schemes; the button is black with yellow lettering (15.6:1).
+- **New brand vectors:** the hang-tag outline in the cover (inline, decorative, hidden from assistive technology; hidden on narrow screens, where it would sit behind the text).
+- **Site check:** passes; the preview built on Netlify.
+- **Structure check:** empty.
+- **Exceptions:** none.
+
+| # | Look checklist item (README "Look review") | Result | Note |
+| --- | --- | --- | --- |
+| 1 | Centered hero with headline, subhead and two buttons | Pass | The headline sits left on the cover, with one button. Not centered, not two buttons. |
+| 2 | Three-up feature grid with icons in tinted tiles | Pass |  |
+| 3 | Large rounded cards with soft shadows as the main container | Pass |  |
+| 4 | Bento grids | Pass |  |
+| 5 | Logo cloud or "trusted by" strip | Pass |  |
+| 6 | Row of big unsourced numbers | Pass |  |
+| 7 | Every section the same width and rhythm, centered headings | Pass |  |
+| 8 | Dark navy or near-black hero with a bright accent | Pass, with a note | A bright yellow cover, not a dark hero. In the dark scheme, though, the yellow cover sits on a near-black page, so it does read as a bright block on near-black there. The owner should judge. |
+| 9 | Blob or flat-vector people, stock photos, AI images | Pass |  |
+| 10 | Sparkle icon for anything AI | Pass |  |
+| 11 | Check marks in colored circles as bullets | Pass |  |
+| 12 | Eyebrow label above a heading, in any styling | Pass | The index tab is a small yellow square on the heading's own line, not a label above it. |
+| 13 | Echoes a portfolio site | Pass, closest call | Unchanged from round 1: the yellow is 9.9 from Uphill Ski CO's gold and 8.2 from Condies' yellow (the limit is 8). |
+| 14 | Looks like a template a tool would produce | Pass | A color-block cover with a big condensed headline is a known industrial and Swiss poster device, but the tilted, cropped tag outline and the printed-label frame tie it to this brand. |
+
+- **Owner verdict:** 2026-11-13: not chosen. PR #7 and its branch stay open until the round 2 cleanup, which needs the owner's OK.
+
+### Symbol options
+
+All three are in `src/assets/brand/options/`, pass the plain-vector rule (one path in `currentColor`), and appear in the round 2 sheet at 16, 32, 64 and 256 pixels in both schemes.
+
+| Option | Drawing | Motif review |
+| --- | --- | --- |
+| A. Hang tag | A shelf tag with chamfered top corners and a punched hole | Every banned motif absent. Close to a generic price-tag icon. |
+| B. Parts drawer | A hardware-store parts drawer, with a label slot and a pull | Every banned motif absent. Could read as a generic archive or drawer icon. |
+| C. ECW plate | ECW in Archivo Narrow Bold, knocked out of a nameplate | Every banned motif absent; letters, not a badge or a hexagon. The letters are legible from about 32 pixels; at 16 it reads as a plate. |
+
+The banned motifs checked for each: mountain peaks, upward arrows or chevrons, code brackets, a terminal prompt or cursor, a sparkle or four-point star, gears, lightbulbs, rockets, circuit traces, a hexagon badge, the Colorado flag's "C", the state's outline, and official signs, highway shields or agency marks.
+
+- **Owner's choice of variant and symbol:** Plate (2026-11-13). The symbol will be chosen after the hero options; Plate keeps the ECW nameplate until then.
