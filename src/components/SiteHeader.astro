@@ -91,6 +91,14 @@ function currentState(href: string): 'page' | 'true' | undefined {
     text-underline-offset: 0.4em;
   }
 
+  /* On a phone each link gets a 48px-tall hit area in the same 32px of line. */
+  @media (max-width: 40rem) {
+    nav a {
+      margin-block: calc(-1 * var(--space-2));
+      padding-block: var(--space-3);
+    }
+  }
+
   nav a:hover,
   nav a[aria-current] {
     text-decoration: underline;

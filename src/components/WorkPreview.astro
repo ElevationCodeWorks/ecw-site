@@ -14,6 +14,10 @@ const Heading = `h${level}` as 'h2' | 'h3'
 const shot =
   project.data.screenshots.find((s) => s.viewport === 'desktop') ??
   project.data.screenshots[0]
+// The listing crops every shot to 16:10 from the top, so a wider shot is
+// drawn larger than its column; ask for an image that wide.
+const zoom = Math.max(1, shot.image.width / shot.image.height / 1.6)
+const sizes = `(min-width: 80rem) ${+(27 * zoom).toFixed(1)}rem, (min-width: 40rem) ${Math.round(34 * zoom)}vw, ${Math.round(100 * zoom)}vw`
 ---
 
 <article class="preview">
@@ -22,7 +26,7 @@ const shot =
     alt={shot.alt}
     formats={['avif', 'webp']}
     widths={[480, 960, 1440]}
-    sizes="(min-width: 72rem) 36rem, 100vw"
+    sizes={sizes}
     loading={priority ? 'eager' : 'lazy'}
     fetchpriority={priority ? 'high' : 'auto'}
   />
@@ -49,8 +53,20 @@ const shot =
     padding-top: var(--space-5);
   }
 
+  /* Every plate in the catalog has one shape, cropped from the top. */
   .preview :global(img) {
+    aspect-ratio: 16 / 10;
     border: var(--border-width) solid var(--color-border);
+    height: auto;
+    object-fit: cover;
+    object-position: top center;
+    width: 100%;
+  }
+
+  /* The list closes with a hairline, like every other table. */
+  .preview:last-of-type {
+    border-bottom: var(--border-width) solid var(--color-border);
+    padding-bottom: var(--space-5);
   }
 
   .preview a {
@@ -62,8 +78,12 @@ const shot =
     max-width: 34rem;
   }
 
-  /* The name's capitals line up with the top edge of the screenshot. */
+  /*
+   * The name is set at one size whatever its heading level (h3 on Home, h2
+   * on Work), and its capitals line up with the top edge of the screenshot.
+   */
   .details > :first-child {
+    font-size: var(--text-xl);
     text-box-edge: cap alphabetic;
     text-box-trim: trim-start;
   }

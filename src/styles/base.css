@@ -67,7 +67,8 @@ h3 {
 }
 
 p,
-li {
+li,
+dd {
   max-width: var(--measure);
   text-wrap: pretty;
 }
