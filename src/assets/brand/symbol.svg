@@ -1,4 +1,4 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-  <!-- Placeholder symbol: a plain square until the comp rounds choose one. -->
-  <path fill="currentColor" d="M2 2h12v12H2z" />
+  <!-- Comp R1.C Letterhead: a postage stamp with notched perforations. -->
+  <path fill="currentColor" fill-rule="evenodd" d="M1 1 H2.3 A0.7 0.7 0 0 0 3.7 1 H4.8 A0.7 0.7 0 0 0 6.2 1 H7.3 A0.7 0.7 0 0 0 8.7 1 H9.8 A0.7 0.7 0 0 0 11.2 1 H12.3 A0.7 0.7 0 0 0 13.7 1 H15 V2.3 A0.7 0.7 0 0 0 15 3.7 V4.8 A0.7 0.7 0 0 0 15 6.2 V7.3 A0.7 0.7 0 0 0 15 8.7 V9.8 A0.7 0.7 0 0 0 15 11.2 V12.3 A0.7 0.7 0 0 0 15 13.7 V15 H13.7 A0.7 0.7 0 0 0 12.3 15 H11.2 A0.7 0.7 0 0 0 9.8 15 H8.7 A0.7 0.7 0 0 0 7.3 15 H6.2 A0.7 0.7 0 0 0 4.8 15 H3.7 A0.7 0.7 0 0 0 2.3 15 H1 V13.7 A0.7 0.7 0 0 0 1 12.3 V11.2 A0.7 0.7 0 0 0 1 9.8 V8.7 A0.7 0.7 0 0 0 1 7.3 V6.2 A0.7 0.7 0 0 0 1 4.8 V3.7 A0.7 0.7 0 0 0 1 2.3 Z M3.4 3.4 V12.6 H12.6 V3.4 Z M5 5 H11 V11 H5 Z" />
 </svg>

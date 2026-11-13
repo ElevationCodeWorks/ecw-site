@@ -52,24 +52,14 @@ const jsonLd = [
 </BaseLayout>
 
 <style>
+  /* One column: the photo sits above the letter. */
   .intro {
-    align-items: center;
     display: grid;
     gap: var(--space-6);
-    grid-template-columns: minmax(0, 20rem) minmax(0, 1fr);
   }
 
   .intro :global(img) {
-    border-radius: var(--radius);
-  }
-
-  @media (max-width: 48rem) {
-    .intro {
-      grid-template-columns: 1fr;
-    }
-
-    .intro :global(img) {
-      max-width: min(20rem, 100%);
-    }
+    border: var(--border-width) solid var(--color-border);
+    max-width: min(16rem, 100%);
   }
 </style>

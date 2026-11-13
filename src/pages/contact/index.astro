@@ -151,18 +151,20 @@ const services = await getServices()
     font-size: var(--text-sm);
   }
 
+  /* The send button is stamped, like the call to action. */
   button {
-    background: var(--color-text);
-    border: var(--border-width) solid var(--color-text);
+    background: var(--color-bg);
+    border: var(--rule-width) solid var(--color-accent);
     border-radius: var(--radius);
-    color: var(--color-bg);
+    color: var(--color-accent);
     cursor: pointer;
     font-weight: var(--weight-bold);
+    justify-self: start;
     padding: var(--space-3) var(--space-5);
   }
 
   button:hover {
-    background: var(--color-link-hover);
-    border-color: var(--color-link-hover);
+    background: var(--color-accent);
+    color: var(--color-on-accent);
   }
 </style>

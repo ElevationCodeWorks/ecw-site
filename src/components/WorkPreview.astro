@@ -37,15 +37,22 @@ const shot =
 
 <style>
   .preview {
-    /* Keep extra height (from taller sibling cards) at the bottom. */
     align-content: start;
     display: grid;
-    gap: var(--space-4);
+    gap: var(--space-3);
   }
 
   .preview :global(img) {
     border: var(--border-width) solid var(--color-border);
-    border-radius: var(--radius);
+  }
+
+  .preview a {
+    color: var(--color-text);
+    text-underline-offset: 0.2em;
+  }
+
+  .preview a:hover {
+    color: var(--color-link-hover);
   }
 
   .role {

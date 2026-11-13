@@ -2,43 +2,67 @@
  * Design tokens: the ONLY file allowed to contain color values or font-family names.
  * Every other stylesheet and component references these variables.
  *
- * This is a deliberately neutral placeholder look. The visual identity change
- * replaces these values; nothing else should need to change.
+ * Comp R1.C "Letterhead": the copy's first-person letter voice and
+ * small-business stationery. One reading column at a generous size,
+ * blue-black ink on pure white, one stamp red, and Bitter, a sturdy slab, for
+ * everything. Never cream, never italic accents, never a display serif.
  *
  * Two color schemes, chosen by the visitor's system preference. Every color
  * token is declared in :root (light) and again in the dark block below; the
  * site check fails if either value is missing. Components use role names only.
  */
+@font-face {
+  font-family: 'Bitter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('../assets/fonts/bitter/bitter-latin-wght-normal.woff2')
+    format('woff2');
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212,
+    U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Bitter Fallback';
+  src: local('Georgia');
+  ascent-override: 89.6395%;
+  descent-override: 25.4059%;
+  size-adjust: 104.3067%;
+}
+
 :root {
   color-scheme: light dark;
 
-  /* Color (light scheme) */
+  /* Color (light scheme): blue-black ink on pure white. */
   --color-bg: #ffffff;
-  --color-surface: #f4f4f5;
-  --color-text: #111111;
-  --color-text-muted: #4a4a4a;
-  --color-border: #d4d4d4;
-  --color-border-strong: #6b6b6b;
-  --color-link: #0b57d0;
-  --color-link-hover: #083f99;
-  --color-focus: #0b57d0;
-  --color-accent: #0b57d0;
+  --color-surface: #f2f2f2;
+  --color-text: #1b3a6b;
+  --color-text-muted: #4a5568;
+  --color-border: #d0d0d0;
+  --color-border-strong: #1b3a6b;
+  --color-link: #1b3a6b;
+  --color-link-hover: #a51c30;
+  --color-focus: #1b3a6b;
+  /* Stamp red: the call to action and the letterhead rule. */
+  --color-accent: #a51c30;
   --color-on-accent: #ffffff;
 
   /* Type */
-  --font-body: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-body: Bitter, 'Bitter Fallback', Georgia, serif;
   --font-heading: var(--font-body);
   --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
 
-  --text-sm: 0.875rem;
-  --text-base: 1rem;
-  --text-lg: 1.125rem;
-  --text-xl: 1.375rem;
-  --text-2xl: clamp(1.5rem, 1.2rem + 1.2vw, 1.875rem);
-  --text-3xl: clamp(1.875rem, 1.4rem + 2.2vw, 2.75rem);
+  --text-sm: 1rem;
+  --text-base: 1.1875rem;
+  --text-lg: 1.3125rem;
+  --text-xl: 1.5rem;
+  --text-2xl: clamp(1.625rem, 1.4rem + 0.8vw, 1.875rem);
+  --text-3xl: clamp(2rem, 1.6rem + 1.6vw, 2.625rem);
 
   --leading-tight: 1.2;
-  --leading-body: 1.6;
+  --leading-body: 1.65;
   --weight-normal: 400;
   --weight-bold: 700;
 
@@ -53,30 +77,31 @@
   --space-8: 4.5rem;
 
   /* Shape */
-  --radius: 2px;
+  --radius: 0;
   --border-width: 1px;
-  --focus-width: 3px;
+  --rule-width: 2px;
+  --focus-width: 2px;
   --shadow: none;
 
-  /* Layout */
-  --measure: 68ch;
-  --container: 72rem;
-  --gutter: var(--space-4);
+  /* Layout: one reading column. */
+  --measure: 64ch;
+  --container: 42rem;
+  --gutter: var(--space-5);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    /* Color (dark scheme): a plain inverted neutral placeholder. */
-    --color-bg: #121212;
+    /* Color (dark scheme): light ink on a neutral near-black. */
+    --color-bg: #131313;
     --color-surface: #1e1e1e;
-    --color-text: #ededed;
-    --color-text-muted: #b3b3b3;
-    --color-border: #3d3d3d;
-    --color-border-strong: #8f8f8f;
-    --color-link: #8ab4f8;
-    --color-link-hover: #aecbfa;
-    --color-focus: #8ab4f8;
-    --color-accent: #8ab4f8;
-    --color-on-accent: #121212;
+    --color-text: #ececec;
+    --color-text-muted: #b8b8b8;
+    --color-border: #3a3a3a;
+    --color-border-strong: #9fb3d6;
+    --color-link: #a9c1ea;
+    --color-link-hover: #f08a96;
+    --color-focus: #a9c1ea;
+    --color-accent: #e06473;
+    --color-on-accent: #131313;
   }
 }

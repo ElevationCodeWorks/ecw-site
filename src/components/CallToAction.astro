@@ -17,10 +17,10 @@ const { label, href } = Astro.props
     margin-top: var(--space-7);
   }
 
+  /* Like a rubber stamp: a stamp-red outline and lettering. */
   a {
-    border: var(--border-width) solid var(--color-text);
-    border-radius: var(--radius);
-    color: var(--color-text);
+    border: var(--rule-width) solid var(--color-accent);
+    color: var(--color-accent);
     display: inline-block;
     font-weight: var(--weight-bold);
     padding: var(--space-3) var(--space-5);
@@ -28,6 +28,7 @@ const { label, href } = Astro.props
   }
 
   a:hover {
-    background: var(--color-surface);
+    background: var(--color-accent);
+    color: var(--color-on-accent);
   }
 </style>

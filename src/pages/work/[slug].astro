@@ -155,6 +155,15 @@ const formatDate = (value: Date | string) =>
     grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
   }
 
+  .quote {
+    border-left: var(--rule-width) solid var(--color-accent);
+    padding-left: var(--space-5);
+  }
+
+  .quote blockquote {
+    font-size: var(--text-lg);
+  }
+
   .shots :global(img) {
     border: var(--border-width) solid var(--color-border);
     border-radius: var(--radius);

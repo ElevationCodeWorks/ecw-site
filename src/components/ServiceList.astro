@@ -25,14 +25,22 @@ const Heading = `h${level}` as 'h2' | 'h3'
 <style>
   .services {
     display: grid;
-    gap: var(--space-6);
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
     list-style: none;
     padding: 0;
   }
 
   li {
     border-top: var(--border-width) solid var(--color-border);
-    padding-top: var(--space-4);
+    padding: var(--space-4) 0;
+  }
+
+  li > :first-child a {
+    color: var(--color-text);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+  }
+
+  li > :first-child a:hover {
+    color: var(--color-link-hover);
   }
 </style>
