@@ -196,13 +196,13 @@ Archivo Narrow (headings) and Archivo (text), both SIL Open Font License 1.1, co
 
 ### Home hero
 
-`src/components/hero/HeroStorefront.astro` shows a client's shop drawn as a parts-catalog plate, with a drawing of each service coming out of it. Each label links to its service and reuses its title. Pointing at a label or a drawing expands it to show more detail. On load the services come out of the shop once; visitors who prefer reduced motion see them in place. The drawing is generated; to change it, edit `scripts/storefront-art.mjs` and run:
+`src/components/hero/HeroStorefront.astro` shows a client's shop drawn as a parts-catalog plate, with a drawing of each service coming out of it, and crop marks at the plate's corners. Each label links to its service and reuses its title. Pointing at a label or a drawing, or focusing a label, expands the drawing about the ring where its leader meets it, shows more detail, and marks the leader and the label, all in ink. On load the services come out of the shop one by one, then their leaders draw out to the labels, once, in under two seconds; visitors who prefer reduced motion see them in place. The drawing is generated; to change it, edit `scripts/storefront-art.mjs` and run:
 
 ```sh
 node scripts/storefront-art.mjs
 ```
 
-It writes `src/assets/brand/storefront.svg` and `src/components/hero/storefront-callouts.json`. Hero components are the one place animation is allowed, and only inside `@media (prefers-reduced-motion: no-preference)` (see `brand/animation`).
+It writes `src/assets/brand/storefront.svg` and `src/components/hero/storefront-callouts.json` (where each label sits, and how the plate is cropped to the drawing on narrow screens, where the labels are hidden). The drawing uses two pens: a heavier contour (`sil`) round each part and a fine line for everything inside it. The label gutters are never narrower than the 24% that `src/lib/og.ts` crops off each side for the social images. Hero components are the one place animation is allowed, and only inside `@media (prefers-reduced-motion: no-preference)` (see `brand/animation`).
 
 ### Adding a token
 
