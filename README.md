@@ -43,7 +43,7 @@ src/assets/fonts/             Self-hosted font files and their licenses (see Typ
 src/content/                  Page copy: services/, work/ (case studies), pages/
 src/content.config.ts         Content schemas, enforced at build time
 integrations/                 Build-time integrations (indexing headers, site check)
-scripts/                      One-off tools (release check, audit, screenshots, fonts, portfolio sampling)
+scripts/                      One-off tools (release check, audit, screenshots, fonts, portfolio sampling, hero drawing)
 site-check.config.ts          Banned patterns and thresholds for the site check
 site-check.exceptions.json    Waivers for specific site-check violations
 ```
@@ -158,6 +158,58 @@ A comp fails an item if it has:
 14. A direction that looks like a template a tool would produce
 
 Every logo symbol option is also reviewed against the banned motifs, and each one is recorded as absent: mountain peaks, upward arrows or chevrons, code brackets, a terminal prompt or cursor, a sparkle or four-point star, gears, lightbulbs, rockets, circuit traces, a hexagon badge, the Colorado flag's "C", the state's outline, and any official sign, highway shield or agency mark.
+
+## Visual identity
+
+The look is **Plate**: an industrial parts catalog set in ink on white, with one high-visibility yellow, hairline rules and condensed headings. It was chosen through three rounds of comps, recorded in `openspec/changes/visual-identity/rounds.md`. Every value lives in `src/styles/tokens.css`.
+
+### Colors
+
+Components use these roles, never raw values. Each has a light and a dark value; the dark scheme follows the visitor's system setting.
+
+| Token                   | Role                                                  | Light     | Dark      |
+| ----------------------- | ----------------------------------------------------- | --------- | --------- |
+| `--color-bg`            | Page background                                       | `#ffffff` | `#0e0e0e` |
+| `--color-surface`       | Subtle fills and the drawing's side faces             | `#f0f0f0` | `#1c1c1c` |
+| `--color-text`          | Text, rules and the symbol                            | `#0a0a0a` | `#f2f2f2` |
+| `--color-text-muted`    | Secondary text (roles, captions)                      | `#4a4a4a` | `#b5b5b5` |
+| `--color-border`        | Hairlines between rows                                | `#c8c8c8` | `#3a3a3a` |
+| `--color-border-strong` | Form fields and strong rules                          | `#0a0a0a` | `#f2f2f2` |
+| `--color-link`          | Links                                                 | `#0a0a0a` | `#f2f2f2` |
+| `--color-link-hover`    | Hovered links                                         | `#0a0a0a` | `#f2f2f2` |
+| `--color-focus`         | Focus rings                                           | `#0a0a0a` | `#f2f2f2` |
+| `--color-accent`        | Ink for edges and the header rule                     | `#0a0a0a` | `#f2f2f2` |
+| `--color-on-accent`     | Text on the accent                                    | `#ffffff` | `#0e0e0e` |
+| `--color-highlight`     | The brand yellow: buttons and one surface in the hero | `#ffdd00` | `#ffdd00` |
+| `--color-on-highlight`  | Text on the yellow                                    | `#0a0a0a` | `#0a0a0a` |
+| `--color-error`         | Rejected form entries                                 | `#b3261e` | `#ff8a80` |
+
+The yellow is a fill behind black text, never text on white. Hovered links thicken their underline; nothing turns yellow on hover.
+
+### Type
+
+Archivo Narrow (headings) and Archivo (text), both SIL Open Font License 1.1, copied from Fontsource 5.3.0 into `src/assets/fonts/archivo-narrow/` and `src/assets/fonts/archivo/` with their `LICENSE` files. Each has a metric-matched Arial fallback face in `tokens.css`, and both are preloaded (`src/lib/fonts.ts`). See [Typefaces](#typefaces) to change them.
+
+### Symbol
+
+`src/assets/brand/symbol.svg` is the ECW nameplate: ECW in Archivo Narrow Bold, knocked out of a plate, drawn in `currentColor` so it takes the color of its context. `src/components/Symbol.astro` inlines it before the wordmark in the header, hidden from assistive technology since the wordmark names the link. The favicon, the scalable icon (`/icon.svg`, which switches to dark-scheme colors), the touch icon (the nameplate on the brand yellow) and every social image are drawn from it at build time (`src/lib/icons.ts`, `src/lib/og.ts`). Keep it one color; the site check fails on gradients, filters, text elements or a second fill.
+
+### Home hero
+
+`src/components/hero/HeroStorefront.astro` shows a client's shop drawn as a parts-catalog plate, with a drawing of each service coming out of it. Each label links to its service and reuses its title. Pointing at a label or a drawing expands it to show more detail. On load the services come out of the shop once; visitors who prefer reduced motion see them in place. The drawing is generated; to change it, edit `scripts/storefront-art.mjs` and run:
+
+```sh
+node scripts/storefront-art.mjs
+```
+
+It writes `src/assets/brand/storefront.svg` and `src/components/hero/storefront-callouts.json`. Hero components are the one place animation is allowed, and only inside `@media (prefers-reduced-motion: no-preference)` (see `brand/animation`).
+
+### Adding a token
+
+1. Add it to `:root` in `src/styles/tokens.css`, and add its dark value inside the `@media (prefers-color-scheme: dark)` block. The site check fails a color token missing either value (`identity/scheme-parity`).
+2. Name it for its role (`--color-…`), not its value, and use it through `var()`. Raw colors anywhere else fail `platform/raw-value`.
+3. If it colors text, a border or a graphic on a background, add the pair to `contrastPairs` in `site-check.config.ts` (4.5 for text, 3 for everything else).
+4. Run `npm run build`: the site check measures the new pair in both schemes.
 
 ## Typefaces
 
