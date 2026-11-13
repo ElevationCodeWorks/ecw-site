@@ -86,7 +86,18 @@ The Work section SHALL contain one case study for each project: "What Can I Do?"
 
 #### Scenario: Client work labeled accurately
 - **WHEN** the "What Can I Do?" case study is opened
-- **THEN** it states that the founder was contracted by Important, Not Important to build the initial version and launch it to production, and it does not claim features added after that engagement
+- **THEN** it states that Important, Not Important brought the founder in for frontend work on the app, and that he suggested and built backend and dev-ops improvements that made it faster and more secure, and it does not claim that he built the app's first version or launched it
+
+### Requirement: Client quotes
+A case study MAY include a quote from the client. A quote SHALL appear exactly as the client gave it, marked up as a quotation, and attributed to a named person and their organization, with their role when it is known. Quotes MUST NOT be edited, shortened or paraphrased.
+
+#### Scenario: What Can I Do? quote
+- **WHEN** the "What Can I Do?" case study is opened
+- **THEN** it shows Conor Britain's quote word for word, inside a quotation, with the attribution "Conor Britain, Important, Not Important"
+
+#### Scenario: Quote without attribution
+- **WHEN** a case study's quote has no person's name or no organization
+- **THEN** the build fails and names the case study
 
 ### Requirement: Outcome claims carry a source
 Any outcome or metric stated in a case study SHALL include where it comes from and when it was measured. Unsourced metrics MUST NOT be published.
