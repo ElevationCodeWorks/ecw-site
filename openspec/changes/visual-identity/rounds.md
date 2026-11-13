@@ -291,4 +291,5 @@ Every option: the site check passes, `npm run check:structure` is empty, axe pas
 | Gallery wall | 14. Looks like a template a tool would produce | Pass, with a note | Product shots tilted in perspective are a common marketing device. Here it's a framed print with a wall label, not a device mockup. |
 | Screen print | 14. Looks like a template a tool would produce | Pass, with a note | The misregistered two-color print (the risograph look) is a current trend in design portfolios. It fits the catalog-and-print source, but it is a trend. |
 
-- **Owner's choice of hero and symbol:** pending.
+- **Owner verdict on these three (2026-11-13):** the art and animations aren't very meaningful. The owner asked to try three concepts that say something about the business (task 9.6, below).
+- **Accessibility note:** Gallery wall's sway loops forever. Moving content that starts on its own and runs longer than 5 seconds needs a way to pause it (WCAG 2.2.2), so it would have to play once and stop to ship.
