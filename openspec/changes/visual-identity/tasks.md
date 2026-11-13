@@ -124,7 +124,7 @@
 
 ## 9. Round 2: refine the chosen direction
 
-- [ ] 9.1 Build two variants of the winner on `comp/r2-<slug>-a` and `-b`. Record in `rounds.md` what each one varies. Add three symbol options under `src/assets/brand/options/`, each passing the plain-vector rule. Open the draft PRs. Verify as in 8.2, and that the motif review records every banned motif as absent for each symbol option
+- [x] 9.1 Build two variants of the winner on `comp/r2-<slug>-a` and `-b`. Record in `rounds.md` what each one varies. Add three symbol options under `src/assets/brand/options/`, each passing the plain-vector rule. Open the draft PRs. Verify as in 8.2, and that the motif review records every banned motif as absent for each symbol option
 - [ ] 9.2 Capture the round 2 sheet, including the symbol strip, and send it with the preview links. Record the owner's choice of variant and symbol, then close the losing PRs and delete their branches. Verify that the verdict is recorded and only the chosen branch remains open
 
 ## 10. Round 3: final identity
