@@ -1,16 +1,13 @@
 ---
 import type { CollectionEntry } from 'astro:content'
-import RatingMark from './RatingMark.astro'
 
 interface Props {
   services: CollectionEntry<'services'>[]
   /** Heading level for each service name, so the outline never skips. */
   level?: 2 | 3
-  /** Show each service's trail-rating mark (the Services section only). */
-  showRatings?: boolean
 }
 
-const { services, level = 2, showRatings = false } = Astro.props
+const { services, level = 2 } = Astro.props
 const Heading = `h${level}` as 'h2' | 'h3'
 ---
 
@@ -20,7 +17,6 @@ const Heading = `h${level}` as 'h2' | 'h3'
       <Heading>
         <a href={`/services/${service.id}/`}>{service.data.title}</a>
       </Heading>
-      {showRatings && <RatingMark rating={service.data.rating} />}
       <p>{service.data.summary}</p>
     </li>
   ))}

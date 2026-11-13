@@ -18,7 +18,6 @@ A look like that can't be specified up front. It has to be found in design round
   - At most two typeface families, open-licensed (owner decision 2026-11-12: free fonts only) and self-hosted.
   - A text wordmark, a drawn logo symbol, and a favicon set.
   - Restyled layout components: header, footer, Home hero, calls to action, work previews, service list, service and case study templates, and the contact form.
-- **Trail-rating marks:** green circle, blue square and black diamond in the Services section only, with a legend and a text label for every mark.
 - **Per-page social images:** generated at build time from each page's title and the design tokens. They replace the single default image.
 - **Stronger guardrails** (the site check):
   - More banned typefaces by name, including the current AI-site favorites and the portfolio sites' own fonts.
@@ -30,14 +29,15 @@ A look like that can't be specified up front. It has to be found in design round
 
 **Out of scope:**
 - **Launch:** cutover to `elevationcode.works`, analytics and Search Console.
-- **New copy or pages:** copy stays as Change 1 wrote it, apart from the rating legend and each service's rating.
+- **New copy or pages:** copy stays as Change 1 wrote it.
 - **New photography or commissioned illustration.** Stock photos and AI-generated images are never used.
 - **Paid typefaces and a manual light/dark toggle.**
+- **Trail-rating marks:** dropped by the owner on 2026-11-12. A fixed size per service could set the wrong expectations, since a project's scope depends on the client.
 
 ## Capabilities
 
 ### New Capabilities
-- `visual-identity`: the look the site presents. Covers color schemes and contrast, typefaces and how they load, the wordmark and logo symbol, site icons, which imagery is allowed, and the trail-rating marks.
+- `visual-identity`: the look the site presents. Covers color schemes and contrast, typefaces and how they load, the wordmark and logo symbol, site icons, and which imagery is allowed.
 
 ### Modified Capabilities
 
@@ -59,7 +59,6 @@ These capabilities are defined by Change 1, which must be archived before this c
 - **Code:**
   - `src/styles/tokens.css`, `src/styles/base.css`, every component, and the style blocks in page templates.
   - The `BaseLayout` head: font preloads, the `color-scheme` meta tag, icon links and the per-page social image.
-  - A `rating` field on the `services` collection, plus legend copy on the Services page.
   - New site-check rules and config, and the audit script, which gains a dark-scheme pass.
   - New build-time endpoints for social images and icons. `scripts/make-og.mjs` and `public/og/default.png` are removed.
 - **Dependencies:** `satori` for social image layout, rasterized with the `sharp` that Astro already installs. Capsize packages compute fallback font metrics. Font files and their OFL licenses are committed.
@@ -71,5 +70,4 @@ These capabilities are defined by Change 1, which must be archived before this c
 - **Owner inputs:**
   - Approval of the round 1 source material before comps are built.
   - A verdict each round.
-  - The meaning of each trail rating and which rating each service gets.
 - **Performance:** web fonts add bytes, so a font budget keeps every page within the Change 1 Lighthouse and Core Web Vitals thresholds.

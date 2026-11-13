@@ -1,7 +1,6 @@
 ---
 title: Integrations
 order: 2
-rating: blue-square
 summary: Connect payments, online stores and booking tools to your website or app, so customers can pay and book in one place.
 forWho: Businesses that take payments, sell online or book appointments, and want those tools to work with their website instead of beside it.
 included:
