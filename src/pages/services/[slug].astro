@@ -111,7 +111,7 @@ const jsonLd = [
 <style>
   /*
    * Spec rows, ruled like a catalog table: an ink rule opens it and hairlines
-   * divide the rows. Each heading sits in the same 18rem label column as the
+   * divide the rows. Each heading sits in the label column of the 3:5 split, as on the
    * Services list, on the baseline of its row's first line.
    */
   .spec {
@@ -122,8 +122,8 @@ const jsonLd = [
     align-items: baseline;
     border-bottom: var(--border-width) solid var(--color-border);
     display: grid;
-    gap: var(--space-2) var(--space-6);
-    grid-template-columns: minmax(0, 18rem) minmax(0, 1fr);
+    gap: var(--space-2) var(--split-gap);
+    grid-template-columns: var(--split);
     padding-block: var(--space-5) var(--space-6);
   }
 
