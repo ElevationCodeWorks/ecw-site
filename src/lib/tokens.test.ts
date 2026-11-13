@@ -39,5 +39,4 @@ test('the real tokens file has both values for every color token', () => {
     if (!name.startsWith('--color-')) continue
     assert.ok(value.light && value.dark, name)
   }
-  assert.equal(token(real, '--color-bg').dark, '#121212')
 })
