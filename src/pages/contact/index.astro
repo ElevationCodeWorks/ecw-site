@@ -14,13 +14,15 @@ const services = await getServices()
   description={data.seo.description}
   jsonLd={[asJsonLd(breadcrumbs([{ name: 'Contact', path: '/contact/' }]))]}
 >
-  <div class="stack">
+  <div class="page-intro">
     <h1>{data.h1}</h1>
-    {data.lede && <p class="lede">{data.lede}</p>}
-    <p>
-      Prefer email? Write to{' '}
-      <a href={`mailto:${site.publicEmail}`}>{site.publicEmail}</a>.
-    </p>
+    <div class="stack">
+      {data.lede && <p class="lede">{data.lede}</p>}
+      <p>
+        Prefer email? Write to{' '}
+        <a href={`mailto:${site.publicEmail}`}>{site.publicEmail}</a>.
+      </p>
+    </div>
   </div>
 
   {/*
@@ -106,48 +108,72 @@ const services = await getServices()
 
     <p class="data-use">{data.dataUse}</p>
 
-    <p>
+    <p class="send">
       <button type="submit">Send message</button>
     </p>
   </form>
 </BaseLayout>
 
 <style>
+  /*
+   * The form is a spec table on the page's split: an ink rule opens it and
+   * hairlines divide the rows. Each label sits in the narrow column, set
+   * like a case study's row labels, with the field's rule under it; the
+   * field fills the wide column to the body measure, its text on the
+   * label's baseline. The note on how a message is used, and the send
+   * button, follow in the wide column.
+   */
   .form {
+    border-top: var(--rule-width) solid var(--color-accent);
+    column-gap: var(--split-gap);
     display: grid;
-    gap: var(--space-5);
-    max-width: 40rem;
+    grid-template-columns: var(--split);
   }
 
   .field {
+    align-items: baseline;
+    border-bottom: var(--border-width) solid var(--color-border);
     display: grid;
-    gap: var(--space-2);
+    gap: var(--space-2) var(--split-gap);
+    grid-column: 1 / -1;
+    grid-template-columns: var(--split);
+    max-width: none;
+    padding-block: var(--space-4);
+  }
+
+  .field > :last-child {
+    max-width: var(--measure);
   }
 
   label {
+    font-family: var(--font-heading);
     font-weight: var(--weight-bold);
   }
 
   .req,
   .opt {
     color: var(--color-text-muted);
+    display: block;
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
     font-weight: var(--weight-normal);
   }
 
   /*
-   * The padding gives back whatever the border takes, so a field keeps its
-   * size and its text stays put when a rejected entry thickens the border.
+   * A field is drawn with a hairline in ink, twice as heavy while it has
+   * focus or holds a rejected entry. The padding gives back whatever the
+   * border takes, so the field keeps its size and its text stays put.
    */
   input,
   select,
   textarea {
-    --edge: 2px;
+    --edge: var(--border-width);
     appearance: none;
     background: var(--color-bg);
     border: var(--edge) solid var(--color-border-strong);
     border-radius: var(--radius);
-    padding: calc(var(--space-2) + 2px - var(--edge))
-      calc(var(--space-3) + 2px - var(--edge));
+    padding: calc(var(--space-2) + 2 * var(--border-width) - var(--edge))
+      calc(var(--space-3) + 2 * var(--border-width) - var(--edge));
     width: 100%;
   }
 
@@ -175,17 +201,19 @@ const services = await getServices()
 
   select {
     cursor: pointer;
-    padding-right: calc(var(--space-4) * 2 + 0.75em + 2px - var(--edge));
+    padding-right: calc(
+      var(--space-4) * 2 + 0.75em + 2 * var(--border-width) - var(--edge)
+    );
   }
 
   /*
    * After the visitor has tried, a rejected entry shows in the error color,
-   * and so does the rule its label states.
+   * and so does the rule under its label.
    */
   input:user-invalid,
   textarea:user-invalid,
   select:user-invalid {
-    --edge: 3px;
+    --edge: calc(2 * var(--border-width));
     border-color: var(--color-error);
   }
 
@@ -193,9 +221,30 @@ const services = await getServices()
     color: var(--color-error);
   }
 
+  /*
+   * Focus gets the site's ring, drawn lighter here (2px, 2px off the
+   * field) so it doesn't stack into a heavy block around a rejected entry.
+   */
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    outline-offset: 2px;
+    outline-width: 2px;
+  }
+
+  .data-use,
+  .send {
+    grid-column: 2;
+  }
+
   .data-use {
     color: var(--color-text-muted);
     font-size: var(--text-sm);
+    margin-top: var(--space-4);
+  }
+
+  .send {
+    margin-top: var(--space-5);
   }
 
   button {
@@ -214,5 +263,23 @@ const services = await getServices()
   button:hover {
     text-decoration: underline;
     text-decoration-thickness: 2px;
+  }
+
+  /* On a phone each label sits over its field, its rule beside it. */
+  @media (max-width: 40rem) {
+    .form,
+    .field {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .data-use,
+    .send {
+      grid-column: 1;
+    }
+
+    .req,
+    .opt {
+      display: inline;
+    }
   }
 </style>

@@ -28,7 +28,7 @@ const jsonLd = [
   description={data.seo.description}
   jsonLd={jsonLd}
 >
-  <div class="intro">
+  <div class="page-intro intro">
     <Picture
       src={founderPhoto}
       alt={data.photoAlt}
@@ -38,10 +38,12 @@ const jsonLd = [
       loading="eager"
       fetchpriority="high"
     />
-    <div class="stack">
-      <h1>{data.h1}</h1>
-      {data.lede && <p class="lede">{data.lede}</p>}
-    </div>
+    <h1>{data.h1}</h1>
+    {data.lede && (
+      <div>
+        <p class="lede">{data.lede}</p>
+      </div>
+    )}
   </div>
 
   <div class="section story">
@@ -55,16 +57,28 @@ const jsonLd = [
   /*
    * One grid for the page: the photo fills the label column of the 3:5 split (the same
    * as the service and case study pages), and the introduction and every
-   * section's text share the column beside it.
+   * section's text share the column beside it. The photo spans the
+   * headline's row and the lede's; the second row takes up whatever height
+   * the photo adds, so the lede stays under the headline.
    */
   .intro {
     align-items: start;
-    display: grid;
-    gap: var(--space-5) var(--split-gap);
-    grid-template-columns: var(--split);
+    grid-template-rows: auto 1fr;
   }
 
+  .intro > :global(picture) {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    max-width: none;
+  }
+
+  .intro > h1 {
+    grid-column: 2;
+  }
+
+  /* The photo is framed with the same hairline as the screenshots. */
   .intro :global(img) {
+    border: var(--border-width) solid var(--color-border);
     border-radius: var(--radius);
     width: 100%;
   }
@@ -72,6 +86,25 @@ const jsonLd = [
   /* The name's capitals stand level with the top of the photo. */
   .intro h1 {
     text-box: trim-start cap alphabetic;
+  }
+
+  /*
+   * Where its column can't hold the whole headline on one line (a phone,
+   * and the split's first 10rem), it would break inside the name. An empty
+   * float narrows the first line only, so the greeting takes it and the name
+   * keeps to the second. The heading's text stays one run, as written.
+   */
+  @media (width <= 26rem), (40rem < width <= 50rem) {
+    .intro > h1 {
+      text-wrap: wrap;
+    }
+
+    .intro > h1::before {
+      content: '';
+      float: right;
+      height: 1px;
+      width: calc(100% - 4em);
+    }
   }
 
   /*
@@ -145,7 +178,18 @@ const jsonLd = [
   }
 
   @media (max-width: 40rem) {
-    .intro,
+    .intro {
+      grid-template-rows: none;
+    }
+
+    .intro > :global(picture) {
+      grid-row: auto;
+    }
+
+    .intro > h1 {
+      grid-column: 1;
+    }
+
     .story {
       grid-template-columns: minmax(0, 1fr);
     }

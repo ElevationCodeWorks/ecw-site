@@ -7,15 +7,17 @@ const { data } = await getPage('contact-thanks')
 ---
 
 <BaseLayout title={data.seo.title} description={data.seo.description} noindex>
-  <div class="stack" role="status">
+  <div class="page-intro" role="status">
     <h1>{data.h1}</h1>
-    <p class="lede">
-      I'll reply {site.replyTime}, from {site.publicEmail}.
-    </p>
-    <p class="back">
-      <a href="/">Back to the home page</a>
-    </p>
+    <div>
+      <p class="lede">
+        I'll reply {site.replyTime}, from {site.publicEmail}.
+      </p>
+    </div>
   </div>
+  <p class="section back">
+    <a href="/">Back to the home page</a>
+  </p>
 </BaseLayout>
 
 <style>
@@ -24,10 +26,9 @@ const { data } = await getPage('contact-thanks')
    * fills the row, reaching a little into the gutter so its focus ring
    * clears the text.
    */
-  .stack > .back {
+  .back {
     border-block: var(--border-width) solid var(--color-border);
     border-top: var(--rule-width) solid var(--color-accent);
-    margin-top: var(--space-7);
     max-width: none;
   }
 

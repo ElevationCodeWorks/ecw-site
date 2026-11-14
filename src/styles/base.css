@@ -168,3 +168,43 @@ pre {
 .section {
   margin-top: var(--space-8);
 }
+
+/*
+ * A page's introduction, the first row of its sheet, on the page's split:
+ * the headline spans both columns, and the text under it (the lede, any
+ * prose, a line of contact details) keeps to the wide column, so it starts
+ * on the same column line as every section below. Wrap that text in one
+ * block: the block takes the body measure and its paragraphs fill it, so a
+ * lede and the prose under it end on one right edge. Below 40rem the
+ * columns stack.
+ */
+.page-intro {
+  column-gap: var(--split-gap);
+  display: grid;
+  grid-template-columns: var(--split);
+  row-gap: var(--space-5);
+}
+
+.page-intro > * {
+  grid-column: 2;
+  max-width: var(--measure);
+}
+
+.page-intro > h1 {
+  grid-column: 1 / -1;
+  max-width: none;
+}
+
+.page-intro > * p {
+  max-width: none;
+}
+
+@media (max-width: 40rem) {
+  .page-intro {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .page-intro > * {
+    grid-column: 1;
+  }
+}

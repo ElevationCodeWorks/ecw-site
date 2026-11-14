@@ -44,11 +44,13 @@ const jsonLd = [
   jsonLd={jsonLd}
 >
   <article>
-    <div class="stack">
+    <div class="page-intro">
       <h1>{data.title}</h1>
-      <p class="lede">{data.summary}</p>
-      <div class="prose">
-        <Content />
+      <div class="stack">
+        <p class="lede">{data.summary}</p>
+        <div class="prose">
+          <Content />
+        </div>
       </div>
     </div>
 

@@ -48,32 +48,35 @@ const formatDate = (value: Date | string) =>
   ]}
 >
   <article>
-    <div class="stack">
+    <div class="page-intro">
       <h1>{data.name}</h1>
-      <p class="lede">{data.description}</p>
-      <dl class="facts">
-        <div>
-          <dt>Who it serves</dt>
-          <dd>{data.audience}</dd>
-        </div>
-        <div>
-          <dt>My role</dt>
-          <dd>{data.role}</dd>
-        </div>
-        {data.client && (
-          <div>
-            <dt>Client</dt>
-            <dd>{data.client}</dd>
-          </div>
-        )}
-        <div>
-          <dt>Live site</dt>
-          <dd>
-            <a href={data.liveUrl}>{host}</a>
-          </dd>
-        </div>
-      </dl>
+      <div>
+        <p class="lede">{data.description}</p>
+      </div>
     </div>
+
+    <dl class="section facts">
+      <div>
+        <dt>Who it serves</dt>
+        <dd>{data.audience}</dd>
+      </div>
+      <div>
+        <dt>My role</dt>
+        <dd>{data.role}</dd>
+      </div>
+      {data.client && (
+        <div>
+          <dt>Client</dt>
+          <dd>{data.client}</dd>
+        </div>
+      )}
+      <div>
+        <dt>Live site</dt>
+        <dd>
+          <a href={data.liveUrl}>{host}</a>
+        </dd>
+      </div>
+    </dl>
 
     <div class="section shots">
       {data.screenshots.map((shot, index) => (
@@ -167,6 +170,15 @@ const formatDate = (value: Date | string) =>
   dd {
     margin: 0;
     max-width: var(--measure);
+  }
+
+  /*
+   * The live site's address, the table's one link: padding above and below
+   * makes it a target at least 24px tall. An inline box's padding leaves its
+   * line where it is, so the text doesn't move.
+   */
+  dd a {
+    padding-block: var(--space-1);
   }
 
   /*

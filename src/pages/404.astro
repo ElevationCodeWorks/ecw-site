@@ -12,17 +12,21 @@ const links = [
 ---
 
 <BaseLayout title={data.seo.title} description={data.seo.description} noindex>
-  <div class="stack">
+  <div class="page-intro">
     <h1>{data.h1}</h1>
-    {data.lede && <p class="lede">{data.lede}</p>}
-    <ul class="links">
-      {links.map((link) => (
-        <li>
-          <a href={link.href}>{link.label}</a>
-        </li>
-      ))}
-    </ul>
+    {data.lede && (
+      <div>
+        <p class="lede">{data.lede}</p>
+      </div>
+    )}
   </div>
+  <ul class="section links">
+    {links.map((link) => (
+      <li>
+        <a href={link.href}>{link.label}</a>
+      </li>
+    ))}
+  </ul>
 </BaseLayout>
 
 <style>
@@ -36,10 +40,6 @@ const links = [
     border-top: var(--rule-width) solid var(--color-accent);
     list-style: none;
     padding: 0;
-  }
-
-  .stack > .links {
-    margin-top: var(--space-7);
   }
 
   .links li {

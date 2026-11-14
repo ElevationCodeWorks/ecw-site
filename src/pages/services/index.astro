@@ -16,9 +16,13 @@ const { data } = page
   description={data.seo.description}
   jsonLd={[asJsonLd(breadcrumbs([{ name: 'Services', path: '/services/' }]))]}
 >
-  <div class="stack">
+  <div class="page-intro">
     <h1>{data.h1}</h1>
-    {data.lede && <p class="lede">{data.lede}</p>}
+    {data.lede && (
+      <div>
+        <p class="lede">{data.lede}</p>
+      </div>
+    )}
   </div>
   <div class="section">
     <ServiceList services={services} />
