@@ -33,8 +33,8 @@ const jsonLd = [
       src={founderPhoto}
       alt={data.photoAlt}
       formats={['avif', 'webp']}
-      widths={[320, 640, 960]}
-      sizes="(min-width: 80rem) 27rem, (min-width: 40rem) 34vw, 100vw"
+      widths={[112, 224, 336]}
+      sizes="7rem"
       loading="eager"
       fetchpriority="high"
     />
@@ -55,7 +55,7 @@ const jsonLd = [
 
 <style>
   /*
-   * One grid for the page: the photo fills the label column of the 3:5 split (the same
+   * One grid for the page: the photo sits in the label column of the 3:5 split (the same
    * as the service and case study pages), and the introduction and every
    * section's text share the column beside it. The photo spans the
    * headline's row and the lede's; the second row takes up whatever height
@@ -76,11 +76,19 @@ const jsonLd = [
     grid-column: 2;
   }
 
-  /* The photo is framed with the same hairline as the screenshots. */
+  /*
+   * The photo is a small circle in a hairline ink ring, set just off it like
+   * a mat (the owner's choice, 2026-11-13). The margin brings the ring's
+   * outer edge onto the column's edges.
+   */
   .intro :global(img) {
-    border: var(--border-width) solid var(--color-border);
-    border-radius: var(--radius);
-    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    margin: calc(var(--space-1) + var(--border-width));
+    object-fit: cover;
+    outline: var(--border-width) solid var(--color-border-strong);
+    outline-offset: var(--space-1);
+    width: 7rem;
   }
 
   /* The name's capitals stand level with the top of the photo. */
