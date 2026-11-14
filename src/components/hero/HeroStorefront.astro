@@ -109,46 +109,31 @@ const svg = drawing
   }
 
   /*
-   * A service is active while its label or its drawing is pointed at, or its
-   * label has keyboard focus. The flag reaches the drawing, its leader and
+   * A service is active while its label is pointed at or has keyboard focus;
+   * the drawing itself isn't a link, so it doesn't react on its own. The flag reaches the drawing, its leader and
    * its label through --on (0 or 1).
    */
-  .hero-art:has(.l-websites a:is(:hover, :focus-visible), .s-websites:hover) {
+  .hero-art:has(.l-websites a:is(:hover, :focus-visible)) {
     --websites: 1;
   }
 
-  .hero-art:has(
-    .l-custom-web-apps a:is(:hover, :focus-visible),
-    .s-custom-web-apps:hover
-  ) {
+  .hero-art:has(.l-custom-web-apps a:is(:hover, :focus-visible)) {
     --custom-web-apps: 1;
   }
 
-  .hero-art:has(
-    .l-ai-features a:is(:hover, :focus-visible),
-    .s-ai-features:hover
-  ) {
+  .hero-art:has(.l-ai-features a:is(:hover, :focus-visible)) {
     --ai-features: 1;
   }
 
-  .hero-art:has(
-    .l-integrations a:is(:hover, :focus-visible),
-    .s-integrations:hover
-  ) {
+  .hero-art:has(.l-integrations a:is(:hover, :focus-visible)) {
     --integrations: 1;
   }
 
-  .hero-art:has(
-    .l-care-and-rescue a:is(:hover, :focus-visible),
-    .s-care-and-rescue:hover
-  ) {
+  .hero-art:has(.l-care-and-rescue a:is(:hover, :focus-visible)) {
     --care-and-rescue: 1;
   }
 
-  .hero-art:has(
-    .l-tech-checkup a:is(:hover, :focus-visible),
-    .s-tech-checkup:hover
-  ) {
+  .hero-art:has(.l-tech-checkup a:is(:hover, :focus-visible)) {
     --tech-checkup: 1;
   }
 
@@ -311,11 +296,11 @@ const svg = drawing
   }
 
   /*
-   * On narrow screens the plate is cropped to the drawing (the margins come
+   * On phones the plate is cropped to the drawing (the margins come
    * from the generator) and the labels and crop marks are hidden, since the
    * full list of services follows further down the page.
    */
-  @media (max-width: 56rem) {
+  @media (max-width: 40rem) {
     .hero-art {
       overflow: hidden;
     }
