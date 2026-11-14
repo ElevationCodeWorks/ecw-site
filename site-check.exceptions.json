@@ -1,1 +1,8 @@
-[]
+[
+  {
+    "rule": "brand/pill-radius",
+    "file": "src/pages/about.astro",
+    "line": 86,
+    "reason": "The owner asked for the founder photo in a circular frame (2026-11-13). It is the only circle on the site."
+  }
+]
