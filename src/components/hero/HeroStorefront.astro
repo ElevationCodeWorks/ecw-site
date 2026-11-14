@@ -16,15 +16,18 @@ import { getServices } from '../../lib/services.ts'
 import callouts from './storefront-callouts.json'
 
 const services = await getServices()
-const labels = callouts.labels.map((c) => {
-  const service = services.find((s) => s.id === c.part)
-  if (!service) throw new Error(`No service "${c.part}" in the storefront`)
-  return {
-    ...c,
-    title: service.data.title,
-    href: `/services/${service.id}/`
-  }
-})
+// Keyboard order follows the drawing: clockwise from the top, as the parts come out.
+const labels = callouts.labels
+  .toSorted((a, b) => a.i - b.i)
+  .map((c) => {
+    const service = services.find((s) => s.id === c.part)
+    if (!service) throw new Error(`No service "${c.part}" in the storefront`)
+    return {
+      ...c,
+      title: service.data.title,
+      href: `/services/${service.id}/`
+    }
+  })
 const { crop } = callouts
 
 const svg = drawing
