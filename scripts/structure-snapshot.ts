@@ -19,7 +19,7 @@ import { copyTextNodes, parsePage } from '../integrations/site-check/html.ts'
 import type { SourceFile } from '../integrations/site-check/types.ts'
 
 export const BASELINE_FILE =
-  'openspec/changes/visual-identity/structure-baseline.json'
+  'openspec/changes/archive/2026-11-18-visual-identity/structure-baseline.json'
 
 export interface PageSnapshot {
   text: string[]
