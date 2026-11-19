@@ -26,14 +26,32 @@ body {
   line-height: var(--leading-body);
 }
 
+/*
+ * Light type on a dark ground looks heavier than the same type in ink, so
+ * the dark scheme draws it without the extra stem weight.
+ */
+@media (prefers-color-scheme: dark) {
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
 h1,
 h2,
 h3,
 h4 {
   font-family: var(--font-heading);
   font-weight: var(--weight-bold);
-  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-heading);
+  line-height: var(--leading-snug);
   text-wrap: balance;
+}
+
+h1,
+h2 {
+  letter-spacing: var(--tracking-display);
+  line-height: var(--leading-tight);
 }
 
 h1 {
@@ -49,24 +67,32 @@ h3 {
 }
 
 p,
-li {
+li,
+dd {
   max-width: var(--measure);
   text-wrap: pretty;
 }
 
+/* A fine rule under body links that thickens when pointed at. */
 a {
   color: var(--color-link);
   text-decoration-thickness: 1px;
-  text-underline-offset: 0.15em;
+  text-underline-offset: 0.2em;
 }
 
 a:hover {
   color: var(--color-link-hover);
+  text-decoration-thickness: 2px;
+}
+
+/* Under display type the rule sits closer, so it reads with the word. */
+:is(h1, h2, h3) a {
+  text-underline-offset: 0.14em;
 }
 
 :focus-visible {
   outline: var(--focus-width) solid var(--color-focus);
-  outline-offset: 2px;
+  outline-offset: 3px;
 }
 
 img,
@@ -141,4 +167,44 @@ pre {
 
 .section {
   margin-top: var(--space-8);
+}
+
+/*
+ * A page's introduction, the first row of its sheet, on the page's split:
+ * the headline spans both columns, and the text under it (the lede, any
+ * prose, a line of contact details) keeps to the wide column, so it starts
+ * on the same column line as every section below. Wrap that text in one
+ * block: the block takes the body measure and its paragraphs fill it, so a
+ * lede and the prose under it end on one right edge. Below 40rem the
+ * columns stack.
+ */
+.page-intro {
+  column-gap: var(--split-gap);
+  display: grid;
+  grid-template-columns: var(--split);
+  row-gap: var(--space-5);
+}
+
+.page-intro > * {
+  grid-column: 2;
+  max-width: var(--measure);
+}
+
+.page-intro > h1 {
+  grid-column: 1 / -1;
+  max-width: none;
+}
+
+.page-intro > * p {
+  max-width: none;
+}
+
+@media (max-width: 40rem) {
+  .page-intro {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .page-intro > * {
+    grid-column: 1;
+  }
 }

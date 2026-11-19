@@ -18,9 +18,13 @@ const { data } = page
   description={data.seo.description}
   jsonLd={[asJsonLd(breadcrumbs([{ name: 'Work', path: '/work/' }]))]}
 >
-  <div class="stack">
+  <div class="page-intro">
     <h1>{data.h1}</h1>
-    {data.lede && <p class="lede">{data.lede}</p>}
+    {data.lede && (
+      <div>
+        <p class="lede">{data.lede}</p>
+      </div>
+    )}
   </div>
   <div class="section projects">
     {projects.map((project, index) => (
@@ -33,7 +37,6 @@ const { data } = page
 <style>
   .projects {
     display: grid;
-    gap: var(--space-8) var(--space-6);
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 28rem), 1fr));
+    gap: var(--space-7);
   }
 </style>

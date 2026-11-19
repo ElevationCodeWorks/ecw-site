@@ -255,7 +255,8 @@ export const siteCheckConfig = {
     { fg: '--color-border-strong', bg: '--color-bg', min: 3 },
     { fg: '--color-border-strong', bg: '--color-surface', min: 3 },
     { fg: '--color-focus', bg: '--color-bg', min: 3 },
-    { fg: '--color-focus', bg: '--color-surface', min: 3 }
+    { fg: '--color-focus', bg: '--color-surface', min: 3 },
+    { fg: '--color-error', bg: '--color-bg', min: 4.5 }
   ] as { fg: string; bg: string; min: number }[],
 
   /** Size of every page's social preview image (seo spec). */

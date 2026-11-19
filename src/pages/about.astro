@@ -28,23 +28,25 @@ const jsonLd = [
   description={data.seo.description}
   jsonLd={jsonLd}
 >
-  <div class="intro">
+  <div class="page-intro intro">
     <Picture
       src={founderPhoto}
       alt={data.photoAlt}
       formats={['avif', 'webp']}
-      widths={[320, 640]}
-      sizes="(min-width: 48rem) 20rem, 100vw"
+      widths={[112, 224, 336]}
+      sizes="7rem"
       loading="eager"
       fetchpriority="high"
     />
-    <div class="stack">
-      <h1>{data.h1}</h1>
-      {data.lede && <p class="lede">{data.lede}</p>}
-    </div>
+    <h1>{data.h1}</h1>
+    {data.lede && (
+      <div>
+        <p class="lede">{data.lede}</p>
+      </div>
+    )}
   </div>
 
-  <div class="section prose">
+  <div class="section story">
     <Content />
   </div>
 
@@ -52,24 +54,164 @@ const jsonLd = [
 </BaseLayout>
 
 <style>
+  /*
+   * One grid for the page: the photo sits in the label column of the 3:5 split (the same
+   * as the service and case study pages), and the introduction and every
+   * section's text share the column beside it. The photo spans the
+   * headline's row and the lede's; the second row takes up whatever height
+   * the photo adds, so the lede stays under the headline.
+   */
   .intro {
-    align-items: center;
-    display: grid;
-    gap: var(--space-6);
-    grid-template-columns: minmax(0, 20rem) minmax(0, 1fr);
+    align-items: start;
+    grid-template-rows: auto 1fr;
   }
 
+  .intro > :global(picture) {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    max-width: none;
+  }
+
+  .intro > h1 {
+    grid-column: 2;
+  }
+
+  /*
+   * The photo is a small circle in a hairline ink ring, set just off it like
+   * a mat (the owner's choice, 2026-11-13). The margin brings the ring's
+   * outer edge onto the column's edges.
+   */
   .intro :global(img) {
-    border-radius: var(--radius);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    margin: calc(var(--space-1) + var(--border-width));
+    object-fit: cover;
+    outline: var(--border-width) solid var(--color-border-strong);
+    outline-offset: var(--space-1);
+    width: 7rem;
   }
 
-  @media (max-width: 48rem) {
-    .intro {
-      grid-template-columns: 1fr;
+  /* The name's capitals stand level with the top of the photo. */
+  .intro h1 {
+    text-box: trim-start cap alphabetic;
+  }
+
+  /*
+   * Where its column can't hold the whole headline on one line (a phone,
+   * and the split's first 10rem), it would break inside the name. An empty
+   * float narrows the first line only, so the greeting takes it and the name
+   * keeps to the second. The heading's text stays one run, as written.
+   */
+  @media (width <= 26rem), (40rem < width <= 50rem) {
+    .intro > h1 {
+      text-wrap: wrap;
     }
 
-    .intro :global(img) {
-      max-width: min(20rem, 100%);
+    .intro > h1::before {
+      content: '';
+      float: right;
+      height: 1px;
+      width: calc(100% - 4em);
+    }
+  }
+
+  /*
+   * Each section's heading hangs in the label column on the baseline of its
+   * first paragraph, under a rule drawn across both columns.
+   */
+  .story {
+    align-items: baseline;
+    border-bottom: var(--border-width) solid var(--color-border);
+    column-gap: var(--split-gap);
+    display: grid;
+    grid-template-columns: var(--split);
+    padding-bottom: var(--space-6);
+    position: relative;
+  }
+
+  .story > :global(*) {
+    grid-column: 2;
+    margin-top: var(--space-4);
+  }
+
+  .story > :global(h2) {
+    font-size: var(--text-xl);
+    grid-column: 1;
+    margin-top: var(--space-6);
+    padding-top: var(--space-5);
+  }
+
+  .story > :global(h2:first-child) {
+    margin-top: 0;
+  }
+
+  .story > :global(h2 + *) {
+    margin-top: 0;
+  }
+
+  .story > :global(h2)::before {
+    border-top: var(--border-width) solid var(--color-border);
+    content: '';
+    display: block;
+    left: 0;
+    margin-top: calc(-1 * var(--space-5));
+    position: absolute;
+    right: 0;
+  }
+
+  .story > :global(h2:first-child)::before {
+    border-top: var(--rule-width) solid var(--color-accent);
+  }
+
+  /* Lists: small ink squares hung in the column gap. */
+  .story > :global(ul) {
+    display: grid;
+    gap: var(--space-2);
+    list-style: none;
+    padding: 0;
+  }
+
+  .story > :global(ul) > :global(li) {
+    position: relative;
+  }
+
+  .story > :global(ul) > :global(li)::before {
+    background: currentColor;
+    content: '';
+    height: 0.375em;
+    left: calc(-1 * var(--space-5));
+    position: absolute;
+    top: 0.5625em;
+    width: 0.375em;
+  }
+
+  @media (max-width: 40rem) {
+    .intro {
+      grid-template-rows: none;
+    }
+
+    .intro > :global(picture) {
+      grid-row: auto;
+    }
+
+    .intro > h1 {
+      grid-column: 1;
+    }
+
+    .story {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .story > :global(*) {
+      grid-column: 1;
+    }
+
+    .story > :global(h2 + *) {
+      margin-top: var(--space-2);
+    }
+
+    .story > :global(ul) {
+      padding-left: var(--space-5);
     }
   }
 </style>

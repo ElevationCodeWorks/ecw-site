@@ -7,13 +7,46 @@ const { data } = await getPage('contact-thanks')
 ---
 
 <BaseLayout title={data.seo.title} description={data.seo.description} noindex>
-  <div class="stack" role="status">
+  <div class="page-intro" role="status">
     <h1>{data.h1}</h1>
-    <p class="lede">
-      I'll reply {site.replyTime}, from {site.publicEmail}.
-    </p>
-    <p>
-      <a href="/">Back to the home page</a>
-    </p>
+    <div>
+      <p class="lede">
+        I'll reply {site.replyTime}, from {site.publicEmail}.
+      </p>
+    </div>
   </div>
+  <p class="section back">
+    <a href="/">Back to the home page</a>
+  </p>
 </BaseLayout>
+
+<style>
+  /*
+   * The way on, set like a row of the 404 page's index of links: the link
+   * fills the row, reaching a little into the gutter so its focus ring
+   * clears the text.
+   */
+  .back {
+    border-block: var(--border-width) solid var(--color-border);
+    border-top: var(--rule-width) solid var(--color-accent);
+    max-width: none;
+  }
+
+  .back a {
+    color: var(--color-text);
+    display: block;
+    font-family: var(--font-heading);
+    font-size: var(--text-2xl);
+    font-weight: var(--weight-bold);
+    line-height: var(--leading-tight);
+    margin-inline: calc(-1 * var(--space-3));
+    padding: var(--space-4) var(--space-3);
+    text-decoration: none;
+    text-underline-offset: 0.12em;
+  }
+
+  .back a:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 0.06em;
+  }
+</style>

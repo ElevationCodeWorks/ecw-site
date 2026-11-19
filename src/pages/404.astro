@@ -12,23 +12,56 @@ const links = [
 ---
 
 <BaseLayout title={data.seo.title} description={data.seo.description} noindex>
-  <div class="stack">
+  <div class="page-intro">
     <h1>{data.h1}</h1>
-    {data.lede && <p class="lede">{data.lede}</p>}
-    <ul class="links">
-      {links.map((link) => (
-        <li>
-          <a href={link.href}>{link.label}</a>
-        </li>
-      ))}
-    </ul>
+    {data.lede && (
+      <div>
+        <p class="lede">{data.lede}</p>
+      </div>
+    )}
   </div>
+  <ul class="section links">
+    {links.map((link) => (
+      <li>
+        <a href={link.href}>{link.label}</a>
+      </li>
+    ))}
+  </ul>
 </BaseLayout>
 
 <style>
+  /*
+   * The way out, set as a short index of large links, ruled like the spec
+   * tables: an ink rule opens it, hairlines divide the rows. Each link fills
+   * its row, so the whole row is the target and the focus ring frames it;
+   * the row reaches a little into the gutter so the ring clears the text.
+   */
   .links {
-    display: grid;
-    gap: var(--space-2);
-    padding-left: var(--space-5);
+    border-top: var(--rule-width) solid var(--color-accent);
+    list-style: none;
+    padding: 0;
+  }
+
+  .links li {
+    border-bottom: var(--border-width) solid var(--color-border);
+    max-width: none;
+  }
+
+  .links a {
+    color: var(--color-text);
+    display: block;
+    font-family: var(--font-heading);
+    font-size: var(--text-2xl);
+    font-weight: var(--weight-bold);
+    line-height: var(--leading-tight);
+    margin-inline: calc(-1 * var(--space-3));
+    padding: var(--space-4) var(--space-3);
+    text-decoration: none;
+    text-underline-offset: 0.12em;
+  }
+
+  .links a:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 0.06em;
   }
 </style>
