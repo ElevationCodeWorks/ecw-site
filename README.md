@@ -2,7 +2,7 @@
 
 The marketing site for Elevation Code Works, a Denver software engineering business for small businesses. It is a fully static [Astro](https://astro.build) site hosted on Netlify. There is no server code: every page is prerendered HTML, and the contact form is handled by Netlify Forms.
 
-Planning lives in [`openspec/`](openspec/). The current specs are in `openspec/specs/`, and the change in progress is `openspec/changes/visual-identity/`.
+Planning lives in [`openspec/`](openspec/). The current specs are in `openspec/specs/`. Finished changes, with their design records, are in `openspec/changes/archive/`.
 
 ## Setup
 
@@ -21,7 +21,7 @@ npm install
 | `npm run build`           | Type-checks with `astro check`, builds the static site into `dist/`, then runs the site check. Any violation fails it.                                                                                                                                                                                    |
 | `npm run preview`         | Starts a background server for the built `dist/` and prints its URL (Astro 7 runs it in the background). Stop it with `npx astro preview stop`. Run `npm run build` first.                                                                                                                                |
 | `npm run check:site`      | Runs the site check against the existing `dist/` without rebuilding.                                                                                                                                                                                                                                      |
-| `npm run check:structure` | Builds, then compares every page's visible text, heading outline, links and JSON-LD with `openspec/changes/visual-identity/structure-baseline.json`. Exits 1 on any difference. A restyle must leave it empty.                                                                                            |
+| `npm run check:structure` | Builds, then compares every page's visible text, heading outline, links and JSON-LD with `openspec/changes/archive/2026-11-18-visual-identity/structure-baseline.json`. Exits 1 on any difference. A restyle must leave it empty.                                                                                            |
 | `npm run release-check`   | Lists every question the owner still needs to answer (`pending` markers). Exits 1 while any remain. Run before launch.                                                                                                                                                                                    |
 | `npm run audit`           | Builds in production mode, then runs Lighthouse (mobile), axe-core (WCAG 2.2 AA) and keyboard, reflow, reduced-motion and no-JavaScript checks on every page. axe and the keyboard and focus checks run in the light and the dark color scheme. Rebuilds in preview mode afterwards. Takes a few minutes. |
 | `npm test`                | Runs the unit tests (`*.test.ts`) with Node's built-in test runner.                                                                                                                                                                                                                                       |
@@ -138,7 +138,7 @@ An entry with an empty reason fails the check, and so does an entry that no long
 
 ### Look review
 
-The site check can't see everything that makes a site read as AI-generated or as Claude's house style. Before any comp, or the final identity, is shown to the owner, it is reviewed against this checklist, and the result is recorded item by item, pass or fail, with a note for every fail, in `openspec/changes/visual-identity/rounds.md`. A comp that fails an item is fixed and reviewed again, or the owner's acceptance of the fail is written into the record. The record names no employer.
+The site check can't see everything that makes a site read as AI-generated or as Claude's house style. Before any comp, or the final identity, is shown to the owner, it is reviewed against this checklist, and the result is recorded item by item, pass or fail, with a note for every fail, in `openspec/changes/archive/2026-11-18-visual-identity/rounds.md`. A comp that fails an item is fixed and reviewed again, or the owner's acceptance of the fail is written into the record. The record names no employer.
 
 A comp fails an item if it has:
 
@@ -161,7 +161,7 @@ Every logo symbol option is also reviewed against the banned motifs, and each on
 
 ## Visual identity
 
-The look is **Plate**: an industrial parts catalog set in ink on white, with one high-visibility yellow, hairline rules and condensed headings. It was chosen through three rounds of comps, recorded in `openspec/changes/visual-identity/rounds.md`. Every value lives in `src/styles/tokens.css`.
+The look is **Plate**: an industrial parts catalog set in ink on white, with one high-visibility yellow, hairline rules and condensed headings. It was chosen through three rounds of comps, recorded in `openspec/changes/archive/2026-11-18-visual-identity/rounds.md`. Every value lives in `src/styles/tokens.css`.
 
 ### Colors
 

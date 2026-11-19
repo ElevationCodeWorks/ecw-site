@@ -43,15 +43,15 @@ Every page SHALL meet the "good" Core Web Vitals thresholds in a lab run that si
 - **THEN** Largest Contentful Paint is 2.5 s or less, Cumulative Layout Shift is 0.1 or less, Total Blocking Time is 200 ms or less, and the performance, accessibility, best-practices and SEO scores are each 95 or higher
 
 ### Requirement: Accessible to keyboard and assistive technology
-Every page SHALL meet WCAG 2.2 level AA, including keyboard operation, visible focus, a skip link to the main content, labeled landmarks and sufficient contrast.
+Every page SHALL meet WCAG 2.2 level AA in both the light and the dark color scheme, including keyboard operation, visible focus, a skip link to the main content, labeled landmarks and sufficient contrast.
 
 #### Scenario: Keyboard-only visit
-- **WHEN** a visitor moves through any page using only the keyboard
+- **WHEN** a visitor moves through any page using only the keyboard, in either color scheme
 - **THEN** the first focusable element is a skip link to the main content, every interactive element can be reached and used, and the focused element is always visibly indicated
 
 #### Scenario: Automated accessibility audit
-- **WHEN** an automated WCAG 2.2 AA audit runs on each page
-- **THEN** it reports no violations
+- **WHEN** an automated WCAG 2.2 AA audit runs on each page in the light scheme and again in the dark scheme
+- **THEN** it reports no violations in either scheme
 
 #### Scenario: Images
 - **WHEN** a page shows an image that carries meaning, such as a screenshot or the founder photo
@@ -69,12 +69,16 @@ Pages SHALL reflow to a 320 CSS-pixel-wide viewport without horizontal scrolling
 - **THEN** the page shows no non-essential animation or transition
 
 ### Requirement: Visual decisions live in one replaceable layer
-All colors, typefaces, type sizes, spacing, radii, borders and shadows SHALL be defined as named design tokens in a single place. Components and pages MUST reference tokens and not raw values.
+All colors in both color schemes, typefaces and their font files, type sizes, spacing, radii, borders and shadows SHALL be defined as named design tokens in a single place. Components, pages, inline vector graphics, and generated images and icons MUST take their values from the tokens, not from raw values.
 
 #### Scenario: Changing a token
 - **WHEN** the value of a color or typeface token is changed
-- **THEN** every page reflects the change after rebuild, with no edits to content or page markup
+- **THEN** every page, social image and site icon reflects the change after rebuild, with no edits to content or page markup
+
+#### Scenario: Changing a dark-scheme value
+- **WHEN** the dark-scheme value of a color token is changed
+- **THEN** every page reflects the change in the dark scheme after rebuild, and the light scheme is unchanged
 
 #### Scenario: Raw value outside the tokens
-- **WHEN** a stylesheet or component outside the token definitions contains a literal color value or font-family name
+- **WHEN** a stylesheet, component or inline vector graphic outside the token definitions contains a literal color value or font-family name, including in a `fill` or `stroke` attribute
 - **THEN** the site check fails and names the file and line
