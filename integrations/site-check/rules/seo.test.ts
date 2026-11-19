@@ -9,7 +9,7 @@ import {
   headings,
   internalLinks,
   isCanonicalPath,
-  noindexHeaders,
+  noindexBuild,
   socialImages,
   titles
 } from './seo.ts'
@@ -122,7 +122,7 @@ test('canonical: flags missing, wrong origin and wrong page', () => {
     {
       url: `${ORIGIN}/about/`,
       source: doc('dist/about/index.html', {
-        canonical: 'https://ecw-site.netlify.app/about/'
+        canonical: 'https://ecw-site.ondigitalocean.app/about/'
       })
     }
   ])
@@ -154,19 +154,99 @@ test('internal links: flags a missing trailing slash, allows files, anchors and 
   assert.equal(isCanonicalPath('/sitemap-index.xml'), true)
 })
 
-test('noindex headers: required on non-indexable builds only', () => {
-  assert.equal(noindexHeaders(inputs({ indexable: false }), config).length, 1)
+const ROBOTS_META = '<meta name="robots" content="noindex, nofollow">'
+const robotsTxt = (content: string): SourceFile => ({
+  file: 'dist/robots.txt',
+  content
+})
+const withHead = (file: string, head: string): SourceFile => ({
+  file,
+  content: `<!doctype html>\n<html>\n<head>\n<title>T</title>\n${head}\n</head>\n<body>\n<h1>T</h1>\n</body>\n</html>\n`
+})
+
+test('noindex build: a non-production page without the robots meta tag fails', () => {
+  const result = noindexBuild(
+    inputs({
+      indexable: false,
+      html: [withHead('dist/about/index.html', '')],
+      distText: [robotsTxt('User-agent: *\nDisallow: /\n')]
+    }),
+    config
+  )
+  assert.equal(result.length, 1)
+  assert.equal(result[0].rule, 'seo/noindex-build')
+  assert.equal(result[0].file, 'dist/about/index.html')
+})
+
+test('noindex build: a non-production build with the tag and a disallow-all robots.txt passes', () => {
   assert.deepEqual(
-    noindexHeaders(
+    noindexBuild(
       inputs({
         indexable: false,
-        headers: '/*\n  X-Robots-Tag: noindex, nofollow\n'
+        html: [withHead('dist/about/index.html', ROBOTS_META)],
+        distText: [robotsTxt('User-agent: *\nDisallow: /\n')]
       }),
       config
     ),
     []
   )
-  assert.deepEqual(noindexHeaders(inputs({ indexable: true }), config), [])
+})
+
+test('noindex build: a non-production robots.txt that allows crawling fails', () => {
+  const result = noindexBuild(
+    inputs({
+      indexable: false,
+      html: [withHead('dist/about/index.html', ROBOTS_META)],
+      distText: [robotsTxt('User-agent: *\nAllow: /\n')]
+    }),
+    config
+  )
+  assert.equal(result.length, 1)
+  assert.equal(result[0].file, 'dist/robots.txt')
+})
+
+test('noindex build: a production page marked noindex fails', () => {
+  const result = noindexBuild(
+    inputs({
+      indexable: true,
+      html: [withHead('dist/about/index.html', ROBOTS_META)],
+      sitemapUrls: [`${ORIGIN}/about/`],
+      distText: [robotsTxt('User-agent: *\nAllow: /\n')]
+    }),
+    config
+  )
+  assert.equal(result.length, 1)
+  assert.equal(result[0].file, 'dist/about/index.html')
+})
+
+test('noindex build: a production build passes, and its noindex 404 is ignored', () => {
+  assert.deepEqual(
+    noindexBuild(
+      inputs({
+        indexable: true,
+        html: [
+          withHead('dist/about/index.html', ''),
+          withHead('dist/404.html', ROBOTS_META)
+        ],
+        sitemapUrls: [`${ORIGIN}/about/`],
+        distText: [robotsTxt('User-agent: *\nAllow: /\n')]
+      }),
+      config
+    ),
+    []
+  )
+})
+
+test('noindex build: a production robots.txt that disallows all fails', () => {
+  const result = noindexBuild(
+    inputs({
+      indexable: true,
+      distText: [robotsTxt('User-agent: *\nDisallow: /\n')]
+    }),
+    config
+  )
+  assert.equal(result.length, 1)
+  assert.equal(result[0].file, 'dist/robots.txt')
 })
 
 test('social meta: flags missing tags and a wrong card type, passes a full set', async () => {

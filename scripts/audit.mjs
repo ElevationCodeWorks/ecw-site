@@ -1,9 +1,9 @@
 /**
  * Integration audit (design D13): `npm run audit`
  *
- * 1. Builds the site in production mode (the artifact that ships; preview
+ * 1. Builds the site with SITE_ENV=production (the artifact that ships; other
  *    builds are noindex by design, which would fail Lighthouse's SEO audit).
- * 2. Serves dist/ locally, Netlify-style.
+ * 2. Serves dist/ locally, the way the static host does.
  * 3. Lighthouse CI on every page with the thresholds in lighthouserc.cjs.
  * 4. axe-core with WCAG 2.0/2.1/2.2 A and AA rules, at desktop and phone sizes,
  *    in the light and the dark color scheme (visual-identity design D12).
@@ -11,8 +11,8 @@
  *    both color schemes), 320px reflow, reduced motion, and rendering with
  *    JavaScript disabled. Lighthouse stays light-only: the scheme doesn't
  *    change load performance.
- * 6. Rebuilds dist/ in normal (preview) mode so an indexable build is not
- *    left behind.
+ * 6. Rebuilds dist/ without SITE_ENV so an indexable build is not left
+ *    behind.
  *
  * Writes .lighthouseci/audit-summary.json and exits 1 on any failure.
  */
@@ -59,7 +59,7 @@ function run(cmd, args, env = {}) {
 }
 
 // 1. Production-mode build.
-if (run('npm', ['run', 'build'], { CONTEXT: 'production', URL: ORIGIN })) {
+if (run('npm', ['run', 'build'], { SITE_ENV: 'production' })) {
   console.error('Production-mode build failed.')
   process.exit(1)
 }
@@ -288,7 +288,7 @@ console.table(
 )
 
 // 6. Restore a normal (non-indexable) build.
-run('npm', ['run', 'build'], { CONTEXT: '', URL: '' })
+run('npm', ['run', 'build'], { SITE_ENV: '' })
 
 console.log(failed ? '\nAUDIT FAILED' : '\nAUDIT PASSED')
 process.exit(failed ? 1 : 0)

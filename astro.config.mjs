@@ -1,7 +1,6 @@
 import { defineConfig } from 'astro/config'
 import sitemap from '@astrojs/sitemap'
 import { PRODUCTION_ORIGIN } from './src/site.config.ts'
-import { indexingHeaders } from './integrations/indexing-headers.ts'
 import { siteCheck } from './integrations/site-check/index.ts'
 
 /** Pages that must never appear in the sitemap. */
@@ -14,7 +13,6 @@ export default defineConfig({
   compressHTML: false,
   build: { format: 'directory' },
   integrations: [
-    indexingHeaders(PRODUCTION_ORIGIN),
     sitemap({
       filter: (page) =>
         !EXCLUDED_FROM_SITEMAP.some((path) => new URL(page).pathname === path)
