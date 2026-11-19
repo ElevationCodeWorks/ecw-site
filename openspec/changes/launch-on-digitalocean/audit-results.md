@@ -81,3 +81,19 @@ PageSpeed Insights' keyless API had used up its shared daily quota, so the same 
 | `/contact/` | 100 | 100 | 100 | 100 | 757 | 0 | 41 |
 
 Every category is at least 95. Lighthouse's cache insight flags the 10-second browser cache, as design D8's trade-off expected, without lowering any score.
+
+### PageSpeed Insights (owner's runs)
+
+Run by the owner on 2026-11-18 at 8:42 PM MST (2026-11-19 03:42 UTC) on `https://elevationcode.works/` with PageSpeed Insights (Lighthouse 13.6.0):
+
+- Mobile: https://pagespeed.web.dev/analysis/https-elevationcode-works/7t4rygr3nb?form_factor=mobile
+- Desktop: https://pagespeed.web.dev/analysis/https-elevationcode-works/7t4rygr3nb?form_factor=desktop
+
+**Desktop:** 100 in Performance, Accessibility, Best Practices and SEO (and 2/2 in the new Agentic Browsing checks). FCP 0.2 s, LCP 0.2 s, TBT 0 ms, CLS 0, Speed Index 0.5 s.
+
+**Field data:** none yet. Chrome's real-user report needs more visits before it shows Core Web Vitals.
+
+**Unscored insights, and why they stay:**
+- Render-blocking requests (about 100 ms): the two stylesheets, 5.5 KiB together. Not worth inlining at these scores.
+- Cache lifetimes: DigitalOcean's fixed 10-second browser cache (design D8 trade-off).
+- Security headers (CSP, HSTS, COOP, frame control, Trusted Types): a DigitalOcean static site can't send custom headers. A Content Security Policy could be added as a `<meta>` tag in a later change; frame control and HSTS need headers.
