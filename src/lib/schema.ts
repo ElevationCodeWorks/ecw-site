@@ -34,7 +34,6 @@ export function businessEntity(description: string): ProfessionalService {
     url: absolute('/'),
     description,
     slogan: site.brandLine,
-    email: site.publicEmail,
     areaServed,
     address: {
       '@type': 'PostalAddress',

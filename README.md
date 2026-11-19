@@ -365,8 +365,8 @@ If neither is present, the build fails. Matches are reported as `[redacted]` wit
 
 ## Contact form
 
-**Not working yet:** the form below still uses Netlify Forms, which doesn't exist on DigitalOcean, so messages sent through it are lost. A separate change moves it to Web3Forms. Until then the Contact page shows the email address as plain text beside the form.
+**Not working yet:** the form below still uses Netlify Forms, which doesn't exist on DigitalOcean, so messages sent through it are lost. A separate change moves it to Web3Forms. Until then the site has no working way to send a message.
 
-The form on `/contact/` is plain HTML handled by Netlify Forms. Netlify detects it at deploy time ("form detection" must stay enabled), screens each submission with Akismet, and emails `[email removed]` for every submission it considers genuine. Replying to that email goes to the visitor.
+The form on `/contact/` is plain HTML handled by Netlify Forms. Netlify detects it at deploy time ("form detection" must stay enabled), screens each submission with Akismet, and emails the owner's inbox for every submission it considers genuine. Replying to that email goes to the visitor.
 
 Submissions Akismet flags as spam send **no email**. Check **Netlify → Forms → contact → Spam submissions** now and then, and mark real inquiries as verified. If real inquiries are flagged often, switch to the function-based handler described in the design (D11).

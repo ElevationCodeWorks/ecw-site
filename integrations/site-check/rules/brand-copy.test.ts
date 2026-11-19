@@ -167,7 +167,7 @@ test('banned words: allows the brand domain and email, still flags puns', () => 
   assert.deepEqual(
     hits(
       bannedWords,
-      '<p>Email [email removed] or visit ElevationCode.works.</p>'
+      '<p>Email name@elevationcode.works or visit ElevationCode.works.</p>'
     ),
     []
   )

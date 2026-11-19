@@ -5,3 +5,5 @@ dist/
 # Tool-managed planning files and agent skills keep their own formatting.
 openspec/
 .claude/
+# DigitalOcean app specs stay in the format DigitalOcean exports and accepts.
+.do/

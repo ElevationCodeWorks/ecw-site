@@ -57,15 +57,15 @@ Every submission that passes spam screening SHALL send an email notification to 
 - **THEN** one email reaches the owner's inbox with all submitted fields, replying to it addresses the visitor's email, and the subject identifies it as an inquiry from the Elevation Code Works website
 
 ### Requirement: No message is lost
-Every submission that passes spam screening SHALL be kept in the owner's form inbox, whether or not the email notification arrives. The Contact page SHALL always show the owner's email address as plain text as an alternative to the form.
+Every submission that passes spam screening SHALL be kept in the owner's form inbox, whether or not the email notification arrives. The site SHALL NOT publish the owner's email address (owner decision 2026-11-19).
 
 #### Scenario: Notification email missing
 - **WHEN** a genuine submission's notification email is not received
 - **THEN** the submission is still available in the owner's form inbox
 
-#### Scenario: Visitor prefers email
-- **WHEN** a visitor opens the Contact page
-- **THEN** the owner's email address is shown as plain text near the form
+#### Scenario: Email address not published
+- **WHEN** any built page, including its metadata and structured data, is searched for the owner's email address
+- **THEN** it is not found
 
 ### Requirement: Confirmation sets expectations
 After submitting, the visitor SHALL land on a confirmation page that thanks them and says the owner replies within 48 hours. The confirmation page is excluded from search and the sitemap.

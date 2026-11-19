@@ -17,8 +17,6 @@ export const site = {
   location: { city: 'Denver', region: 'CO', regionName: 'Colorado' },
   /** Appended to every page title except Home. */
   titleSuffix: ' | Elevation Code Works',
-  /** Where contact-form notifications go; also shown on the Contact page. */
-  publicEmail: '[email removed]',
   /** Promised on the contact confirmation page. */
   replyTime: 'within 48 hours'
 } as const

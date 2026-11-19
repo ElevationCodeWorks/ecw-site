@@ -3,7 +3,6 @@ import BaseLayout from '../../layouts/BaseLayout.astro'
 import { getPage } from '../../lib/pages.ts'
 import { getServices } from '../../lib/services.ts'
 import { asJsonLd, breadcrumbs } from '../../lib/schema.ts'
-import { site } from '../../site.config.ts'
 
 const { data } = await getPage('contact')
 const services = await getServices()
@@ -16,13 +15,7 @@ const services = await getServices()
 >
   <div class="page-intro">
     <h1>{data.h1}</h1>
-    <div class="stack">
-      {data.lede && <p class="lede">{data.lede}</p>}
-      <p>
-        Prefer email? Write to{' '}
-        <a href={`mailto:${site.publicEmail}`}>{site.publicEmail}</a>.
-      </p>
-    </div>
+    <div class="stack">{data.lede && <p class="lede">{data.lede}</p>}</div>
   </div>
 
   {/*
