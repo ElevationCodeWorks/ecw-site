@@ -27,9 +27,9 @@
 
 ## 4. Merge and launch (design D5)
 
-- [ ] 4.1 Run `npm test`, `npm run build`, `npm run check:site` and `openspec validate launch-on-digitalocean --strict` on the branch, then merge it to `main` with the owner's OK. Verify that DigitalOcean's build for the merge commit fails at the site check's private terms, and that `elevationcode.works` still returns the November 2024 site
-- [ ] 4.2 The owner applies `.do/app.yaml` in the App Spec editor and sets `SITE_CHECK_PRIVATE_TERMS` there. Verify that the deploy's build log shows the site check passing, and that the deploy goes live
-- [ ] 4.3 Live checks on `https://elevationcode.works`:
+- [x] 4.1 Run `npm test`, `npm run build`, `npm run check:site` and `openspec validate launch-on-digitalocean --strict` on the branch, then merge it to `main` with the owner's OK. Verify that DigitalOcean's build for the merge commit fails at the site check's private terms, and that `elevationcode.works` still returns the November 2024 site
+- [x] 4.2 The owner applies `.do/app.yaml` in the App Spec editor and sets `SITE_CHECK_PRIVATE_TERMS` there. Verify that the deploy's build log shows the site check passing, and that the deploy goes live
+- [x] 4.3 Live checks on `https://elevationcode.works`:
   - each sitemap page returns 200 with no `noindex`
   - `robots.txt` allows crawling and names the sitemap
   - `/servcies` returns 404 with the not-found page
@@ -38,9 +38,9 @@
   - `/favicon.ico`, `/icon.svg`, `/apple-touch-icon.png` and a page's `og:image` return images
 
   Record each result in `audit-results.md`
-- [ ] 4.4 Record what a contact form submission does on the live site: submit one test message and note the response status, where the visitor lands, and whether anything is delivered. Verify that the result is in `audit-results.md` as input for the Web3Forms change
-- [ ] 4.5 Run PageSpeed Insights (mobile) on Home, a service page, a case study and Contact on the live site. Verify that each category is at least 95, or record the gap and its cause, for example the short cache lifetime, in `audit-results.md`
-- [ ] 4.6 Run `npm run release-check` and `openspec validate launch-on-digitalocean --strict`. Verify that both pass
+- [x] 4.4 Record what a contact form submission does on the live site: submit one test message and note the response status, where the visitor lands, and whether anything is delivered. Verify that the result is in `audit-results.md` as input for the Web3Forms change
+- [x] 4.5 Run PageSpeed Insights (mobile) on Home, a service page, a case study and Contact on the live site. Verify that each category is at least 95, or record the gap and its cause, for example the short cache lifetime, in `audit-results.md`
+- [x] 4.6 Run `npm run release-check` and `openspec validate launch-on-digitalocean --strict`. Verify that both pass
 
 ## Workflow follow-up
 
