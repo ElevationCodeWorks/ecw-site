@@ -24,16 +24,16 @@ Pages SHALL ship no client-side JavaScript. Any future exception MUST be limited
 - **WHEN** the Home, Services, a service, Work, a case study, About, Contact or not-found page is loaded
 - **THEN** the HTML references no script files and contains no inline scripts other than structured-data blocks
 
-### Requirement: Preview deployments stay out of search
-Any deployment not served from the production hostname SHALL tell search engines not to index it.
+### Requirement: Non-production builds stay out of search
+Any build not explicitly made for production SHALL mark every page `noindex, nofollow` and serve a `robots.txt` that disallows all crawling. A production build SHALL carry neither, except on pages that are always `noindex`.
 
-#### Scenario: Preview response header
-- **WHEN** any URL is requested from a preview or non-production hostname
-- **THEN** the response includes the header `X-Robots-Tag: noindex, nofollow`
+#### Scenario: Local or test build
+- **WHEN** the site is built without the production setting
+- **THEN** every page has a `noindex, nofollow` robots meta tag
 
-#### Scenario: Production response header
-- **WHEN** any indexable page is requested from the production hostname
-- **THEN** the response does not include a `noindex` directive
+#### Scenario: Production build
+- **WHEN** the site is built with the production setting
+- **THEN** no indexable page has a `noindex` robots meta tag or response header
 
 ### Requirement: Mobile performance baseline
 Every page SHALL meet the "good" Core Web Vitals thresholds in a lab run that simulates a mid-range mobile device on a slow 4G connection.
@@ -82,3 +82,21 @@ All colors in both color schemes, typefaces and their font files, type sizes, sp
 #### Scenario: Raw value outside the tokens
 - **WHEN** a stylesheet, component or inline vector graphic outside the token definitions contains a literal color value or font-family name, including in a `fill` or `stroke` attribute
 - **THEN** the site check fails and names the file and line
+
+### Requirement: Production deploys from main
+The live site SHALL be built and deployed from the `main` branch by the hosting platform, with the build running the site check. A build that fails SHALL deploy nothing, so the previous version stays live.
+
+#### Scenario: Merge to main
+- **WHEN** a commit lands on `main` and its build passes
+- **THEN** the hosting platform deploys it to the production hostname
+
+#### Scenario: Failing site check
+- **WHEN** a commit lands on `main` and the site check fails during its build
+- **THEN** no deployment is published and the production hostname keeps serving the previous version
+
+### Requirement: Hosting configuration lives in the repository
+The hosting configuration SHALL be kept in the repository: build command, output directory, runtime version, build-time variable names, error document and redirects. Secret values SHALL NOT be committed.
+
+#### Scenario: Configuration matches the live app
+- **WHEN** the hosting platform's live configuration is compared with the committed configuration
+- **THEN** they match, apart from secret values, which the committed file names but leaves empty
