@@ -1,0 +1,43 @@
+---
+/** The primary action on a page. The label must name the action. */
+interface Props {
+  label: string
+  href: string
+}
+
+const { label, href } = Astro.props
+---
+
+<p class="cta">
+  <a href={href}>{label}</a>
+</p>
+
+<style>
+  .cta {
+    margin-top: var(--space-7);
+  }
+
+  /*
+   * The yellow fill behind black text. Pointing at it underlines the label;
+   * the fill never changes.
+   */
+  a {
+    background: var(--color-highlight);
+    border: 0;
+    color: var(--color-on-highlight);
+    display: inline-block;
+    font-size: var(--text-lg);
+    font-weight: var(--weight-bold);
+    line-height: var(--leading-snug);
+    padding: var(--space-4) var(--space-6);
+    text-decoration: none;
+    text-underline-offset: 0.2em;
+  }
+
+  a:hover {
+    background: var(--color-highlight);
+    color: var(--color-on-highlight);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+  }
+</style>

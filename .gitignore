@@ -4,3 +4,11 @@
 node_modules
 dist
 .DS_Store
+.idea/
+.astro/
+.netlify/
+.lighthouseci/
+site-check.private.json
+
+# Comp screenshot sheets (visual-identity design D2)
+comps/

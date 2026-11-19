@@ -1,0 +1,107 @@
+---
+import Symbol from './Symbol.astro'
+import { nav, site } from '../site.config.ts'
+
+const path = Astro.url.pathname
+
+/** "page" for the exact page, "true" for pages inside that section. */
+function currentState(href: string): 'page' | 'true' | undefined {
+  if (path === href) return 'page'
+  if (path.startsWith(href)) return 'true'
+  return undefined
+}
+---
+
+<header class="site-header">
+  <div class="inner">
+    <a class="brand" href="/" aria-current={path === '/' ? 'page' : undefined}>
+      <Symbol class="symbol" />
+      {site.brandName}
+    </a>
+    <nav aria-label="Primary">
+      <ul>
+        {nav.map((item) => (
+          <li>
+            <a href={item.href} aria-current={currentState(item.href)}>
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  /* White, with the hairline ink rule a catalog page opens with. */
+  .site-header {
+    border-bottom: var(--rule-width) solid var(--color-accent);
+  }
+
+  .inner {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-6);
+    justify-content: space-between;
+    margin-inline: auto;
+    max-width: var(--container);
+    padding: var(--space-4) var(--gutter);
+  }
+
+  .brand {
+    align-items: center;
+    color: var(--color-text);
+    display: inline-flex;
+    font-family: var(--font-heading);
+    font-size: var(--text-xl);
+    font-weight: var(--weight-bold);
+    gap: var(--space-2);
+    letter-spacing: var(--tracking-heading);
+    line-height: var(--leading-snug);
+    text-decoration: none;
+  }
+
+  .brand :global(.symbol) {
+    flex: none;
+    height: 1.1em;
+    width: 1.1em;
+  }
+
+  /*
+   * Each link keeps a padded hit area; the list's negative margin puts the
+   * words themselves on the page's edges, right on a wide screen and left
+   * when the links wrap under the name.
+   */
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 var(--space-3);
+    list-style: none;
+    margin-inline: calc(-1 * var(--space-2));
+    padding: 0;
+  }
+
+  nav a {
+    color: var(--color-text);
+    display: block;
+    font-weight: var(--weight-bold);
+    padding: var(--space-1) var(--space-2);
+    text-decoration: none;
+    text-underline-offset: 0.4em;
+  }
+
+  /* On a phone each link gets a 48px-tall hit area in the same 32px of line. */
+  @media (max-width: 40rem) {
+    nav a {
+      margin-block: calc(-1 * var(--space-2));
+      padding-block: var(--space-3);
+    }
+  }
+
+  nav a:hover,
+  nav a[aria-current] {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+  }
+</style>
