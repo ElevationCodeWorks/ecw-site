@@ -135,19 +135,19 @@
 
 ## 10. Round 3: final identity
 
-- [ ] 10.1 Apply the chosen variant and symbol to every page and state, in both schemes:
+- [x] 10.1 Apply the chosen variant and symbol to every page and state, in both schemes:
   - The 404 and confirmation pages
   - Contact form focus and invalid states
   - Service and case study templates
 
   Delete `src/assets/brand/options/`. Verify that the site check passes, `npm run check:structure` is empty, and a look review of every page template is recorded
-- [ ] 10.2 Style the social image template and the icons for the identity. Verify by viewing the Home, a service and a case study image, plus the icons at 16, 32 and 180 px, and recording the owner's sign-off in `rounds.md`
-- [ ] 10.3 Add a "Visual identity" section to `README.md`: the token roles in both schemes, the typefaces and their licenses, how the symbol is used, and how to add a token. Verify that every file path and command it names exists and runs
-- [ ] 10.4 Send the owner the final preview, and record the final sign-off in `rounds.md`. Verify that the record shows the sign-off with its date
+- [x] 10.2 Style the social image template and the icons for the identity. Verify by viewing the Home, a service and a case study image, plus the icons at 16, 32 and 180 px, and recording the owner's sign-off in `rounds.md`
+- [x] 10.3 Add a "Visual identity" section to `README.md`: the token roles in both schemes, the typefaces and their licenses, how the symbol is used, and how to add a token. Verify that every file path and command it names exists and runs
+- [x] 10.4 Send the owner the final preview, and record the final sign-off in `rounds.md`. Verify that the record shows the sign-off with its date
 
 ## 11. Integration checks
 
-- [ ] 11.1 Run `npm run audit` on the final branch. Verify that every page meets each Lighthouse category ≥ 0.95, LCP ≤ 2500 ms, CLS ≤ 0.1 and TBT ≤ 200 ms, and that axe and the interaction checks report zero failures in both schemes. Record the results in `audit-results.md`
+- [x] 11.1 Run `npm run audit` on the final branch. Verify that every page meets each Lighthouse category ≥ 0.95, LCP ≤ 2500 ms, CLS ≤ 0.1 and TBT ≤ 200 ms, and that axe and the interaction checks report zero failures in both schemes. Record the results in `audit-results.md`
 - [ ] 11.2 Merge the final comp branch into `visual-identity`, then `visual-identity` into `astro-site-foundation`, and push. Close the remaining comp and `visual-identity` draft PRs, and delete their branches. Verify:
   - PR #1's deploy preview shows the identity in both schemes
   - `curl` checks show the icons, a per-page `og:image` and `X-Robots-Tag: noindex, nofollow`
