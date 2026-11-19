@@ -73,14 +73,14 @@ The site SHALL publish an XML sitemap, referenced from `robots.txt`, that lists 
 - **THEN** it lists Home, Services, each service page, Work, each case study, About and Contact by canonical URL, and does not list the not-found page, the contact confirmation page or any redirect source
 
 ### Requirement: Robots rules by environment
-The site SHALL serve `/robots.txt`. On the production hostname it allows crawling and references the sitemap. On any other hostname it disallows all crawling.
+The site SHALL serve `/robots.txt`. A production build allows crawling and references the sitemap. Any other build disallows all crawling.
 
 #### Scenario: Production robots
 - **WHEN** `/robots.txt` is fetched from the production hostname
 - **THEN** it allows all user agents and contains a `Sitemap:` line with the absolute sitemap URL
 
 #### Scenario: Preview robots
-- **WHEN** `/robots.txt` is fetched from a preview hostname
+- **WHEN** `/robots.txt` is fetched from any build made without the production setting, such as a local or test build
 - **THEN** it disallows all paths for all user agents
 
 ### Requirement: Business and founder structured data
@@ -114,3 +114,10 @@ A request for a path that does not exist SHALL return HTTP status 404 with a pag
 #### Scenario: Mistyped URL
 - **WHEN** a visitor requests `/servcies`
 - **THEN** the response status is 404, the body links to Home, Services, Work and Contact, and the head contains a `noindex` robots meta tag
+
+### Requirement: One public hostname
+The site SHALL be reachable for search engines and visitors only at the production hostname. Any other address the hosting platform serves the production build on SHALL redirect with HTTP 301 to the same path on the production hostname.
+
+#### Scenario: Hosting platform's own address
+- **WHEN** a page is requested from the hosting platform's default address for the app
+- **THEN** the response is a 301 redirect to the same path on `https://elevationcode.works`
