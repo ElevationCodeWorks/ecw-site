@@ -1,8 +1,8 @@
 /**
  * Screenshot sheet for a round of comps (visual-identity design D2):
  *
- *   node scripts/capture-comps.mjs <round> <name>=<preview-url> [<name>=<preview-url> …]
- *   node scripts/capture-comps.mjs 1 trailhead=https://deploy-preview-3--elevationcodeworks.netlify.app
+ *   node scripts/capture-comps.mjs <round> <name>=<url> [<name>=<url> …]
+ *   node scripts/capture-comps.mjs 1 trailhead=http://localhost:4321
  *
  * For each comp it captures Home, Services, one service page, one case study,
  * About and Contact, full-page at 1440 and 390 pixels wide, in the light and
@@ -41,21 +41,17 @@ const SCHEMES = ['light', 'dark']
 const SYMBOL_SIZES = [16, 32, 64, 256]
 const OPTIONS_DIR = 'src/assets/brand/options'
 
-/** Netlify's deploy-preview review overlay; kept out of the screenshots. */
-const NETLIFY_OVERLAY =
-  /netlify-cdp-loader|\/\.netlify\/(?:functions|scripts)\/|app\.netlify\.com\/.*(?:drawer|collab)/i
-
 const [round, ...compArgs] = process.argv.slice(2)
 if (!/^\d+$/.test(round ?? '') || compArgs.length === 0) {
   console.error(
-    'Usage: node scripts/capture-comps.mjs <round> <name>=<preview-url> [...]'
+    'Usage: node scripts/capture-comps.mjs <round> <name>=<url> [...]'
   )
   process.exit(2)
 }
 const comps = compArgs.map((arg) => {
   const [name, url] = arg.split(/=(.*)/s)
   if (!/^[a-z0-9-]+$/.test(name ?? '') || !/^https?:\/\//.test(url ?? '')) {
-    console.error(`Bad comp "${arg}". Use <name>=<preview-url>.`)
+    console.error(`Bad comp "${arg}". Use <name>=<url>.`)
     process.exit(2)
   }
   return { name, url: url.replace(/\/+$/, '') }
@@ -77,7 +73,6 @@ try {
           colorScheme: scheme,
           reducedMotion: 'reduce'
         })
-        await context.route(NETLIFY_OVERLAY, (route) => route.abort())
         const page = await context.newPage()
         for (const p of PAGES) {
           await page.goto(comp.url + p.path, { waitUntil: 'networkidle' })

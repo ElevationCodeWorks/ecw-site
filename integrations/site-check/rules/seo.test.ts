@@ -122,7 +122,7 @@ test('canonical: flags missing, wrong origin and wrong page', () => {
     {
       url: `${ORIGIN}/about/`,
       source: doc('dist/about/index.html', {
-        canonical: 'https://ecw-site.netlify.app/about/'
+        canonical: 'https://ecw-site.ondigitalocean.app/about/'
       })
     }
   ])
