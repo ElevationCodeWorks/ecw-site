@@ -14,7 +14,7 @@
 
 ## 3. App spec and Netlify hosting files (design D2, D3, D6, D7)
 
-- [ ] 3.1 Pin `engines.node` to a version App Platform's Node buildpack supports and the build runs on. Verify with `npm run build` under that version locally
+- [x] 3.1 Pin `engines.node` to a version App Platform's Node buildpack supports and the build runs on. Verify with `npm run build` under that version locally
 - [ ] 3.2 Write `.do/app.yaml` from `.do/app.before.yaml`:
   - the build command and output directory
   - `error_document: 404.html`
@@ -23,7 +23,7 @@
   - the exported `domains` block, with a `www` redirect if the export lists `www`
 
   Verify that the file parses as YAML, holds no secret value, and differs from the export only in those parts (`diff .do/app.before.yaml .do/app.yaml`)
-- [ ] 3.3 Delete `netlify.toml`. Remove the Netlify overlay filter and its comment from `scripts/capture-comps.mjs`, and the Netlify mentions from `integrations/site-check/private-terms.ts`. Rewrite the README's hosting, typefaces (cache) and private-terms notes for DigitalOcean, and add a "Reviewing a change" section (design D6) and a "Hosting" section on applying `.do/app.yaml`. Add one line to the README's "Contact form" section saying the form doesn't deliver on DigitalOcean until the Web3Forms change. Verify that `grep -rni "netlify\|CONTEXT\|_headers" --exclude-dir={node_modules,dist,.git,archive} .` finds nothing but the contact form's markup, its README section and this change's own planning files, and that `npm test` passes
+- [x] 3.3 Delete `netlify.toml`. Remove the Netlify overlay filter and its comment from `scripts/capture-comps.mjs`, and the Netlify mentions from `integrations/site-check/private-terms.ts`. Rewrite the README's hosting, typefaces (cache) and private-terms notes for DigitalOcean, and add a "Reviewing a change" section (design D6) and a "Hosting" section on applying `.do/app.yaml`. Add one line to the README's "Contact form" section saying the form doesn't deliver on DigitalOcean until the Web3Forms change. Verify that `grep -rni "netlify\|_headers"` and a case-sensitive `grep -rn "CONTEXT"` over the repository (outside `node_modules`, `dist`, `.git` and archived changes) find nothing but the contact form's markup, its README section and this change's own planning files, and that `npm test` passes
 
 ## 4. Merge and launch (design D5)
 

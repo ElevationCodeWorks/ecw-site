@@ -1,12 +1,12 @@
 # Elevation Code Works website
 
-The marketing site for Elevation Code Works, a Denver software engineering business for small businesses. It is a fully static [Astro](https://astro.build) site hosted on Netlify. There is no server code: every page is prerendered HTML, and the contact form is handled by Netlify Forms.
+The marketing site for Elevation Code Works, a Denver software engineering business for small businesses. It is a fully static [Astro](https://astro.build) site hosted on DigitalOcean App Platform. There is no server code: every page is prerendered HTML. The contact form doesn't deliver messages yet (see [Contact form](#contact-form)).
 
 Planning lives in [`openspec/`](openspec/). The current specs are in `openspec/specs/`. Finished changes, with their design records, are in `openspec/changes/archive/`.
 
 ## Setup
 
-Requirements: Node 26 (see `.nvmrc`; Node 24 also works) and npm.
+Requirements: Node 26 (see `.nvmrc`; `package.json` pins `26.x`, the line DigitalOcean builds with) and npm.
 
 ```sh
 nvm use        # or install Node 26 another way
@@ -15,18 +15,18 @@ npm install
 
 ## Scripts
 
-| Command                   | What it does                                                                                                                                                                                                                                                                                              |
-| ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `npm run dev`             | Starts the dev server at http://localhost:4321 with live reload.                                                                                                                                                                                                                                          |
-| `npm run build`           | Type-checks with `astro check`, builds the static site into `dist/`, then runs the site check. Any violation fails it.                                                                                                                                                                                    |
-| `npm run preview`         | Starts a background server for the built `dist/` and prints its URL (Astro 7 runs it in the background). Stop it with `npx astro preview stop`. Run `npm run build` first.                                                                                                                                |
-| `npm run check:site`      | Runs the site check against the existing `dist/` without rebuilding.                                                                                                                                                                                                                                      |
-| `npm run check:structure` | Builds, then compares every page's visible text, heading outline, links and JSON-LD with `openspec/changes/archive/2026-11-18-visual-identity/structure-baseline.json`. Exits 1 on any difference. A restyle must leave it empty.                                                                         |
-| `npm run release-check`   | Lists every question the owner still needs to answer (`pending` markers). Exits 1 while any remain. Run before launch.                                                                                                                                                                                    |
-| `npm run audit`           | Builds in production mode, then runs Lighthouse (mobile), axe-core (WCAG 2.2 AA) and keyboard, reflow, reduced-motion and no-JavaScript checks on every page. axe and the keyboard and focus checks run in the light and the dark color scheme. Rebuilds in preview mode afterwards. Takes a few minutes. |
-| `npm test`                | Runs the unit tests (`*.test.ts`) with Node's built-in test runner.                                                                                                                                                                                                                                       |
-| `npm run fmt`             | Formats the project with Prettier.                                                                                                                                                                                                                                                                        |
-| `npm run fmt:check`       | Checks formatting without changing files.                                                                                                                                                                                                                                                                 |
+| Command                   | What it does                                                                                                                                                                                                                                                                                                 |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `npm run dev`             | Starts the dev server at http://localhost:4321 with live reload.                                                                                                                                                                                                                                             |
+| `npm run build`           | Type-checks with `astro check`, builds the static site into `dist/`, then runs the site check. Any violation fails it.                                                                                                                                                                                       |
+| `npm run preview`         | Starts a background server for the built `dist/` and prints its URL (Astro 7 runs it in the background). Stop it with `npx astro preview stop`. Run `npm run build` first.                                                                                                                                   |
+| `npm run check:site`      | Runs the site check against the existing `dist/` without rebuilding.                                                                                                                                                                                                                                         |
+| `npm run check:structure` | Builds, then compares every page's visible text, heading outline, links and JSON-LD with `openspec/changes/archive/2026-11-18-visual-identity/structure-baseline.json`. Exits 1 on any difference. A restyle must leave it empty.                                                                            |
+| `npm run release-check`   | Lists every question the owner still needs to answer (`pending` markers). Exits 1 while any remain. Run before launch.                                                                                                                                                                                       |
+| `npm run audit`           | Builds with `SITE_ENV=production`, then runs Lighthouse (mobile), axe-core (WCAG 2.2 AA) and keyboard, reflow, reduced-motion and no-JavaScript checks on every page. axe and the keyboard and focus checks run in the light and the dark color scheme. Rebuilds without it afterwards. Takes a few minutes. |
+| `npm test`                | Runs the unit tests (`*.test.ts`) with Node's built-in test runner.                                                                                                                                                                                                                                          |
+| `npm run fmt`             | Formats the project with Prettier.                                                                                                                                                                                                                                                                           |
+| `npm run fmt:check`       | Checks formatting without changing files.                                                                                                                                                                                                                                                                    |
 
 ## Project layout
 
@@ -47,6 +47,33 @@ scripts/                      One-off tools (release check, audit, screenshots, 
 site-check.config.ts          Banned patterns and thresholds for the site check
 site-check.exceptions.json    Waivers for specific site-check violations
 ```
+
+## Hosting
+
+The site is a static site on DigitalOcean App Platform. Every push to `main` builds and deploys it: the build runs `npm run build`, site check included, and a build that fails deploys nothing, so the previous version stays live.
+
+The app's configuration is `.do/app.yaml`: the build command and output directory, the build-time variables, the 404 page and the redirects (`/about.html`, and the app's `ondigitalocean.app` address to `elevationcode.works`). `.do/app.before.yaml` is the configuration from before launch, kept for rollback.
+
+To change the configuration:
+
+1. Edit `.do/app.yaml` and review it like any other change.
+2. Apply it: in the DigitalOcean dashboard, open the app's Settings, App Spec, and paste the file in. Or, with `doctl` installed and logged in, run `doctl apps update <app-id> --spec .do/app.yaml`. Applying it starts a deploy.
+3. Secret values, such as `SITE_CHECK_PRIVATE_TERMS`, are set in the dashboard and never committed. The file names them with empty values.
+
+To roll back a bad deploy, use the app's Activity tab to redeploy an earlier deployment.
+
+## Reviewing a change
+
+There are no preview deployments, and `main` deploys straight to the live site. Before merging a change, check it locally:
+
+```sh
+npm test
+npm run build
+npm run preview   # look at it in a browser
+npm run audit     # Lighthouse, axe and the interaction checks
+```
+
+Where the look changes, capture screenshots with `scripts/capture-comps.mjs`, pointing it at the local preview URL.
 
 ## Search indexing
 
@@ -254,7 +281,7 @@ Fonts are free (SIL Open Font License), self-hosted and committed to the reposit
 6. Run `npm run build`. The site check enforces the family, file, size and preload limits, the license file and self-hosting.
 7. Once the design settles on its fonts, uninstall the Fontsource packages. The committed files are what builds use.
 
-Netlify serves everything under `/_astro/` (CSS, images and font files, all with content-hashed names) with a one-year immutable cache header (`netlify.toml`).
+Files under `/_astro/` (CSS, images and font files) have content-hashed names, so a changed file always gets a new URL. DigitalOcean sets the cache lifetime for a static site itself (24 hours at its CDN, 10 seconds in browsers, purged on every deploy), and a static site can't change it.
 
 ## Content
 
@@ -321,7 +348,7 @@ pending:
   - question: Do you have usage numbers you're comfortable publishing?
 ```
 
-Site-wide questions go in the `pending` list in `src/site.config.ts`. `npm run release-check` lists every marker and fails until none remain. Preview builds are unaffected.
+Site-wide questions go in the `pending` list in `src/site.config.ts`. `npm run release-check` lists every marker and fails until none remain. Builds are unaffected.
 
 ### Employers are never named
 
@@ -329,12 +356,14 @@ No page, metadata or structured data may name the founder's employers or include
 
 This repository is public, so that list is never committed. The site check reads it from:
 
-- the `SITE_CHECK_PRIVATE_TERMS` environment variable, a comma-separated list (set it in Netlify under Project configuration, Environment variables), or
+- the `SITE_CHECK_PRIVATE_TERMS` environment variable, a comma-separated list (the DigitalOcean app sets it as a build-time secret; see [Hosting](#hosting)), or
 - `site-check.private.json` in the project root for local builds. Git ignores this file: `{ "employerTerms": ["First term", "Second term"] }`
 
 If neither is present, the build fails. Matches are reported as `[redacted]` with their file and line, so build logs never reveal the list.
 
 ## Contact form
+
+**Not working yet:** the form below still uses Netlify Forms, which doesn't exist on DigitalOcean, so messages sent through it are lost. A separate change moves it to Web3Forms. Until then the Contact page shows the email address as plain text beside the form.
 
 The form on `/contact/` is plain HTML handled by Netlify Forms. Netlify detects it at deploy time ("form detection" must stay enabled), screens each submission with Akismet, and emails `tejen@elevationcode.works` for every submission it considers genuine. Replying to that email goes to the visitor.
 
