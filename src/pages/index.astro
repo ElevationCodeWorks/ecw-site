@@ -1,0 +1,123 @@
+---
+import { getImage } from 'astro:assets'
+import { getCollection } from 'astro:content'
+import BaseLayout from '../layouts/BaseLayout.astro'
+import CallToAction from '../components/CallToAction.astro'
+import HeroStorefront from '../components/hero/HeroStorefront.astro'
+import ServiceList from '../components/ServiceList.astro'
+import WorkPreview from '../components/WorkPreview.astro'
+import founderPhoto from '../assets/founder.jpg'
+import { getPage } from '../lib/pages.ts'
+import { getServices } from '../lib/services.ts'
+import { homeGraph } from '../lib/schema.ts'
+
+const page = await getPage('home')
+const { data } = page
+const projects = (await getCollection('work')).sort(
+  (a, b) => a.data.order - b.data.order
+)
+const services = await getServices()
+const photo = await getImage({ src: founderPhoto, width: 640, format: 'jpg' })
+---
+
+<BaseLayout
+  title={data.seo.title}
+  fullTitle={data.fullTitle}
+  description={data.seo.description}
+  jsonLd={[homeGraph(data.seo.description, photo.src)]}
+>
+  <div class="hero-grid">
+    <div class="stack hero">
+      <h1>{data.h1}</h1>
+      {data.lede && <p class="lede">{data.lede}</p>}
+    </div>
+    {data.cta && <CallToAction label={data.cta.label} href={data.cta.href} />}
+    <HeroStorefront />
+  </div>
+
+  <section class="home-section" aria-labelledby="work-heading">
+    <h2 id="work-heading">{data.workHeading}</h2>
+    <div class="projects">
+      {projects.map((project, index) => (
+        <WorkPreview project={project} level={3} priority={index === 0} />
+      ))}
+    </div>
+  </section>
+
+  <section class="home-section" aria-labelledby="services-heading">
+    <h2 id="services-heading">{data.servicesHeading}</h2>
+    <div class="services">
+      <ServiceList services={services} level={3} />
+    </div>
+  </section>
+
+  {data.cta && <CallToAction label={data.cta.label} href={data.cta.href} />}
+</BaseLayout>
+
+<style>
+  /*
+   * The headline, lede and button in the narrow column; the drawing in the
+   * wide one, on the same split as the listings below. Below 56rem the
+   * drawing moves under the button, labels and all; on a phone it hides them.
+   */
+  .hero-grid {
+    align-items: start;
+    display: grid;
+    gap: 0 var(--split-gap);
+    grid-template-columns: 1fr;
+  }
+
+  .hero h1 {
+    max-width: 24ch;
+  }
+
+  .hero .lede {
+    max-width: 52ch;
+  }
+
+  .hero-grid > :global(.hero-art) {
+    margin-top: var(--space-7);
+    max-width: 46rem;
+    width: 100%;
+  }
+
+  @media (min-width: 56rem) {
+    .hero-grid {
+      grid-template-columns: var(--split);
+    }
+
+    .hero-grid > :global(*) {
+      grid-column: 1;
+    }
+
+    .hero h1 {
+      max-width: 14ch;
+    }
+
+    .hero-grid > :global(.hero-art) {
+      align-self: center;
+      grid-column: 2;
+      grid-row: 1 / span 2;
+      margin-top: 0;
+      max-width: none;
+    }
+  }
+
+  /*
+   * Wide breaks between the hero and each section; the closing button sits
+   * close under the services, as the end of that table.
+   */
+  .home-section {
+    margin-top: var(--space-section);
+  }
+
+  .projects,
+  .services {
+    margin-top: var(--space-4);
+  }
+
+  .projects {
+    display: grid;
+    gap: var(--space-7);
+  }
+</style>

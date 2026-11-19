@@ -1,0 +1,210 @@
+/*
+ * Reset and element defaults. Uses design tokens only: no color values or
+ * font-family names belong in this file (see tokens.css).
+ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: var(--weight-normal);
+  line-height: var(--leading-body);
+}
+
+/*
+ * Light type on a dark ground looks heavier than the same type in ink, so
+ * the dark scheme draws it without the extra stem weight.
+ */
+@media (prefers-color-scheme: dark) {
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-heading);
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-heading);
+  line-height: var(--leading-snug);
+  text-wrap: balance;
+}
+
+h1,
+h2 {
+  letter-spacing: var(--tracking-display);
+  line-height: var(--leading-tight);
+}
+
+h1 {
+  font-size: var(--text-3xl);
+}
+
+h2 {
+  font-size: var(--text-2xl);
+}
+
+h3 {
+  font-size: var(--text-xl);
+}
+
+p,
+li,
+dd {
+  max-width: var(--measure);
+  text-wrap: pretty;
+}
+
+/* A fine rule under body links that thickens when pointed at. */
+a {
+  color: var(--color-link);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+a:hover {
+  color: var(--color-link-hover);
+  text-decoration-thickness: 2px;
+}
+
+/* Under display type the rule sits closer, so it reads with the word. */
+:is(h1, h2, h3) a {
+  text-underline-offset: 0.14em;
+}
+
+:focus-visible {
+  outline: var(--focus-width) solid var(--color-focus);
+  outline-offset: 3px;
+}
+
+img,
+picture,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+input,
+select,
+textarea,
+button {
+  font: inherit;
+  color: inherit;
+}
+
+code,
+kbd,
+samp,
+pre {
+  font-family: var(--font-mono);
+}
+
+/* Visible only to assistive technology until focused (used by the skip link). */
+.visually-hidden:not(:focus):not(:active) {
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Layout helpers (tokens only). */
+.stack > * + * {
+  margin-top: var(--space-5);
+}
+
+.stack-tight > * + * {
+  margin-top: var(--space-2);
+}
+
+.lede {
+  color: var(--color-text-muted);
+  font-size: var(--text-lg);
+}
+
+.prose > * + * {
+  margin-top: var(--space-4);
+}
+
+.prose h2 {
+  margin-top: var(--space-7);
+}
+
+.prose ul {
+  padding-left: var(--space-5);
+}
+
+.section {
+  margin-top: var(--space-8);
+}
+
+/*
+ * A page's introduction, the first row of its sheet, on the page's split:
+ * the headline spans both columns, and the text under it (the lede, any
+ * prose, a line of contact details) keeps to the wide column, so it starts
+ * on the same column line as every section below. Wrap that text in one
+ * block: the block takes the body measure and its paragraphs fill it, so a
+ * lede and the prose under it end on one right edge. Below 40rem the
+ * columns stack.
+ */
+.page-intro {
+  column-gap: var(--split-gap);
+  display: grid;
+  grid-template-columns: var(--split);
+  row-gap: var(--space-5);
+}
+
+.page-intro > * {
+  grid-column: 2;
+  max-width: var(--measure);
+}
+
+.page-intro > h1 {
+  grid-column: 1 / -1;
+  max-width: none;
+}
+
+.page-intro > * p {
+  max-width: none;
+}
+
+@media (max-width: 40rem) {
+  .page-intro {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .page-intro > * {
+    grid-column: 1;
+  }
+}

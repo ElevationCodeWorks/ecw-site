@@ -1,0 +1,26 @@
+# Netlify configuration (design D2, D4, D11).
+# The site is fully static: Netlify runs the build and serves dist/.
+# Contact submissions are handled by Netlify Forms (form detection must be
+# enabled in the Netlify UI). Search indexing headers are written per build
+# into dist/_headers by integrations/indexing-headers.ts.
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "26"
+
+# Legacy URL from the previous site.
+[[redirects]]
+  from = "/about.html"
+  to = "/about/"
+  status = 301
+  force = true
+
+# Built assets (CSS, images, font files) have content-hashed names, so they
+# never change at a given URL (visual-identity design D6).
+[[headers]]
+  for = "/_astro/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
