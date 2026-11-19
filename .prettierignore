@@ -1,7 +1,6 @@
 package-lock.json
 dist/
 .astro/
-.netlify/
 .lighthouseci/
 # Tool-managed planning files and agent skills keep their own formatting.
 openspec/

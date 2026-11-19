@@ -6,7 +6,6 @@ dist
 .DS_Store
 .idea/
 .astro/
-.netlify/
 .lighthouseci/
 site-check.private.json
 

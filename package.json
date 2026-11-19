@@ -4,7 +4,7 @@
   "type": "module",
   "description": "Elevation Code Works website",
   "engines": {
-    "node": ">=24"
+    "node": "26.x"
   },
   "scripts": {
     "dev": "astro dev",

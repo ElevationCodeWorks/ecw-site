@@ -4,8 +4,8 @@
  * terms are never committed. Sources, in order:
  *
  * 1. The SITE_CHECK_PRIVATE_TERMS environment variable: a comma-separated
- *    list, e.g. "First Term,Second Term". Set it in Netlify's environment
- *    variables for builds there.
+ *    list, e.g. "First Term,Second Term". The DigitalOcean app sets it as a
+ *    build-time secret (.do/app.yaml).
  * 2. site-check.private.json in the project root (git-ignored), for local
  *    builds: { "employerTerms": ["First Term", "Second Term"] }
  *

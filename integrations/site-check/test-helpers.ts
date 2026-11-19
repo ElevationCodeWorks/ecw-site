@@ -14,7 +14,6 @@ export function inputs(overrides: Partial<CheckInputs> = {}): CheckInputs {
     distCss: [],
     distImages: [],
     tokensFile: 'src/styles/tokens.css',
-    headers: null,
     sitemapUrls: [],
     indexable: false,
     productionOrigin: 'https://elevationcode.works',

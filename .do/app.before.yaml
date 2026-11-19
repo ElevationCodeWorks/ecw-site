@@ -1,0 +1,26 @@
+alerts:
+- rule: DEPLOYMENT_FAILED
+- rule: DOMAIN_FAILED
+domains:
+- domain: elevationcode.works
+  type: PRIMARY
+  zone: elevationcode.works
+features:
+- buildpack-stack=ubuntu-22
+ingress:
+  rules:
+  - component:
+      name: ecw-site
+    match:
+      path:
+        prefix: /
+name: king-prawn-app
+region: nyc
+static_sites:
+- environment_slug: node-js
+  github:
+    branch: main
+    repo: ElevationCodeWorks/ecw-site
+  name: ecw-site
+  output_dir: ./
+  source_dir: /
