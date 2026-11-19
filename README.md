@@ -58,7 +58,7 @@ To change the configuration:
 
 1. Edit `.do/app.yaml` and review it like any other change.
 2. Apply it: in the DigitalOcean dashboard, open the app's Settings, App Spec, and paste the file in. Or, with `doctl` installed and logged in, run `doctl apps update <app-id> --spec .do/app.yaml`. Applying it starts a deploy.
-3. Secret values, such as `SITE_CHECK_PRIVATE_TERMS`, are set in the dashboard and never committed. The file names them with empty values.
+3. Secret values, such as `SITE_CHECK_PRIVATE_TERMS`, are never committed: the file names them with empty values. After pasting the file into the App Spec editor, enter each secret's value there before saving. If one is left empty, the build fails at the site check and nothing deploys.
 
 To roll back a bad deploy, use the app's Activity tab to redeploy an earlier deployment.
 

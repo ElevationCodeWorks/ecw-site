@@ -3,7 +3,7 @@
 ## 1. Inputs and branch
 
 - [x] 1.1 Create the branch `launch-on-digitalocean` from `main`. Verify that `git log -1 main` is the PR #1 merge or later, and that `elevationcode.works` still returns the November 2024 site (`curl -sI` shows `last-modified: Fri, 22 Nov 2024`)
-- [ ] 1.2 Ask the owner to export the live app spec (DigitalOcean dashboard, the app's Settings, App Spec) and commit it unchanged as `.do/app.before.yaml`. Verify that the file names the static site component, its domains and region, and that it holds no plain-text secret values
+- [x] 1.2 Ask the owner to export the live app spec (DigitalOcean dashboard, the app's Settings, App Spec) and commit it unchanged as `.do/app.before.yaml`. Verify that the file names the static site component, its domains and region, and that it holds no plain-text secret values
 
 ## 2. Host-neutral indexing (design D1, D4)
 
@@ -15,7 +15,7 @@
 ## 3. App spec and Netlify hosting files (design D2, D3, D6, D7)
 
 - [x] 3.1 Pin `engines.node` to a version App Platform's Node buildpack supports and the build runs on. Verify with `npm run build` under that version locally
-- [ ] 3.2 Write `.do/app.yaml` from `.do/app.before.yaml`:
+- [x] 3.2 Write `.do/app.yaml` from `.do/app.before.yaml`:
   - the build command and output directory
   - `error_document: 404.html`
   - `SITE_ENV=production`, and `SITE_CHECK_PRIVATE_TERMS` as an empty `SECRET`

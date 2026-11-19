@@ -103,4 +103,4 @@ D5 is the plan. In short: merge with the build still failing, apply the app spec
 
 ## Open Questions
 
-- Whether the live app also serves `www.elevationcode.works`. The exported spec's `domains` block answers it; if it does, `www` gets the same 301 as the starter address.
+None left. Whether the live app also serves `www.elevationcode.works` was answered by the exported spec (task 1.2, 2026-11-18): its only domain is `elevationcode.works`, so no `www` rule is needed.
