@@ -88,11 +88,7 @@ export async function loadInputs(options: LoadOptions): Promise<CheckInputs> {
 
   const distText = await readSources(
     root,
-    distFiles.filter(
-      (f) =>
-        DIST_TEXT_EXTENSIONS.has(path.extname(f)) ||
-        path.basename(f) === '_headers'
-    )
+    distFiles.filter((f) => DIST_TEXT_EXTENSIONS.has(path.extname(f)))
   )
   const html = distText.filter((f) => f.file.endsWith('.html'))
 
@@ -108,8 +104,6 @@ export async function loadInputs(options: LoadOptions): Promise<CheckInputs> {
     ...cssFiles.map((f) => ({ file: f.file, css: f.content, lineOffset: 0 })),
     ...astro.flatMap(astroStyleBlocks)
   ]
-
-  const headersFile = distText.find((f) => f.file === 'dist/_headers')
 
   const brandSvg = [
     ...(await readSources(
@@ -163,7 +157,6 @@ export async function loadInputs(options: LoadOptions): Promise<CheckInputs> {
       .filter((f) => IMAGE_EXTENSION.test(f))
       .map((f) => path.relative(root, f).split(path.sep).join('/')),
     tokensFile: options.tokensFile ?? 'src/styles/tokens.css',
-    headers: headersFile ? headersFile.content : null,
     sitemapUrls: sitemapPageUrls(distText),
     indexable: options.indexable,
     productionOrigin: options.productionOrigin

@@ -1,26 +1,21 @@
 /**
- * Decides at build time whether search engines may index this build (design D3).
+ * Decides at build time whether search engines may index this build
+ * (site-platform spec, "Non-production builds stay out of search").
  *
- * Netlify sets CONTEXT (production | deploy-preview | branch-deploy | dev) and
- * URL (the site's main address) during builds. A build is indexable only when it
- * is a production build whose main address is the canonical production host.
- * Everything else, including local builds with no Netlify variables, is not.
+ * A build is indexable only when SITE_ENV is exactly "production". The
+ * DigitalOcean app sets it as a build-time variable (.do/app.yaml). Every
+ * other build, including local builds and tests, leaves it unset and is
+ * marked noindex.
  */
 export interface DeployEnv {
-  CONTEXT?: string
-  URL?: string
+  SITE_ENV?: string
 }
 
-export function isIndexable(env: DeployEnv, productionOrigin: string): boolean {
-  if (env.CONTEXT !== 'production' || !env.URL) return false
-  try {
-    return new URL(env.URL).host === new URL(productionOrigin).host
-  } catch {
-    return false
-  }
+export function isIndexable(env: DeployEnv): boolean {
+  return env.SITE_ENV === 'production'
 }
 
 /** Reads the current process environment. */
 export function currentDeployEnv(): DeployEnv {
-  return { CONTEXT: process.env.CONTEXT, URL: process.env.URL }
+  return { SITE_ENV: process.env.SITE_ENV }
 }

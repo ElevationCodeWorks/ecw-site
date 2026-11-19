@@ -2,9 +2,9 @@ import type { APIRoute } from 'astro'
 import { currentDeployEnv, isIndexable } from '../lib/env.ts'
 import { PRODUCTION_ORIGIN } from '../site.config.ts'
 
-/** Prerendered robots.txt: open on the production host, closed everywhere else. */
+/** Prerendered robots.txt: open in a production build, closed in every other build. */
 export const GET: APIRoute = () => {
-  const body = isIndexable(currentDeployEnv(), PRODUCTION_ORIGIN)
+  const body = isIndexable(currentDeployEnv())
     ? [
         'User-agent: *',
         'Allow: /',

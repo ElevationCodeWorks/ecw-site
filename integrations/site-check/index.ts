@@ -7,7 +7,7 @@ import { runSiteCheck } from './runner.ts'
 /**
  * Runs the site check after every build (design D7). Any violation fails the
  * build; a clean run is silent. Register it after integrations that write
- * build output it inspects (such as `_headers`).
+ * build output it inspects.
  */
 export function siteCheck(options: {
   productionOrigin: string
@@ -23,7 +23,7 @@ export function siteCheck(options: {
         const violations = await runSiteCheck({
           root,
           productionOrigin: options.productionOrigin,
-          indexable: isIndexable(currentDeployEnv(), options.productionOrigin)
+          indexable: isIndexable(currentDeployEnv())
         })
         if (violations.length === 0) return
         for (const line of formatViolations(violations)) logger.error(line)

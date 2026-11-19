@@ -30,7 +30,7 @@ export interface CssSource {
 export interface CheckInputs {
   /** Built pages in dist/. */
   html: SourceFile[]
-  /** Every text file in dist/ (HTML, XML, TXT, JSON, SVG, _headers). */
+  /** Every text file in dist/ (HTML, XML, TXT, JSON, SVG). */
   distText: SourceFile[]
   /** CSS from src/ (.css files and .astro <style> blocks), tokens included. */
   css: CssSource[]
@@ -48,11 +48,9 @@ export interface CheckInputs {
   distImages: DistImage[]
   /** Project-relative path of the design tokens file. */
   tokensFile: string
-  /** Contents of dist/_headers, or null when absent. */
-  headers: string | null
   /** Page URLs listed in the built sitemap. */
   sitemapUrls: string[]
-  /** Whether this build may be indexed (design D3). */
+  /** Whether this build may be indexed (SITE_ENV=production, src/lib/env.ts). */
   indexable: boolean
   productionOrigin: string
 }

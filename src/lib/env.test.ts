@@ -2,55 +2,20 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { isIndexable } from './env.ts'
 
-const ORIGIN = 'https://elevationcode.works'
-
-test('production context on the production host is indexable', () => {
-  assert.equal(
-    isIndexable(
-      { CONTEXT: 'production', URL: 'https://elevationcode.works' },
-      ORIGIN
-    ),
-    true
-  )
+test('SITE_ENV=production is indexable', () => {
+  assert.equal(isIndexable({ SITE_ENV: 'production' }), true)
 })
 
-test('production context on *.netlify.app is not indexable', () => {
-  assert.equal(
-    isIndexable(
-      { CONTEXT: 'production', URL: 'https://ecw-site.netlify.app' },
-      ORIGIN
-    ),
-    false
-  )
+test('no SITE_ENV (local build) is not indexable', () => {
+  assert.equal(isIndexable({}), false)
 })
 
-test('branch deploy is not indexable', () => {
-  assert.equal(
-    isIndexable(
-      { CONTEXT: 'branch-deploy', URL: 'https://elevationcode.works' },
-      ORIGIN
-    ),
-    false
-  )
+test('an empty SITE_ENV is not indexable', () => {
+  assert.equal(isIndexable({ SITE_ENV: '' }), false)
 })
 
-test('deploy preview is not indexable', () => {
-  assert.equal(
-    isIndexable(
-      { CONTEXT: 'deploy-preview', URL: 'https://elevationcode.works' },
-      ORIGIN
-    ),
-    false
-  )
-})
-
-test('no Netlify variables (local build) is not indexable', () => {
-  assert.equal(isIndexable({}, ORIGIN), false)
-})
-
-test('a malformed URL is not indexable', () => {
-  assert.equal(
-    isIndexable({ CONTEXT: 'production', URL: 'not a url' }, ORIGIN),
-    false
-  )
+test('any other SITE_ENV value is not indexable', () => {
+  for (const value of ['preview', 'staging', 'Production', ' production']) {
+    assert.equal(isIndexable({ SITE_ENV: value }), false, value)
+  }
 })
