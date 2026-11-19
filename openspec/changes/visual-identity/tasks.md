@@ -148,12 +148,12 @@
 ## 11. Integration checks
 
 - [x] 11.1 Run `npm run audit` on the final branch. Verify that every page meets each Lighthouse category ≥ 0.95, LCP ≤ 2500 ms, CLS ≤ 0.1 and TBT ≤ 200 ms, and that axe and the interaction checks report zero failures in both schemes. Record the results in `audit-results.md`
-- [ ] 11.2 Merge the final comp branch into `visual-identity`, then `visual-identity` into `astro-site-foundation`, and push. Close the remaining comp and `visual-identity` draft PRs, and delete their branches. Verify:
+- [x] 11.2 Merge the final comp branch into `visual-identity`, then `visual-identity` into `astro-site-foundation`, and push. Close the remaining comp and `visual-identity` draft PRs, and delete their branches. Verify:
   - PR #1's deploy preview shows the identity in both schemes
   - `curl` checks show the icons, a per-page `og:image` and `X-Robots-Tag: noindex, nofollow`
   - `gh pr list` shows only PR #1
   - Nothing was merged to `main`
-- [ ] 11.3 Run `npm run release-check` and `openspec validate visual-identity --strict`. Verify that validation passes and that the release check fails only on owner inputs that are still pending. Share that list with the owner
+- [x] 11.3 Run `npm run release-check` and `openspec validate visual-identity --strict`. Verify that validation passes and that the release check fails only on owner inputs that are still pending. Share that list with the owner
 
 ## Workflow follow-up
 
