@@ -1,5 +1,5 @@
 /**
- * Minimal static server for audits, close to how Netlify serves dist/:
+ * Minimal static server for audits, close to how the static host serves dist/:
  * directories serve their index.html, unknown paths get 404.html with status
  * 404, and text responses are gzip-compressed when the client accepts it.
  */

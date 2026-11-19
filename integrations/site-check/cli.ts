@@ -19,7 +19,7 @@ if (!existsSync(path.join(root, 'dist'))) {
 const violations = await runSiteCheck({
   root,
   productionOrigin: PRODUCTION_ORIGIN,
-  indexable: isIndexable(currentDeployEnv(), PRODUCTION_ORIGIN)
+  indexable: isIndexable(currentDeployEnv())
 })
 
 if (violations.length > 0) {

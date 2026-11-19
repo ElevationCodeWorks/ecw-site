@@ -212,20 +212,81 @@ export const internalLinks: Rule = (inputs) =>
       )
   })
 
-export const noindexHeaders: Rule = (inputs) => {
-  if (inputs.indexable) return []
-  if (inputs.headers && /X-Robots-Tag:\s*noindex/i.test(inputs.headers))
-    return []
-  return [
-    {
-      rule: 'seo/noindex-headers',
-      file: 'dist/_headers',
-      line: 1,
-      text: inputs.headers === null ? '(missing)' : inputs.headers,
-      message:
-        'Non-production builds must send X-Robots-Tag: noindex (design D3).'
+/** Whether a page carries a robots meta tag with noindex, and its line. */
+function robotsNoindex(page: ParsedPage): number | null {
+  const meta = page.root
+    .querySelectorAll('meta[name="robots"]')
+    .find((el) => /noindex/i.test(el.getAttribute('content') ?? ''))
+  return meta ? page.lineOf(meta.range[0]) : null
+}
+
+const DISALLOW_ALL = /^Disallow:\s*\/\s*$/m
+
+/**
+ * A build that isn't indexable marks every page noindex, nofollow and serves
+ * a disallow-all robots.txt; a production build does neither on its
+ * indexable pages (site-platform spec, "Non-production builds stay out of
+ * search").
+ */
+export const noindexBuild: Rule = (inputs) => {
+  const out: Violation[] = []
+  const robots = inputs.distText.find((f) => f.file === 'dist/robots.txt')
+  const disallowsAll = robots ? DISALLOW_ALL.test(robots.content) : false
+  if (!inputs.indexable) {
+    for (const source of inputs.html) {
+      const page = parsePage(source)
+      const tag = page.root
+        .querySelectorAll('meta[name="robots"]')
+        .find(
+          (el) =>
+            /noindex/i.test(el.getAttribute('content') ?? '') &&
+            /nofollow/i.test(el.getAttribute('content') ?? '')
+        )
+      if (!tag)
+        out.push(
+          v(
+            page,
+            'seo/noindex-build',
+            1,
+            '(no robots meta tag)',
+            'Non-production builds mark every page noindex, nofollow.'
+          )
+        )
     }
-  ]
+    if (!disallowsAll)
+      out.push({
+        rule: 'seo/noindex-build',
+        file: 'dist/robots.txt',
+        line: 1,
+        text: robots ? robots.content.split('\n')[0] : '(missing)',
+        message:
+          'Non-production builds serve a robots.txt that disallows all crawling.'
+      })
+    return out
+  }
+  for (const source of sitemapPages(inputs)) {
+    const page = parsePage(source)
+    const line = robotsNoindex(page)
+    if (line !== null)
+      out.push(
+        v(
+          page,
+          'seo/noindex-build',
+          line,
+          'noindex',
+          'A production build must not mark an indexable page noindex.'
+        )
+      )
+  }
+  if (disallowsAll)
+    out.push({
+      rule: 'seo/noindex-build',
+      file: 'dist/robots.txt',
+      line: 1,
+      text: 'Disallow: /',
+      message: 'A production build must allow crawling.'
+    })
+  return out
 }
 
 /** Open Graph and Twitter tags every indexable page needs (seo spec). */
@@ -345,7 +406,7 @@ export const seoRules: Rule[] = [
   headings,
   canonicals,
   internalLinks,
-  noindexHeaders,
+  noindexBuild,
   socialMeta,
   socialImages
 ]
