@@ -33,15 +33,16 @@ function currentState(href: string): 'page' | 'true' | undefined {
 </header>
 
 <style>
+  /* White, with the hairline ink rule a catalog page opens with. */
   .site-header {
-    border-bottom: var(--border-width) solid var(--color-border);
+    border-bottom: var(--rule-width) solid var(--color-accent);
   }
 
   .inner {
     align-items: center;
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-3) var(--space-6);
+    gap: var(--space-2) var(--space-6);
     justify-content: space-between;
     margin-inline: auto;
     max-width: var(--container);
@@ -52,31 +53,55 @@ function currentState(href: string): 'page' | 'true' | undefined {
     align-items: center;
     color: var(--color-text);
     display: inline-flex;
-    gap: var(--space-2);
+    font-family: var(--font-heading);
+    font-size: var(--text-xl);
     font-weight: var(--weight-bold);
+    gap: var(--space-2);
+    letter-spacing: var(--tracking-heading);
+    line-height: var(--leading-snug);
     text-decoration: none;
   }
 
   .brand :global(.symbol) {
     flex: none;
-    height: 1.25em;
-    width: 1.25em;
+    height: 1.1em;
+    width: 1.1em;
   }
 
+  /*
+   * Each link keeps a padded hit area; the list's negative margin puts the
+   * words themselves on the page's edges, right on a wide screen and left
+   * when the links wrap under the name.
+   */
   ul {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-2) var(--space-5);
+    gap: 0 var(--space-3);
     list-style: none;
+    margin-inline: calc(-1 * var(--space-2));
     padding: 0;
   }
 
   nav a {
     color: var(--color-text);
+    display: block;
+    font-weight: var(--weight-bold);
+    padding: var(--space-1) var(--space-2);
+    text-decoration: none;
+    text-underline-offset: 0.4em;
   }
 
+  /* On a phone each link gets a 48px-tall hit area in the same 32px of line. */
+  @media (max-width: 40rem) {
+    nav a {
+      margin-block: calc(-1 * var(--space-2));
+      padding-block: var(--space-3);
+    }
+  }
+
+  nav a:hover,
   nav a[aria-current] {
-    font-weight: var(--weight-bold);
-    text-decoration-thickness: var(--focus-width);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
   }
 </style>

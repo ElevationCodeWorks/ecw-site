@@ -14,6 +14,10 @@ const Heading = `h${level}` as 'h2' | 'h3'
 const shot =
   project.data.screenshots.find((s) => s.viewport === 'desktop') ??
   project.data.screenshots[0]
+// The listing crops every shot to 16:10 from the top, so a wider shot is
+// drawn larger than its column; ask for an image that wide.
+const zoom = Math.max(1, shot.image.width / shot.image.height / 1.6)
+const sizes = `(min-width: 80rem) ${+(27 * zoom).toFixed(1)}rem, (min-width: 40rem) ${Math.round(34 * zoom)}vw, ${Math.round(100 * zoom)}vw`
 ---
 
 <article class="preview">
@@ -22,11 +26,11 @@ const shot =
     alt={shot.alt}
     formats={['avif', 'webp']}
     widths={[480, 960, 1440]}
-    sizes="(min-width: 72rem) 36rem, 100vw"
+    sizes={sizes}
     loading={priority ? 'eager' : 'lazy'}
     fetchpriority={priority ? 'high' : 'auto'}
   />
-  <div class="stack-tight">
+  <div class="details">
     <Heading>
       <a href={`/work/${project.id}/`}>{project.data.name}</a>
     </Heading>
@@ -36,20 +40,73 @@ const shot =
 </article>
 
 <style>
+  /*
+   * A catalog listing: the screenshot in the narrow column, the entry's
+   * details in the wide one, on the page's split.
+   */
   .preview {
-    /* Keep extra height (from taller sibling cards) at the bottom. */
-    align-content: start;
+    align-items: start;
+    border-top: var(--rule-width) solid var(--color-accent);
     display: grid;
-    gap: var(--space-4);
+    gap: var(--space-4) var(--split-gap);
+    grid-template-columns: var(--split);
+    padding-top: var(--space-5);
   }
 
+  /* Every plate in the catalog has one shape, cropped from the top. */
   .preview :global(img) {
+    aspect-ratio: 16 / 10;
     border: var(--border-width) solid var(--color-border);
-    border-radius: var(--radius);
+    height: auto;
+    object-fit: cover;
+    object-position: top center;
+    width: 100%;
   }
 
-  .role {
+  /* The list closes with a hairline, like every other table. */
+  .preview:last-of-type {
+    border-bottom: var(--border-width) solid var(--color-border);
+    padding-bottom: var(--space-5);
+  }
+
+  .preview a {
+    color: var(--color-text);
+  }
+
+  /* One measure for the entry, so its rule ends where its text does. */
+  .details {
+    max-width: 34rem;
+  }
+
+  /*
+   * The name is set at one size whatever its heading level (h3 on Home, h2
+   * on Work), and its capitals line up with the top edge of the screenshot.
+   */
+  .details > :first-child {
+    font-size: var(--text-xl);
+    text-box-edge: cap alphabetic;
+    text-box-trim: trim-start;
+  }
+
+  .details > * + * {
+    margin-top: var(--space-2);
+  }
+
+  .details p {
+    max-width: none;
+  }
+
+  .details .role {
+    border-top: var(--border-width) solid var(--color-border);
     color: var(--color-text-muted);
     font-size: var(--text-sm);
+    margin-top: var(--space-4);
+    padding-top: var(--space-3);
+  }
+
+  @media (max-width: 40rem) {
+    .preview {
+      grid-template-columns: 1fr;
+    }
   }
 </style>

@@ -6,6 +6,7 @@ This repository is public, so this record names no employer.
 
 ## Owner decisions
 
+- **2026-11-18:** signed off the social images and icons (task 10.2), and gave final sign-off on the identity as it stands on PR #11 at `24911f2` (task 10.4).
 - **2026-11-12:** approved the three round 1 sources in design D3 (Trailhead, Catalog and Letterhead) without changes.
 - **2026-11-13:** chose the Storefront hero (reworked so each service is its own drawing, expanding on hover) and the ECW nameplate symbol; round 3 polishes it.
 - **2026-11-13:** chose Plate in round 2, asked for more hero options, and allowed hero-only CSS animation with no JavaScript (design D14).
@@ -342,38 +343,72 @@ Pointing at a label fills its drawing yellow. On load the services come out of t
 
 ## Round 3: the final identity
 
-Plate with the Storefront hero and the ECW nameplate, finished on `comp/r2-hero-storefront` (#11, https://deploy-preview-11--elevationcodeworks.netlify.app), which merges into `visual-identity` at the end.
+Plate with the Storefront hero and the ECW nameplate, applied to every page and state on `comp/r2-hero-storefront` (#11, https://deploy-preview-11--elevationcodeworks.netlify.app), which merges into `visual-identity` at the end.
 
-**What round 3 changed**
+**What round 3 changed** (2026-11-13, a first pass and then the polish passes):
 
-- **Hero polish:** an awning, a window sill, a door transom and a handle make the building read as a shop. The linework is an even 1.25px that stays crisp at any size and while a drawing expands. On narrow screens the drawing fills the column and its labels give way to the services list below.
+- **Hero:** an awning, a window sill, a door transom and a handle make the building read as a shop. The drawing uses two pens, a heavier contour round each part and a fine line inside it, and its callouts stay steady while a drawing expands. Keyboard focus moves through the labels clockwise from the top. On narrow screens the drawing fills the column and its labels give way to the services list below.
 - **Pages and states:**
-  - the header's wordmark and menu are centered on one line
-  - a rejected contact-form entry shows in a new error color, checked for contrast in both schemes
+  - a refined type scale, measure and link underlines
+  - the wordmark and the menu on the page's two edges
+  - every inner page on one 3:5 split, labels left and content right; service pages and case studies as ruled spec tables
+  - the founder photo as a small circle in a hairline ring, in About's label column
+  - a rejected contact-form entry in a new error color (`--color-error`, checked for contrast in both schemes), with a border twice the hairline
   - the send button matches the call to action
-  - the 404 page sets its way out as a short index of large links
-- **Symbol:** the ECW nameplate is final; the options are removed.
-- **Social images:** a catalog plate (a hairline frame with crop marks, the nameplate and wordmark, the page title, the domain, and the storefront drawing).
-- **Icons:** the touch icon sets the nameplate on the brand yellow; the favicon and scalable icon stay ink on white and follow the dark scheme.
-- **Structure baseline:** re-captured to include the hero's service links, which the owner approved with the hero.
+  - the 404 and confirmation pages set their way out as full-width links
+- **Symbol:** the ECW nameplate is final; `src/assets/brand/options/` is removed.
+- **Social images:** a catalog plate: a hairline frame with crop marks, the nameplate and wordmark, the page title with balanced line breaks, the domain, and the Storefront drawing.
+- **Icons:** the touch icon sets the nameplate on the brand yellow; the favicon and the scalable icon stay ink on white and follow the dark scheme.
 - **README:** a "Visual identity" section, and the hero drawing's generator in `scripts/storefront-art.mjs`.
 
-**Look review, every page template, both schemes** (reviewed from local captures at 1440 and 390 pixels, light and dark, plus the 404, confirmation and invalid-form states):
+- **Site check:** passes (`npm run check:site` exits 0; the build runs it too). All 174 tests pass.
+- **Structure check:** `npm run check:structure` matches the baseline on all 16 pages. The baseline was re-captured in round 3 to include the hero's service links, which repeat links already on Home and which the owner approved in 9.6 and 9.7.
+- **Exceptions:** none.
 
-| Template | Result | Notes |
-| --- | --- | --- |
-| Home | Pass | The headline sits left with one button beside a line drawing of the services (items 1, 2, 9). Recent work is catalog listings, What I do is spec rows; headings are left-aligned, and the rhythm varies (item 7). |
-| Services index | Pass | Spec rows with hairlines. No icons, tiles or numbers (items 2, 6). |
-| Service page | Pass | Who it's for, what's included and what's not, as spec rows with the heading on the left. |
-| Work index and case study | Pass | Catalog listings; facts as a ruled spec table; the client quote is set off by a single rule, with no quote glyphs. |
-| About | Pass | The founder photo beside the introduction; no stock or AI imagery (item 9). |
-| Contact | Pass | Square fields with strong borders, an ink focus ring, a 3px error-colored border on a rejected entry, and a yellow send button. |
-| 404 and confirmation | Pass | The way out as an index of large links; the confirmation in plain type. |
-| Every template, dark scheme | Pass | White ink on a neutral near-black, never navy; the yellow stays a fill behind black text (item 8). |
+### Look review of every page template (task 10.1, 2026-11-18)
 
-Items 3, 4, 5, 10, 11 and 12 pass on every template: no rounded cards or soft shadows, no bento grids, no logo strip, no sparkle icons, no check marks in circles, no eyebrows. Item 13 (echoing a portfolio site) passes; the yellow remains the closest call, as noted in round 1. Item 14 passes: the hero, the plate frame and the catalog rows tie it to its source.
+Reviewed on the local build at 1440×900 and 390×844, in the light and dark schemes: Home, Services, a service page (Websites that get found), Work, a case study (Condies), About, Contact, the confirmation page and the 404 page, plus the contact form with a focused field and a rejected entry.
 
-**Checks:** the site check passes; `npm run check:structure` matches the new baseline; axe passes in 64 runs (16 pages, two sizes, two schemes); all 174 tests pass.
+| # | Look checklist item (README "Look review") | Result | Note |
+| --- | --- | --- | --- |
+| 1 | Centered hero with headline, subhead and two buttons | Pass | Left-aligned headline and lede with one button, the drawing beside it from 56rem and below the button on phones. |
+| 2 | Three-up feature grid with icons in tinted tiles | Pass | Work is a list of rows; services are ruled spec rows. |
+| 3 | Large rounded cards with soft shadows as the main container | Pass | Square corners and hairlines everywhere; no shadows. |
+| 4 | Bento grids | Pass |  |
+| 5 | Logo cloud or "trusted by" strip | Pass |  |
+| 6 | Row of big unsourced numbers | Pass | The large "47°" is inside the Condies screenshot, not the site's own type. |
+| 7 | Every section the same width and rhythm, centered headings | Pass | Every page shares the 3:5 split on purpose, as a catalog does, but the rhythm varies: listings with screenshots, spec rows, a spec table, the form's ruled fields and the 404's index of large links. Headings are left-aligned. |
+| 8 | Dark navy or near-black hero with a bright accent | Pass, with the round 1 note | Light is white. Dark follows the visitor's setting: a neutral near-black (`#0e0e0e`, no blue), the drawing in light lines, and the yellow only as the button fill and the one search result in the drawing. |
+| 9 | Blob or flat-vector people, stock photos, AI images | Pass | Real screenshots, the owner's founder photo, and a hand-built line drawing of a shop and objects, no people. |
+| 10 | Sparkle icon for anything AI | Pass | AI features is drawn as a chat window. |
+| 11 | Check marks in colored circles as bullets | Pass | Square ink bullets for included items, dashes for not included. The clipboard's ticks in the drawing are ink line work, not bullets. |
+| 12 | Eyebrow label above a heading, in any styling | Pass | Spec-row labels sit beside their content in the left column, not above a heading. |
+| 13 | Echoes a portfolio site | Pass, closest call | Unchanged from round 1: the yellow is 9.9 from Uphill Ski CO's gold and 8.2 from Condies' yellow (the limit is 8), and the owner chose it knowing this. |
+| 14 | Looks like a template a tool would produce | Pass | The hero drawing is specific to the business (each object is a service, wired to the shop), and the catalog structure carries through every inner page. |
 
-- **Owner sign-off on the social images and icons (task 10.2):** pending.
-- **Owner's final sign-off (task 10.4):** pending.
+**Templates and states:**
+
+| Template | Light | Dark | Phone | Note |
+| --- | --- | --- | --- | --- |
+| Home | Pass | Pass | Pass | Six hero labels link to their services. On phones the labels give way to the services list below, and the drawing fills the column. |
+| Services index | Pass | Pass | Pass | Ruled rows, name left and summary right. |
+| Service page | Pass | Pass | Pass | "Who it's for", "What's included", "What's not included" and "Related work" as one ruled spec table. |
+| Work index | Pass | Pass | Pass | Listings with the screenshot beside the details. |
+| Case study | Pass | Pass | Pass | Facts as a spec table, then the desktop and phone screenshots side by side. |
+| About | Pass | Pass | Pass | The founder photo as a small circle in a hairline ring, in the label column. |
+| Contact | Pass | Pass | Pass | Square fields with ink hairlines and a drawn menu arrow. |
+| Contact, focused field | Pass | Pass |  | The site's focus ring at 2px, 2px off the field. |
+| Contact, rejected entry | Pass | Pass |  | The field's border doubles and turns `--color-error`, and so does its "(required)" note. The heavier border means color isn't the only cue; the browser's validation message names the error on submit. |
+| Confirmation (`/contact/thanks/`) | Pass | Pass | Pass | The way out is one large link on a full-width rule. |
+| 404 | Pass | Pass | Pass | The way out is a short index of large links. |
+
+### Social images and icons (task 10.2)
+
+Viewed from the build: the Home, Websites that get found and Condies social images, plus `default.png`, each 1200×630 with the nameplate and wordmark, the page title, the domain, the Storefront drawing and crop marks; `/icon.svg` at 16 and 32 px in both schemes; `/favicon.ico` at 32 px; and `/apple-touch-icon.png` at 180 px, the nameplate on the brand yellow. As round 2 noted, the letters blur into a plate at 16 px.
+
+- **Owner sign-off:** 2026-11-18, signed off without changes.
+
+### Final sign-off (task 10.4)
+
+- **Preview:** https://deploy-preview-11--elevationcodeworks.netlify.app, built from `24911f2`.
+- **Owner verdict:** 2026-11-18, **final sign-off** on the identity as it stands.

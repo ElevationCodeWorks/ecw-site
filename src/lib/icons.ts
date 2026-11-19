@@ -38,12 +38,13 @@ export async function squareIconPng(
   symbol: string,
   tokens: Tokens,
   size: number,
-  padding = 0.125
+  padding = 0.125,
+  background = '--color-bg'
 ): Promise<Buffer> {
   const { viewBox, body } = parseSymbol(symbol)
   const inset = Math.round(size * padding)
   const inner = size - inset * 2
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}"><rect width="${size}" height="${size}" fill="${token(tokens, '--color-bg').light}"/><svg x="${inset}" y="${inset}" width="${inner}" height="${inner}" viewBox="${viewBox}" color="${token(tokens, '--color-text').light}">${body}</svg></svg>`
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}"><rect width="${size}" height="${size}" fill="${token(tokens, background).light}"/><svg x="${inset}" y="${inset}" width="${inner}" height="${inner}" viewBox="${viewBox}" color="${token(tokens, '--color-text').light}">${body}</svg></svg>`
   return sharp(Buffer.from(svg)).png().toBuffer()
 }
 
@@ -77,7 +78,7 @@ export async function faviconIco(
   return icoFromPng(await squareIconPng(symbol, tokens, 32, 0.0625), 32)
 }
 
-/** The 180-pixel touch icon. */
+/** The 180-pixel touch icon: the symbol on the brand yellow. */
 export function touchIconPng(symbol: string, tokens: Tokens): Promise<Buffer> {
-  return squareIconPng(symbol, tokens, 180, 0.15)
+  return squareIconPng(symbol, tokens, 180, 0.15, '--color-highlight')
 }

@@ -5,35 +5,63 @@ import { site } from '../site.config.ts'
 <footer class="site-footer">
   <div class="inner">
     <p class="brand">{site.brandName}</p>
-    <p>
-      {site.location.city}, {site.location.regionName}
-    </p>
-    <p data-brand-line>{site.brandLine}</p>
-    <p>
-      <a href="/contact/">Contact</a>
-    </p>
+    <div class="details">
+      <p>
+        {site.location.city}, {site.location.regionName}
+      </p>
+      <p data-brand-line>{site.brandLine}</p>
+      <p>
+        <a href="/contact/">Contact</a>
+      </p>
+    </div>
   </div>
 </footer>
 
 <style>
+  /* A colophon: the name in the narrow column, the details on the page's split. */
   .site-footer {
-    border-top: var(--border-width) solid var(--color-border);
-    color: var(--color-text-muted);
+    border-top: var(--rule-width) solid var(--color-accent);
     font-size: var(--text-sm);
     margin-top: var(--space-8);
   }
 
   .inner {
+    align-items: baseline;
+    display: grid;
+    gap: var(--space-2) var(--split-gap);
+    grid-template-columns: var(--split);
+    margin-inline: auto;
+    max-width: var(--container);
+    padding: var(--space-5) var(--gutter) var(--space-8);
+  }
+
+  .details {
+    align-items: baseline;
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-2) var(--space-6);
-    margin-inline: auto;
-    max-width: var(--container);
-    padding: var(--space-6) var(--gutter);
+  }
+
+  /* A taller hit area for the link, without moving the line. */
+  .details a {
+    padding-block: var(--space-2);
   }
 
   .brand {
-    color: var(--color-text);
+    font-family: var(--font-heading);
+    font-size: var(--text-lg);
     font-weight: var(--weight-bold);
+    letter-spacing: var(--tracking-heading);
+  }
+
+  .details p {
+    color: var(--color-text-muted);
+  }
+
+  /* Stacks with the tables above it. */
+  @media (max-width: 40rem) {
+    .inner {
+      grid-template-columns: 1fr;
+    }
   }
 </style>

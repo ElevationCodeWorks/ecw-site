@@ -9,4 +9,6 @@
  * The placeholder look uses system fonts only, so there is nothing to
  * preload.
  */
-export const preloadFonts: string[] = []
+import archivo from '../assets/fonts/archivo/archivo-latin-wght-normal.woff2?url'
+import archivoNarrow from '../assets/fonts/archivo-narrow/archivo-narrow-latin-wght-normal.woff2?url'
+export const preloadFonts: string[] = [archivo, archivoNarrow]
