@@ -96,6 +96,10 @@ const pages = defineCollection({
       cta: z.object({ label: z.string(), href: z.string() }).optional(),
       workHeading: z.string().optional(),
       servicesHeading: z.string().optional(),
+      /** Home's last section: a heading and a paragraph above the call to action. */
+      closing: z
+        .object({ heading: z.string().min(1), text: z.string().min(1) })
+        .optional(),
       photoAlt: z.string().optional(),
       dataUse: z.string().optional(),
       pending

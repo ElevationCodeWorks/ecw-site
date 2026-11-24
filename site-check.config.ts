@@ -256,7 +256,12 @@ export const siteCheckConfig = {
     { fg: '--color-border-strong', bg: '--color-surface', min: 3 },
     { fg: '--color-focus', bg: '--color-bg', min: 3 },
     { fg: '--color-focus', bg: '--color-surface', min: 3 },
-    { fg: '--color-error', bg: '--color-bg', min: 4.5 }
+    { fg: '--color-error', bg: '--color-bg', min: 4.5 },
+    // The palette hues that draw graphics on the page: rules and textures.
+    { fg: '--color-red-rocks', bg: '--color-bg', min: 3 },
+    { fg: '--color-flatiron', bg: '--color-bg', min: 3 },
+    { fg: '--color-ponderosa', bg: '--color-bg', min: 3 },
+    { fg: '--color-turquoise', bg: '--color-bg', min: 3 }
   ] as { fg: string; bg: string; min: number }[],
 
   /** Size of every page's social preview image (seo spec). */

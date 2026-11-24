@@ -10,7 +10,7 @@ screenshots:
     alt: Uphill Ski CO home page, with the word UPHILL in large yellow letters above an illustrated range of snowy peaks and a climber at the top of a zigzag skin track.
     viewport: desktop
   - image: ../../assets/work/uphill-ski-co-mobile.png
-    alt: Uphill Ski CO on a phone, with the illustrated peaks and the summary line about where, when and what it costs to skin up Colorado's ski resorts.
+    alt: Uphill Ski CO on a phone, with the illustrated peaks and the summary line about where, when and what it costs to skin up Colorado’s ski resorts.
     viewport: mobile
 screenshotsCapturedAt: 2026-11-11
 seo:
@@ -20,11 +20,11 @@ seo:
 
 ## The project
 
-Uphill rules change every season and are scattered across 24 resort websites. Uphill Ski CO puts them in one place: hours, costs and routes, ranked from most to least accessible, with each resort's status marked as confirmed for this season or carried over from the last.
+Uphill rules change every season and are scattered across 24 resort websites. Uphill Ski CO puts them in one place: hours, costs and routes, ranked from most to least accessible, with each resort’s status marked as confirmed for this season or carried over from the last.
 
 ## Details
 
 - Search by name and filter by pass network or by whether uphill travel is allowed while lifts run.
 - An interactive peak graphic, where taller peaks mean better access, that works with a mouse, touch or the arrow keys.
-- Structured data for every resort and a set of common questions, so search engines can read the guide's answers directly.
+- Structured data for every resort and a set of common questions, so search engines can read the guide’s answers directly.
 - Links to 30 official trail maps for scouting a skin track.

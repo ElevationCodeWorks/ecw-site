@@ -4,6 +4,7 @@ import { getCollection } from 'astro:content'
 import BaseLayout from '../layouts/BaseLayout.astro'
 import CallToAction from '../components/CallToAction.astro'
 import HeroStorefront from '../components/hero/HeroStorefront.astro'
+import StrataBand from '../components/textures/StrataBand.astro'
 import ServiceList from '../components/ServiceList.astro'
 import WorkPreview from '../components/WorkPreview.astro'
 import founderPhoto from '../assets/founder.jpg'
@@ -44,6 +45,10 @@ const photo = await getImage({ src: founderPhoto, width: 640, format: 'jpg' })
     </div>
   </section>
 
+  <div class="home-section">
+    <StrataBand size="seam" />
+  </div>
+
   <section class="home-section" aria-labelledby="services-heading">
     <h2 id="services-heading">{data.servicesHeading}</h2>
     <div class="services">
@@ -51,7 +56,19 @@ const photo = await getImage({ src: founderPhoto, width: 640, format: 'jpg' })
     </div>
   </section>
 
-  {data.cta && <CallToAction label={data.cta.label} href={data.cta.href} />}
+  {data.closing ? (
+    <section class="home-section closing" aria-labelledby="closing-heading">
+      <h2 id="closing-heading">{data.closing.heading}</h2>
+      <div>
+        <p class="lede">{data.closing.text}</p>
+        {data.cta && (
+          <CallToAction label={data.cta.label} href={data.cta.href} />
+        )}
+      </div>
+    </section>
+  ) : (
+    data.cta && <CallToAction label={data.cta.label} href={data.cta.href} />
+  )}
 </BaseLayout>
 
 <style>
@@ -104,8 +121,8 @@ const photo = await getImage({ src: founderPhoto, width: 640, format: 'jpg' })
   }
 
   /*
-   * Wide breaks between the hero and each section; the closing button sits
-   * close under the services, as the end of that table.
+   * Wide breaks between the hero and each section, with a Strata seam as
+   * the divider between the work and the services.
    */
   .home-section {
     margin-top: var(--space-section);
@@ -119,5 +136,22 @@ const photo = await getImage({ src: founderPhoto, width: 640, format: 'jpg' })
   .projects {
     display: grid;
     gap: var(--space-7);
+  }
+
+  /*
+   * The close mirrors the opening: the heading in the narrow column, and
+   * what to do next, with the button, in the wide one.
+   */
+  .closing {
+    align-items: start;
+    display: grid;
+    gap: var(--space-4) var(--split-gap);
+    grid-template-columns: var(--split);
+  }
+
+  @media (max-width: 40rem) {
+    .closing {
+      grid-template-columns: minmax(0, 1fr);
+    }
   }
 </style>

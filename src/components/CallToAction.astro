@@ -18,12 +18,13 @@ const { label, href } = Astro.props
   }
 
   /*
-   * The yellow fill behind black text. Pointing at it underlines the label;
-   * the fill never changes.
+   * The gold fill behind ink text, with square corners. Pointing at it
+   * underlines the label, in the label's own ink; the fill never changes.
    */
   a {
     background: var(--color-highlight);
     border: 0;
+    border-radius: var(--radius);
     color: var(--color-on-highlight);
     display: inline-block;
     font-size: var(--text-lg);
@@ -31,6 +32,7 @@ const { label, href } = Astro.props
     line-height: var(--leading-snug);
     padding: var(--space-4) var(--space-6);
     text-decoration: none;
+    text-decoration-color: currentColor;
     text-underline-offset: 0.2em;
   }
 

@@ -33,7 +33,7 @@ function currentState(href: string): 'page' | 'true' | undefined {
 </header>
 
 <style>
-  /* White, with the hairline ink rule a catalog page opens with. */
+  /* Snow white, with the Red Rocks rule a page opens with. */
   .site-header {
     border-bottom: var(--rule-width) solid var(--color-accent);
   }
@@ -99,9 +99,11 @@ function currentState(href: string): 'page' | 'true' | undefined {
     }
   }
 
+  /* The words stay ink; the rule under them is Red Rocks red. */
   nav a:hover,
   nav a[aria-current] {
     text-decoration: underline;
+    text-decoration-color: var(--color-accent);
     text-decoration-thickness: 2px;
   }
 </style>

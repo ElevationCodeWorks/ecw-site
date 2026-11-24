@@ -73,9 +73,13 @@ dd {
   text-wrap: pretty;
 }
 
-/* A fine rule under body links that thickens when pointed at. */
+/*
+ * A fine rule under body links that thickens when pointed at. The words are
+ * ink; the rule is Red Rocks red.
+ */
 a {
   color: var(--color-link);
+  text-decoration-color: var(--color-accent);
   text-decoration-thickness: 1px;
   text-underline-offset: 0.2em;
 }

@@ -56,6 +56,22 @@ test('orange and amber accents are flagged; red is not', () => {
   )
 })
 
+test('the sandstone reds sit on the red side of orange; terracotta does not', () => {
+  // Red Rocks and Flatiron, in both schemes, against the rust and clay they must stay clear of.
+  for (const hex of ['#a63d2f', '#cf5858', '#6b3a30', '#9c675c']) {
+    const input = tokens(`--color-red-rocks: ${hex};`)
+    assert.deepEqual(orangeAccent(input, config), [], `${hex} should pass`)
+    assert.deepEqual(bannedColors(input, config), [], `${hex} should pass`)
+  }
+  for (const hex of ['#c2552d', '#cc6b49']) {
+    assert.equal(
+      orangeAccent(tokens(`--color-accent: ${hex};`), config).length,
+      1,
+      `${hex} should be flagged`
+    )
+  }
+})
+
 test('the real tokens file passes every color rule', () => {
   const input = cssInputs(readFileSync(TOKENS, 'utf8'), TOKENS)
   for (const rule of [bannedColors, warmOffWhite, orangeAccent, violetAccent]) {

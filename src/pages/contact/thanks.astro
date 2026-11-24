@@ -10,7 +10,7 @@ const { data } = await getPage('contact-thanks')
   <div class="page-intro" role="status">
     <h1>{data.h1}</h1>
     <div>
-      <p class="lede">I'll reply {site.replyTime}.</p>
+      <p class="lede">I’ll reply {site.replyTime}.</p>
     </div>
   </div>
   <p class="section back">
@@ -45,6 +45,7 @@ const { data } = await getPage('contact-thanks')
 
   .back a:hover {
     text-decoration: underline;
+    text-decoration-color: var(--color-accent);
     text-decoration-thickness: 0.06em;
   }
 </style>

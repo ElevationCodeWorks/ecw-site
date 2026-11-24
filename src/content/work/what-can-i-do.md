@@ -8,12 +8,12 @@ client: Important, Not Important
 liveUrl: https://whatcanido.earth/
 screenshots:
   - image: ../../assets/work/what-can-i-do-desktop.png
-    alt: Top of the What Can I Do? home page, with the site's navigation above a location search under the heading "Start where you are!"
+    alt: Top of the What Can I Do? home page, with a menu button, the logo and the login and join buttons above the heading “Start where you are!” and a location search, and the tops of illustrated city blocks below.
     viewport: desktop
   - image: ../../assets/work/what-can-i-do-mobile.png
-    alt: What Can I Do? on a phone, showing the heading "Start where you are!" above the location search.
+    alt: What Can I Do? on a phone, showing the heading “Start where you are!” above the location search.
     viewport: mobile
-screenshotsCapturedAt: 2026-11-11
+screenshotsCapturedAt: 2026-11-24
 quote:
   text: We needed help implementing some frontend tasks on our app and Tejen was able to seamlessly step in and get them done. Not only that, he suggested and implemented a few backend and dev-ops features that made the app faster and more secure. His intuition and knowledge of modern web development make him an easy recommendation.
   name: Conor Britain

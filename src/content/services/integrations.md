@@ -17,6 +17,6 @@ seo:
   description: Stripe, Square, Shopify and booking tools connected to your website or app, so Denver customers can pay and book in one place.
 ---
 
-Most small businesses already pay for good tools. The trouble starts when those tools don't talk to the website, and customers get bounced between pages that look and work differently.
+Most small businesses already pay for good tools. The trouble starts when those tools don’t talk to the website, and customers get bounced between pages that look and work differently.
 
-I connect the payment, store and booking tools you use into your site or app, so a customer can find you, book and pay without leaving. When a ready-made integration exists I use it. When it doesn't, I build a small, documented connection that you own.
+I connect the payment, store and booking tools you use into your site or app, so a customer can find you, book and pay without leaving. When a ready-made integration exists I use it. When it doesn’t, I build a small, documented connection that you own.

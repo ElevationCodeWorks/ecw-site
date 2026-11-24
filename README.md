@@ -39,6 +39,7 @@ src/layouts/BaseLayout.astro  Page shell: head metadata, skip link, header, foot
 src/pages/                    One file per route, plus the icon and social image endpoints
 src/pages/og/[...slug].png.ts Per-page social images, rendered at build time (src/lib/og.ts)
 src/assets/brand/symbol.svg   The logo symbol; the header, favicon and touch icon draw from it
+src/components/textures/      The Strata band and seam, as inline SVG (see Textures)
 src/assets/fonts/             Self-hosted font files and their licenses (see Typefaces)
 src/content/                  Page copy: services/, work/ (case studies), pages/
 src/content.config.ts         Content schemas, enforced at build time
@@ -196,30 +197,54 @@ Every logo symbol option is also reviewed against the banned motifs, and each on
 
 ## Visual identity
 
-The look is **Plate**: an industrial parts catalog set in ink on white, with one high-visibility yellow, hairline rules and condensed headings. It was chosen through three rounds of comps, recorded in `openspec/changes/archive/2026-11-18-visual-identity/rounds.md`. Every value lives in `src/styles/tokens.css`.
+The look is **Front Range**. Its bones are a printed parts catalog: dense and factual, condensed headings, ruled tables on a single column line. Its colors come from where the business lives: pine ink on snow white, ruled in Red Rocks red, with one aspen gold and a band of flat painted color across the foot of the page. The values come from the owner's Elevation Code Works design system; keep `src/styles/tokens.css`, where every value lives, in step with it. Front Range repainted **Plate**, the ink-and-yellow look chosen through three rounds of comps (`openspec/changes/archive/2026-11-18-visual-identity/rounds.md`); the layout, type and drawing are Plate's.
 
 ### Colors
 
 Components use these roles, never raw values. Each has a light and a dark value; the dark scheme follows the visitor's system setting.
 
-| Token                   | Role                                                  | Light     | Dark      |
-| ----------------------- | ----------------------------------------------------- | --------- | --------- |
-| `--color-bg`            | Page background                                       | `#ffffff` | `#0e0e0e` |
-| `--color-surface`       | Subtle fills and the drawing's side faces             | `#f0f0f0` | `#1c1c1c` |
-| `--color-text`          | Text, rules and the symbol                            | `#0a0a0a` | `#f2f2f2` |
-| `--color-text-muted`    | Secondary text (roles, captions)                      | `#4a4a4a` | `#b5b5b5` |
-| `--color-border`        | Hairlines between rows                                | `#c8c8c8` | `#3a3a3a` |
-| `--color-border-strong` | Form fields and strong rules                          | `#0a0a0a` | `#f2f2f2` |
-| `--color-link`          | Links                                                 | `#0a0a0a` | `#f2f2f2` |
-| `--color-link-hover`    | Hovered links                                         | `#0a0a0a` | `#f2f2f2` |
-| `--color-focus`         | Focus rings                                           | `#0a0a0a` | `#f2f2f2` |
-| `--color-accent`        | Ink for edges and the header rule                     | `#0a0a0a` | `#f2f2f2` |
-| `--color-on-accent`     | Text on the accent                                    | `#ffffff` | `#0e0e0e` |
-| `--color-highlight`     | The brand yellow: buttons and one surface in the hero | `#ffdd00` | `#ffdd00` |
-| `--color-on-highlight`  | Text on the yellow                                    | `#0a0a0a` | `#0a0a0a` |
-| `--color-error`         | Rejected form entries                                 | `#b3261e` | `#ff8a80` |
+| Token                   | Role                                                              | Light     | Dark      |
+| ----------------------- | ----------------------------------------------------------------- | --------- | --------- |
+| `--color-bg`            | Page background                                                   | `#ffffff` | `#0f1613` |
+| `--color-surface`       | Subtle fills and the drawing's side faces                         | `#f0f0f0` | `#19231f` |
+| `--color-text`          | Pine ink: text, the symbol and drawn lines                        | `#14221b` | `#f2f2f2` |
+| `--color-text-muted`    | Secondary text (ledes, roles, captions)                           | `#4b5852` | `#a9b5af` |
+| `--color-border`        | Hairlines between rows and round screenshots                      | `#b9c6c6` | `#33403a` |
+| `--color-border-strong` | Form fields and the ring round the founder photo                  | `#14221b` | `#f2f2f2` |
+| `--color-link`          | Link text                                                         | `#14221b` | `#f2f2f2` |
+| `--color-link-hover`    | Hovered link text                                                 | `#14221b` | `#f2f2f2` |
+| `--color-focus`         | Focus rings                                                       | `#14221b` | `#f2f2f2` |
+| `--color-accent`        | Structure: rules and link underlines. Follows `--color-red-rocks` | `#a63d2f` | `#cf5858` |
+| `--color-on-accent`     | Text on the accent                                                | `#ffffff` | `#0f1613` |
+| `--color-highlight`     | Aspen gold: buttons and one surface in the hero                   | `#ffdd00` | `#ffdd00` |
+| `--color-on-highlight`  | Text on the gold                                                  | `#14221b` | `#14221b` |
+| `--color-error`         | Rejected form entries, and nothing else                           | `#a80f45` | `#ff8fb0` |
 
-The yellow is a fill behind black text, never text on white. Hovered links thicken their underline; nothing turns yellow on hover.
+The palette hues are fills and graphics, never body text, and none carries meaning by itself:
+
+| Token               | Role                                               | Light     | Dark      |
+| ------------------- | -------------------------------------------------- | --------- | --------- |
+| `--color-red-rocks` | The lead hue: rules, underlines, the largest slabs | `#a63d2f` | `#cf5858` |
+| `--color-flatiron`  | Shadowed rock: the dark slabs                      | `#6b3a30` | `#9c675c` |
+| `--color-sandstone` | A pale tint: grounds and light slabs               | `#ecc8bb` | `#5a372d` |
+| `--color-ponderosa` | Pine green                                         | `#2c5a43` | `#79b092` |
+| `--color-turquoise` | The smallest touches only                          | `#137c7a` | `#45b3ad` |
+| `--color-snow`      | A white sliver between slabs                       | `#ffffff` | `#f2f2f2` |
+
+Link text is ink; a link is marked by its underline, which is drawn in the accent red and thickens when pointed at. The words never change color. The gold is a fill behind ink text, never text on white, and nothing turns gold on hover. Outside the textures a page shows the red and the gold and little else. Tables open with a 2px Red Rocks rule (`--rule-width`) and divide their rows with hairlines.
+
+### Textures
+
+Flat vector patterns in palette colors with hard edges, inline as SVG so their fills follow the color scheme. They are decoration: hidden from assistive technology, and never behind text.
+
+- **Strata band** (`src/components/textures/StrataBand.astro`): 40px of tilted slabs across the top of the footer on every page, at the full width of the window. It stands in for the footer's rule.
+- **Strata seam** (the same component, `size="seam"`): the band's run of slabs drawn out to an 8px line, the divider between Home's work and its services. At most once on a page, never directly above or below the band and never directly under the header.
+
+The design system has two more textures the site doesn't use. Terrace, a band of 4px stepped rows, was the first divider on Home; at real size its steps read as pixel art, and the owner had it replaced with the seam (2026-11-24). Contour, map lines for a quiet ground, crowded the labels when tried behind the hero drawing.
+
+### Work listings
+
+`src/components/WorkPreview.astro` shows each project's desktop screenshot whole: a plate never cuts the sides of a screenshot. One taller than 16:10 is cropped from the top to that shape; a wider one keeps its own. The name's link reaches over the screenshot, so the picture opens the case study too, and the list is ruled as one table: the Red Rocks rule opens it and hairlines divide the listings.
 
 ### Type
 
@@ -227,7 +252,7 @@ Archivo Narrow (headings) and Archivo (text), both SIL Open Font License 1.1, co
 
 ### Symbol
 
-`src/assets/brand/symbol.svg` is the ECW nameplate: ECW in Archivo Narrow Bold, knocked out of a plate, drawn in `currentColor` so it takes the color of its context. `src/components/Symbol.astro` inlines it before the wordmark in the header, hidden from assistive technology since the wordmark names the link. The favicon, the scalable icon (`/icon.svg`, which switches to dark-scheme colors), the touch icon (the nameplate on the brand yellow) and every social image are drawn from it at build time (`src/lib/icons.ts`, `src/lib/og.ts`). Keep it one color; the site check fails on gradients, filters, text elements or a second fill.
+`src/assets/brand/symbol.svg` is the ECW nameplate: ECW in Archivo Narrow Bold, knocked out of a plate, drawn in `currentColor` so it takes the color of its context. `src/components/Symbol.astro` inlines it before the wordmark in the header, hidden from assistive technology since the wordmark names the link. The favicon, the scalable icon (`/icon.svg`, which switches to dark-scheme colors), the touch icon (the nameplate on the gold) and every social image are drawn from it at build time (`src/lib/icons.ts`, `src/lib/og.ts`). Keep it one color; the site check fails on gradients, filters, text elements or a second fill.
 
 ### Home hero
 
@@ -340,6 +365,12 @@ seo:
 ---
 Body copy in Markdown.
 ```
+
+To refresh a project's screenshots, run `node scripts/capture-screenshots.mjs <slug>` (no slug captures every site) and update `screenshotsCapturedAt` and the alt text. A work listing never cuts the sides of a screenshot, so a capture near 16:10 fills its plate best; a site in the script can set a narrower `desktopWidth`, a `clipHeight` and a `scale` for that. What Can I Do? is captured 1024 wide at twice the pixel density and clipped above its featured causes (owner decision 2026-11-12).
+
+### Apostrophes and quotation marks
+
+Write typographic apostrophes and quotation marks (’ “ ”) in front matter, and in any copy written in an `.astro` file. Markdown bodies are converted at build time; front matter is not, so a straight one there shows up beside curly ones in the body.
 
 ### Pending owner input
 

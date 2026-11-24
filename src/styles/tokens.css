@@ -2,10 +2,12 @@
  * Design tokens: the ONLY file allowed to contain color values or font-family names.
  * Every other stylesheet and component references these variables.
  *
- * "Plate": an industrial parts catalog. Dense and factual, ink on white,
- * hairline rules, condensed headings in Archivo Narrow over Archivo. One
- * high-visibility yellow, used only as a fill behind black text, never as
- * text on white.
+ * "Front Range": the bones of a printed parts catalog (dense and factual,
+ * condensed headings in Archivo Narrow over Archivo, ruled tables on one
+ * column line), in the colors of where the business lives: pine ink on snow
+ * white, ruled in Red Rocks red, with one aspen gold used only as a fill
+ * behind ink text, never as text on white. The values come from the
+ * Elevation Code Works design system; keep the two in step.
  *
  * Two color schemes, chosen by the visitor's system preference. Every color
  * token is declared in :root (light) and again in the dark block below; the
@@ -58,24 +60,42 @@
 :root {
   color-scheme: light dark;
 
-  /* Color (light scheme) */
+  /* Color (light scheme): pine ink on snow white. */
   --color-bg: #ffffff;
   --color-surface: #f0f0f0;
-  --color-text: #0a0a0a;
-  --color-text-muted: #4a4a4a;
-  --color-border: #c8c8c8;
-  --color-border-strong: #0a0a0a;
-  --color-link: #0a0a0a;
-  --color-link-hover: #0a0a0a;
-  --color-focus: #0a0a0a;
-  /* Ink: the header and footer rules and the rule over each table. */
-  --color-accent: #0a0a0a;
+  --color-text: #14221b;
+  --color-text-muted: #4b5852;
+  /* Hairlines only: too faint to bound a control. */
+  --color-border: #b9c6c6;
+  --color-border-strong: #14221b;
+  /* A link is marked by its underline, never by colored words. */
+  --color-link: #14221b;
+  --color-link-hover: #14221b;
+  --color-focus: #14221b;
+  /*
+   * Structure, in Red Rocks red: the header rule, the rule over each table,
+   * the rule beside a quote and the underline of every link. It follows
+   * --color-red-rocks in both schemes.
+   */
+  --color-accent: var(--color-red-rocks);
   --color-on-accent: #ffffff;
-  /* High-visibility yellow: a fill behind black text only. */
+  /* Aspen gold: a fill behind ink text only. The same in both schemes. */
   --color-highlight: #ffdd00;
-  --color-on-highlight: #0a0a0a;
-  /* Form errors: an entry the browser has rejected. */
-  --color-error: #b3261e;
+  --color-on-highlight: #14221b;
+  /* Form errors only: a raspberry, kept well apart from the Red Rocks red. */
+  --color-error: #a80f45;
+
+  /*
+   * The Front Range palette: fills and graphics, never body text, and no hue
+   * carries meaning by itself. Outside the textures a page shows the red and
+   * the gold and little else.
+   */
+  --color-red-rocks: #a63d2f;
+  --color-flatiron: #6b3a30;
+  --color-sandstone: #ecc8bb;
+  --color-ponderosa: #2c5a43;
+  --color-turquoise: #137c7a;
+  --color-snow: #ffffff;
 
   /* Type */
   --font-body: Archivo, 'Archivo Fallback', Arial, sans-serif;
@@ -119,7 +139,8 @@
   /* Shape */
   --radius: 0;
   --border-width: 1px;
-  --rule-width: 1px;
+  /* The Red Rocks rules: under the header, over each table, beside a quote. */
+  --rule-width: 2px;
   --focus-width: 3px;
   --shadow: none;
 
@@ -139,20 +160,30 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    /* Color (dark scheme): white ink on a neutral near-black. */
-    --color-bg: #0e0e0e;
-    --color-surface: #1c1c1c;
+    /*
+     * Color (dark scheme): night on the Front Range. White ink on a
+     * pine-black ground, never navy, with the red turned to the rosier tone
+     * the rocks take at dusk.
+     */
+    --color-bg: #0f1613;
+    --color-surface: #19231f;
     --color-text: #f2f2f2;
-    --color-text-muted: #b5b5b5;
-    --color-border: #3a3a3a;
+    --color-text-muted: #a9b5af;
+    --color-border: #33403a;
     --color-border-strong: #f2f2f2;
     --color-link: #f2f2f2;
     --color-link-hover: #f2f2f2;
     --color-focus: #f2f2f2;
-    --color-accent: #f2f2f2;
-    --color-on-accent: #0e0e0e;
+    --color-on-accent: #0f1613;
     --color-highlight: #ffdd00;
-    --color-on-highlight: #0a0a0a;
-    --color-error: #ff8a80;
+    --color-on-highlight: #14221b;
+    --color-error: #ff8fb0;
+
+    --color-red-rocks: #cf5858;
+    --color-flatiron: #9c675c;
+    --color-sandstone: #5a372d;
+    --color-ponderosa: #79b092;
+    --color-turquoise: #45b3ad;
+    --color-snow: #f2f2f2;
   }
 }

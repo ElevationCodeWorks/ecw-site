@@ -16,6 +16,6 @@ seo:
   description: Practical AI for Denver small businesses, such as assistants that answer customer questions, smarter intake forms and booking help.
 ---
 
-AI is useful when it does a specific job well and someone stays responsible for it. I build features that answer your customers' real questions from your own information, with limits you set and review.
+AI is useful when it does a specific job well and someone stays responsible for it. I build features that answer your customers’ real questions from your own information, with limits you set and review.
 
-I also use AI to build faster. I've trained hundreds of enterprise engineers on AI-assisted development, and I use the same practices on every project. AI speeds up the work. I make the decisions and I'm accountable for the result.
+I also use AI to build faster. I’ve trained hundreds of enterprise engineers on AI-assisted development, and I use the same practices on every project. AI speeds up the work. I make the decisions and I’m accountable for the result.

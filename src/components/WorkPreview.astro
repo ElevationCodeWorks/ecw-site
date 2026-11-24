@@ -14,13 +14,13 @@ const Heading = `h${level}` as 'h2' | 'h3'
 const shot =
   project.data.screenshots.find((s) => s.viewport === 'desktop') ??
   project.data.screenshots[0]
-// The listing crops every shot to 16:10 from the top, so a wider shot is
-// drawn larger than its column; ask for an image that wide.
-const zoom = Math.max(1, shot.image.width / shot.image.height / 1.6)
-const sizes = `(min-width: 80rem) ${+(27 * zoom).toFixed(1)}rem, (min-width: 40rem) ${Math.round(34 * zoom)}vw, ${Math.round(100 * zoom)}vw`
+// A plate shows the whole width of its screenshot. A shot taller than 16:10
+// is cropped from the top to that shape; a wider one keeps its own.
+const plate = Math.max(1.6, shot.image.width / shot.image.height)
+const sizes = '(min-width: 80rem) 27rem, (min-width: 40rem) 34vw, 100vw'
 ---
 
-<article class="preview">
+<article class="preview" style={`--plate: ${+plate.toFixed(4)}`}>
   <Picture
     src={shot.image}
     alt={shot.alt}
@@ -45,17 +45,30 @@ const sizes = `(min-width: 80rem) ${+(27 * zoom).toFixed(1)}rem, (min-width: 40r
    * details in the wide one, on the page's split.
    */
   .preview {
+    --shot-width: calc((100% - var(--split-gap)) * 3 / 8);
     align-items: start;
     border-top: var(--rule-width) solid var(--color-accent);
     display: grid;
     gap: var(--space-4) var(--split-gap);
     grid-template-columns: var(--split);
     padding-top: var(--space-5);
+    position: relative;
   }
 
-  /* Every plate in the catalog has one shape, cropped from the top. */
+  /*
+   * The list is one table: the Red Rocks rule opens it, and a hairline
+   * divides each listing from the one before.
+   */
+  .preview + .preview {
+    border-top: var(--border-width) solid var(--color-border);
+  }
+
+  /*
+   * A plate never cuts the sides of its screenshot: one taller than 16:10
+   * is cropped from the top, a wider one keeps its own shape (--plate).
+   */
   .preview :global(img) {
-    aspect-ratio: 16 / 10;
+    aspect-ratio: var(--plate);
     border: var(--border-width) solid var(--color-border);
     height: auto;
     object-fit: cover;
@@ -71,6 +84,20 @@ const sizes = `(min-width: 80rem) ${+(27 * zoom).toFixed(1)}rem, (min-width: 40r
 
   .preview a {
     color: var(--color-text);
+  }
+
+  /*
+   * The screenshot opens the case study too: the name's link reaches over
+   * the plate, so pointing at either marks the name, and the text beside it
+   * can still be selected.
+   */
+  .preview a::after {
+    aspect-ratio: var(--plate);
+    content: '';
+    left: 0;
+    position: absolute;
+    top: var(--space-5);
+    width: var(--shot-width);
   }
 
   /* One measure for the entry, so its rule ends where its text does. */
@@ -106,6 +133,7 @@ const sizes = `(min-width: 80rem) ${+(27 * zoom).toFixed(1)}rem, (min-width: 40r
 
   @media (max-width: 40rem) {
     .preview {
+      --shot-width: 100%;
       grid-template-columns: 1fr;
     }
   }

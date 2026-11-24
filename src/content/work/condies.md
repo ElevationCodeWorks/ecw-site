@@ -1,7 +1,7 @@
 ---
 name: Condies
 order: 2
-description: Snow and weather forecasts for wherever you're headed, with a single score that says when conditions will be best.
+description: Snow and weather forecasts for wherever you’re headed, with a single score that says when conditions will be best.
 audience: Skiers, riders and anyone planning a day outdoors who wants a fast read on the weather.
 role: Built it end to end.
 liveUrl: https://condies.fyi/
@@ -25,5 +25,5 @@ Condies answers one question quickly: when are conditions best? It shows the cur
 ## Details
 
 - Saved spots and a map, so regular destinations are one tap away.
-- Installs on a phone's home screen and opens like a native app.
+- Installs on a phone’s home screen and opens like a native app.
 - Light and dark themes that follow the device setting.

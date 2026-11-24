@@ -1,0 +1,123 @@
+---
+/**
+ * Strata: tilted slabs in rock, pine and snow, with a sliver each of gold
+ * and turquoise. The slabs lean 35 degrees, like the Flatirons. Two sizes,
+ * one order of slabs:
+ *
+ * - "band": 40px tall, repeating every 192px. It lies across the top of the
+ *   footer on every page, where it stands in for the footer's rule.
+ * - "seam": 8px tall, the same run drawn out to 384px with its slivers kept
+ *   thin, so it reads as a fine line of the footer's band. A divider between
+ *   two major sections of a long page, at most once on a page.
+ *
+ * Inline, so its fills follow the color scheme, and every edge is a true
+ * diagonal, drawn smooth at any pixel density. Decoration only: it is hidden
+ * from assistive technology and never carries text or a logo. Never put a
+ * seam directly above or below the band, or directly under the header.
+ * The band's markup comes from the design system's StrataBand; don't
+ * reorder or recolor the slabs.
+ */
+interface Props {
+  size?: 'band' | 'seam'
+}
+
+const { size = 'band' } = Astro.props
+
+/** Each slab over the Red Rocks ground: its hue, where it starts, its width. */
+const runs = {
+  band: {
+    id: 'ecw-strata',
+    period: 192,
+    slabs: [
+      ['ss', 56, 16],
+      ['fi', 72, 40],
+      ['sn', 112, 8],
+      ['po', 120, 32],
+      ['au', 152, 8],
+      ['rr', 160, 24],
+      ['tq', 184, 8]
+    ]
+  },
+  seam: {
+    id: 'ecw-strata-seam',
+    period: 384,
+    slabs: [
+      ['ss', 112, 16],
+      ['fi', 128, 80],
+      ['sn', 208, 8],
+      ['po', 216, 64],
+      ['au', 280, 16],
+      ['rr', 296, 48],
+      ['tq', 344, 16]
+    ]
+  }
+} as const
+
+const { id, period, slabs } = runs[size]
+---
+
+<svg class:list={['strata', size]} aria-hidden="true" focusable="false">
+  <defs>
+    <pattern
+      id={id}
+      width={period}
+      height="480"
+      patternUnits="userSpaceOnUse"
+      patternTransform="skewX(-35)"
+    >
+      <rect class="rr" width={period} height="480"></rect>
+      {
+        /* Each slab runs half a unit under the next, so no seam shows between them. */
+        slabs.map(([hue, x, width]) => (
+          <rect class={hue} x={x} width={width + 0.5} height="480" />
+        ))
+      }
+    </pattern>
+  </defs>
+  <rect width="100%" height="100%" fill={`url(#${id})`}></rect>
+</svg>
+
+<style>
+  /* The full width of whatever holds it. */
+  .strata {
+    display: block;
+    max-width: none;
+    width: 100%;
+  }
+
+  .band {
+    height: var(--space-7);
+  }
+
+  .seam {
+    height: var(--space-2);
+  }
+
+  .rr {
+    fill: var(--color-red-rocks);
+  }
+
+  .fi {
+    fill: var(--color-flatiron);
+  }
+
+  .ss {
+    fill: var(--color-sandstone);
+  }
+
+  .po {
+    fill: var(--color-ponderosa);
+  }
+
+  .tq {
+    fill: var(--color-turquoise);
+  }
+
+  .au {
+    fill: var(--color-highlight);
+  }
+
+  .sn {
+    fill: var(--color-snow);
+  }
+</style>

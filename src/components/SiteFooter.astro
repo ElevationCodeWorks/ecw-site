@@ -1,8 +1,10 @@
 ---
+import StrataBand from './textures/StrataBand.astro'
 import { site } from '../site.config.ts'
 ---
 
 <footer class="site-footer">
+  <StrataBand />
   <div class="inner">
     <p class="brand">{site.brandName}</p>
     <div class="details">
@@ -18,9 +20,12 @@ import { site } from '../site.config.ts'
 </footer>
 
 <style>
-  /* A colophon: the name in the narrow column, the details on the page's split. */
+  /*
+   * A colophon: a Strata band across the full width of the window, which
+   * stands in for the footer's rule, then the name in the narrow column and
+   * the details on the page's split.
+   */
   .site-footer {
-    border-top: var(--rule-width) solid var(--color-accent);
     font-size: var(--text-sm);
     margin-top: var(--space-8);
   }
